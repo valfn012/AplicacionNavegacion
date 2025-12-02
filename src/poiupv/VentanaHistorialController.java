@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
  *
  * @author LERI
  */
-public class FXMLController implements Initializable {
+public class VentanaHistorialController implements Initializable {
 
     /**
      * Initializes the controller class.
