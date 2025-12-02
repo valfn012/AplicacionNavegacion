@@ -18,7 +18,7 @@ public class User {
     private String password;
     private Image avatar;
     private LocalDate birthdate;
-    //private final ArrayList<Session> sessions;
+    private final ArrayList<Session> sessions;
 
     // Constructor
     public User(String nickName, String email, String password, 
@@ -29,7 +29,7 @@ public class User {
         this.password = password;
         this.avatar = avatar;
         this.birthdate = birthdate;
-      //  this.sessions = new ArrayList<>();
+        this.sessions = new ArrayList<>();
     }
 
     // ---------- GETTERS ----------
