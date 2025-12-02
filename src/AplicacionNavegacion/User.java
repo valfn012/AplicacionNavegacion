@@ -39,7 +39,7 @@ public class User {
     public String getPassword() { return password; }
     public Image getAvatar() { return avatar; }
     public LocalDate getBirthdate() { return birthdate; }
-   // public ArrayList<Session> getSessions() { return sessions; }
+    public ArrayList<Session> getSessions() { return sessions; }
 //
     // ---------- SETTERS ----------
     public void setEmail(String email) { this.email = email; }
