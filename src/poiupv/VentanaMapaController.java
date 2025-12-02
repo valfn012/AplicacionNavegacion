@@ -21,7 +21,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -44,7 +43,7 @@ import poiupv.Poi;
  *
  * @author jsoler
  */
-public class FXMLDocumentController implements Initializable {
+public class VentanaMapaController implements Initializable {
 
     //=======================================
     // hashmap para guardar los puntos de interes POI
