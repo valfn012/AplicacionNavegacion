@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poiupv;
+package AplicacionNavegacion;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import poiupv.Poi;
+import AplicacionNavegacion.Poi;
 
 /**
  *

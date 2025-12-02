@@ -1,4 +1,4 @@
-package poiupv;
+package AplicacionNavegacion;
 import javafx.geometry.Point2D;
 
 /*
