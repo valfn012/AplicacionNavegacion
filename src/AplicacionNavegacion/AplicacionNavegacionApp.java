@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poiupv;
+package AplicacionNavegacion;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  *
  * @author jose
  */
-public class PoiUPVApp extends Application {
+public class AplicacionNavegacionApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
