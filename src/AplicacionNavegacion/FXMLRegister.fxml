@@ -80,8 +80,8 @@
                   <VBox fillWidth="false" prefHeight="72.0" prefWidth="345.0">
                      <children>
                         <Label text="Contraseña:" textFill="#025477" />
-                        <TextField fx:id="passwordField" minHeight="26.0" minWidth="150.0" prefHeight="26.0" prefWidth="200.0" promptText="Letters &amp; Numbers &amp; Symbols" />
-                        <Label fx:id="passError" text="Passwords don't match" textFill="#ca0505" visible="false" />
+                        <TextField fx:id="passField" minHeight="26.0" minWidth="150.0" prefHeight="26.0" prefWidth="200.0" promptText="Letters &amp; Numbers &amp; Symbols" />
+                        <Label fx:id="passwordError" text="Passwords don't match" textFill="#ca0505" visible="false" />
                      </children>
                      <HBox.margin>
                         <Insets left="5.0" />
@@ -96,9 +96,9 @@
                <children>
                   <VBox fillWidth="false">
                      <children>
-                        <Label text="Birthdate:" textFill="#025477" />
-                        <DatePicker fx:id="dateField" />
-                        <Label fx:id="birthError" text="User must be 16 years old" textFill="#ca0505" visible="false" />
+                        <Label text="Confirmar Contraseña:" textFill="#025477" />
+                        <TextField fx:id="passwordField1" minHeight="26.0" minWidth="150.0" prefHeight="26.0" prefWidth="200.0" promptText="Letters &amp; Numbers &amp; Symbols" />
+                        <Label fx:id="passwordError2" text="Passwords don't match" textFill="#ca0505" visible="false" />
                      </children>
                   </VBox>
                </children>
@@ -137,7 +137,7 @@
                   <Insets right="10.0" />
                </GridPane.margin>
             </HBox>
-            <Separator prefHeight="6.0" prefWidth="353.0" GridPane.rowIndex="3" />
+            <Separator prefHeight="6.0" prefWidth="353.0" GridPane.rowIndex="5" />
             <HBox alignment="CENTER_LEFT" prefHeight="88.0" prefWidth="331.0">
                <children>
                   <VBox alignment="BOTTOM_LEFT" fillWidth="false" prefHeight="88.0" prefWidth="396.0">
@@ -166,23 +166,15 @@
                   <Insets />
                </opaqueInsets>
             </HBox>
-            <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <VBox>
+                  <VBox alignment="CENTER">
                      <children>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="ImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="AVATAR" wrappingWidth="443.9051208496094">
-                           <font>
-                              <Font size="23.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="70.0" />
-                           </VBox.margin>
-                        </Text>
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -191,6 +183,25 @@
                </children>
             </HBox>
             <Separator layoutX="22.0" layoutY="369.0" prefHeight="4.0" prefWidth="422.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Button fx:id="elegiravatar" mnemonicParsing="false" onAction="#eleccAv" text="Elegir avatar" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Birthdate:" textFill="#025477" />
+                        <DatePicker fx:id="dateField" />
+                        <Label fx:id="birthError" text="User must be 16 years old" textFill="#ca0505" visible="false" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets left="12.0" right="25.0" top="12.0" />
