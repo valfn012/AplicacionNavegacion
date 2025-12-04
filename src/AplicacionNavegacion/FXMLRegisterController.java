@@ -75,7 +75,7 @@ public class FXMLRegisterController implements Initializable {
 
         boolean isValid = User.checkNickName(nick);
 
-        Navigation nav = Navigation.getSingletonNavigation();
+        Navigation nav = Navigation.
 
         if (!isValid) {
             nicknameError.setText("Nickname no válido.");
