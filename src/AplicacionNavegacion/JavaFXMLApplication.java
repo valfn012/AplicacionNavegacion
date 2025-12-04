@@ -48,7 +48,8 @@ public class JavaFXMLApplication extends Application {
             event.consume(); // Cancela el cierre
         }
     
-
+        });
+    }
     /**
      * @param args the command line arguments
      */
@@ -60,3 +61,5 @@ public class JavaFXMLApplication extends Application {
 
     
 }
+
+

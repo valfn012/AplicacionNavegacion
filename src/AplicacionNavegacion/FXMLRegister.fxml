@@ -39,9 +39,9 @@
             <ColumnConstraints maxWidth="809.7102584838867" minWidth="300.0680160522461" prefWidth="301.41292572021484" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints maxHeight="163.0" minHeight="-Infinity" prefHeight="95.46730041503906" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="39.0" prefHeight="43.03269958496094" vgrow="ALWAYS" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="70.432373046875" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="163.0" minHeight="-Infinity" prefHeight="48.0" vgrow="NEVER" />
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="39.0" prefHeight="57.0" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="58.0" vgrow="ALWAYS" />
             <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="56.0" vgrow="ALWAYS" />
             <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="56.0" vgrow="ALWAYS" />
             <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="10.0" vgrow="ALWAYS" />
@@ -80,7 +80,7 @@
                   <VBox fillWidth="false" prefHeight="72.0" prefWidth="345.0">
                      <children>
                         <Label text="Contraseña:" textFill="#025477" />
-                        <TextField fx:id="passField" minHeight="26.0" minWidth="150.0" prefHeight="26.0" prefWidth="200.0" promptText="Letters &amp; Numbers &amp; Symbols" />
+                        <TextField fx:id="passwordField" minHeight="26.0" minWidth="150.0" prefHeight="26.0" prefWidth="200.0" promptText="Letters &amp; Numbers &amp; Symbols" />
                         <Label fx:id="passError" text="Passwords don't match" textFill="#ca0505" visible="false" />
                      </children>
                      <HBox.margin>
@@ -97,7 +97,7 @@
                   <VBox fillWidth="false">
                      <children>
                         <Label text="Birthdate:" textFill="#025477" />
-                        <DatePicker />
+                        <DatePicker fx:id="dateField" />
                         <Label fx:id="birthError" text="User must be 16 years old" textFill="#ca0505" visible="false" />
                      </children>
                   </VBox>
@@ -137,7 +137,7 @@
                   <Insets right="10.0" />
                </GridPane.margin>
             </HBox>
-            <Separator prefHeight="6.0" prefWidth="353.0" GridPane.rowIndex="5" />
+            <Separator prefHeight="6.0" prefWidth="353.0" GridPane.rowIndex="3" />
             <HBox alignment="CENTER_LEFT" prefHeight="88.0" prefWidth="331.0">
                <children>
                   <VBox alignment="BOTTOM_LEFT" fillWidth="false" prefHeight="88.0" prefWidth="396.0">

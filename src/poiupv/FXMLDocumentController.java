@@ -50,6 +50,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void about(ActionEvent event) {
+        
     }
 
     @FXML
