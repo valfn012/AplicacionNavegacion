@@ -1,5 +1,3 @@
-
-
 package AplicacionNavegacion;
 
 import java.net.URL;
@@ -75,15 +73,22 @@ public class FXMLRegisterController implements Initializable {
 
         boolean isValid = User.checkNickName(nick);
 
-        Navigation nav = Navigation.
+        Navigation nav = null;
+        try {
+            nav = Navigation.getInstance();
+        } catch (NavDAOException e) {
+            nicknameError.setText("Error con la BD");
+            validNickname.set(false);
+            return;
+        }
 
         if (!isValid) {
             nicknameError.setText("Nickname no válido.");
-        } 
-        else if (nav.existsNickName(nick)) {
+        }
+        else if (nav.exitsNickName(nick)) {   // ← NOMBRE REAL DEL MÉTODO DEL JAR
             isValid = false;
             nicknameError.setText("El nombre de usuario ya existe.");
-        } 
+        }
         else {
             nicknameError.setText("");
         }
@@ -203,7 +208,6 @@ public class FXMLRegisterController implements Initializable {
             }
         });
 
-        // Converter para DatePicker
         dateField.setConverter(new LocalDateStringConverter());
 
 
@@ -234,12 +238,12 @@ public class FXMLRegisterController implements Initializable {
         String pass = passwordField.getText();
         LocalDate birth = dateField.getValue();
 
-        // Avatar por defecto
         Image avatar = new Image(
                 getClass().getResourceAsStream("/avatars/default.png")
         );
 
-        Navigation nav = Navigation.getSingletonNavigation();
+        Navigation nav = Navigation.getInstance();     // ← CORRECTO
+
         User newUser = nav.registerUser(nick, email, pass, avatar, birth);
 
         System.out.println("Usuario registrado: " + newUser);

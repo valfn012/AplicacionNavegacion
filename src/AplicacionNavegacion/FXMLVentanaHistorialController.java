@@ -1,73 +1,83 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package AplicacionNavegacion;
 
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
-import javafx.scene.control.TableCell;
-import javafx.scene.paint.Color;
-import javafx.scene.text.FontWeight;
-
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.beans.property.SimpleStringProperty;
-
 import model.Session;
 import model.User;
-import model.Navegacion;
 
-/**
- * FXML Controller class
- *
- * @author LERI
- */
 public class FXMLVentanaHistorialController implements Initializable {
 
     @FXML
-    private TableView<?> tableHistorial;
-    @FXML
-    private TableColumn<?, ?> colFecha;
-    @FXML
-    private TableColumn<?, ?> colAciertos;
-    @FXML
-    private TableColumn<?, ?> colFallos;
-    @FXML
-    private TableColumn<?, ?> colTasa;
-    @FXML
-    private Button bCancel1;
+    private TableView<Session> tableHistory;
 
-    
-    private User currentUser;
+    @FXML
+    private TableColumn<Session, String> colDate;
 
-    private ObservableList<Session> listaOriginal;
-    private ObservableList<Session> listaFiltrada;
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private TableColumn<Session, Integer> colHits;
+
+    @FXML
+    private TableColumn<Session, Integer> colFaults;
+
+    @FXML
+    private TableColumn<Session, String> colRate;
+
+    // Usuario enviado desde la ventana principal
+    private User activeUser;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        configColumns();
+    }
+
+    /**
+     * Método que la ventana principal usará para pasar el usuario activo.
+     */
+    public void setUser(User u) {
+        this.activeUser = u;
+        loadHistory(); // cargamos historial cuando recibimos el usuario
+    }
+
+    private void configColumns() {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        // Formatear fecha/hora
+        colDate.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue().getTimeStamp().format(formatter)
+                )
+        );
+
+        colHits.setCellValueFactory(new PropertyValueFactory<>("hits"));
+        colFaults.setCellValueFactory(new PropertyValueFactory<>("faults"));
+
+        // Tasa de acierto
+        colRate.setCellValueFactory(cellData -> {
+            int h = cellData.getValue().getHits();
+            int f = cellData.getValue().getFaults();
+            int total = h + f;
+
+            String rate = (total == 0)
+                    ? "0%"
+                    : String.format("%.1f%%", (h * 100.0 / total));
+
+            return new javafx.beans.property.SimpleStringProperty(rate);
+        });
+    }
+
+    private void loadHistory() {
+        if (activeUser == null) return;
+
+        tableHistory.setItems(
+                FXCollections.observableArrayList(activeUser.getSessions())
+        );
+    }
 }
