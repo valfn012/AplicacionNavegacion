@@ -29,6 +29,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.util.converter.LocalDateStringConverter;
+import model.NavDAOException;
+import model.Navigation;
+import model.User;
 
 /**
  * FXML Controller class
@@ -155,6 +158,7 @@ public class FXMLRegisterController implements Initializable {
         boolean isValid = User.checkNickName(nick);
 
         Navigation nav = Navigation.getSingletonNavigation();
+        nav.exitsNickName(nick);
 
         if (!isValid) {
             nicknameError.setText("Nickname no válido.");
