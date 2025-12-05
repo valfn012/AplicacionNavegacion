@@ -20,7 +20,8 @@ public class AplicacionNavegacionApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaMapa.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/AplicacionNavegacion/FXMLRegister.fxml"));
+
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
         stage.setTitle("Puntos de interes UPV");
