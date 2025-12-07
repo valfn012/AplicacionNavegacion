@@ -42,12 +42,12 @@
          <rowConstraints>
             <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="49.5" vgrow="NEVER" />
             <RowConstraints maxHeight="52.0" minHeight="-Infinity" prefHeight="40.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="45.5" vgrow="ALWAYS" />
-            <RowConstraints maxHeight="65.5" minHeight="4.5" prefHeight="48.0" />
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="45.5" vgrow="NEVER" />
+            <RowConstraints maxHeight="65.5" minHeight="4.5" prefHeight="48.0" vgrow="NEVER" />
             <RowConstraints maxHeight="65.5" minHeight="0.0" prefHeight="2.5" />
-            <RowConstraints maxHeight="47.0" minHeight="0.0" prefHeight="44.5" />
+            <RowConstraints maxHeight="47.0" minHeight="0.0" prefHeight="44.5" vgrow="NEVER" />
             <RowConstraints maxHeight="79.5" minHeight="0.0" prefHeight="4.0" />
-            <RowConstraints maxHeight="39.0" minHeight="0.0" prefHeight="16.0" />
+            <RowConstraints maxHeight="39.0" minHeight="0.0" prefHeight="16.0" vgrow="NEVER" />
             <RowConstraints maxHeight="38.0" minHeight="0.0" prefHeight="0.0" />
          </rowConstraints>
          <children>
@@ -163,7 +163,7 @@
                   <HBox alignment="CENTER" maxHeight="200.0" maxWidth="300.0" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="300.0" spacing="20.0">
                      <children>
                         <Button fx:id="bLeft" mnemonicParsing="false" onAction="#handleAvatarLeft" text="&lt;" />
-                        <ImageView fx:id="avatarImage" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                        <ImageView fx:id="avatarImage" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" HBox.hgrow="ALWAYS">
                            <image>
                               <Image url="@../resources/avatarHombre.jpg" />
                            </image>
