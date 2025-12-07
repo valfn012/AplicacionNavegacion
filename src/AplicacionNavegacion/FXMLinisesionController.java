@@ -17,14 +17,18 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class FXMLinisesionController implements Initializable {
 
@@ -39,6 +43,8 @@ public class FXMLinisesionController implements Initializable {
     
     // listener to register on textProperty() or valueProperty()
     private ChangeListener<String> listenerEmail;
+    @FXML
+    private Button bRegister;
 
     
     private void checkEmail() {
@@ -78,6 +84,30 @@ public class FXMLinisesionController implements Initializable {
             }
         });
         
+    }
+
+    @FXML
+    private void registrarse(ActionEvent event) {
+        try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPruebaRegistro.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        stage.setResizable(false);           
+        stage.setMaximized(false);           
+        stage.setMinWidth(stage.getWidth());
+        stage.setMaxWidth(stage.getWidth()); 
+        stage.setMinHeight(stage.getHeight());
+        stage.setMaxHeight(stage.getHeight());
+
+        stage.show();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
     }
 
 

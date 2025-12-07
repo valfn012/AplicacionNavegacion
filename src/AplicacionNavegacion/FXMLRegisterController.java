@@ -28,21 +28,56 @@ import model.NavDAOException;
 
 import model.Navigation;
 import model.User;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import AplicacionNavegacion.Poi;
+import javafx.scene.image.ImageView;
 
 public class FXMLRegisterController implements Initializable {
 
     @FXML private Label emailError;
     @FXML private TextField emailField;
 
-    @FXML private PasswordField passwordField;
-    @FXML private PasswordField passwordField2;
+    private PasswordField passwordField;
+    private PasswordField passwordField2;
 
     @FXML private TextField userField;
 
     @FXML private Label passwordError;
     @FXML private Label passwordError2;
     @FXML private Label nicknameError;
-    @FXML private Label dateError;
+    private Label dateError;
 
     @FXML private Button bAccept;
     @FXML private Button bCancel;
@@ -63,6 +98,16 @@ public class FXMLRegisterController implements Initializable {
     private ChangeListener<String> listenerPassword;
     private ChangeListener<String> listenerPassword2;
     private ChangeListener<String> listenerDate;
+    @FXML
+    private TextField passField;
+    @FXML
+    private TextField passwordField1;
+    @FXML
+    private ImageView ImageView;
+    @FXML
+    private Button elegiravatar;
+    @FXML
+    private Label birthError;
 
 
 
@@ -230,7 +275,6 @@ public class FXMLRegisterController implements Initializable {
 
     // =========================================================
     // ACEPTAR → registrar usuario
-    @FXML
     private void handleBAcceptOnAction(ActionEvent event) throws NavDAOException {
 
         String nick = userField.getText();
@@ -260,5 +304,9 @@ public class FXMLRegisterController implements Initializable {
         validPassword.set(false);
         validPassword2.set(false);
         validDate.set(false);
+    }
+
+    @FXML
+    private void eleccAv(ActionEvent event) {
     }
 }
