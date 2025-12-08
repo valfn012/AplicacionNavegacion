@@ -112,6 +112,9 @@ public class FXMLIniSesionController implements Initializable {
 
             Stage stage = (Stage) bAceptar.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setMaximized(true);     // ← ventana en tamaño completo
+            stage.centerOnScreen();
+
             stage.show();
 
 
@@ -137,6 +140,8 @@ public class FXMLIniSesionController implements Initializable {
 
             Stage stage = (Stage) bRegister.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
+
             stage.show();
 
         } catch (Exception e) {

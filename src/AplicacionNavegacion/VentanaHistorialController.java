@@ -137,6 +137,8 @@ public class VentanaHistorialController implements Initializable {
 
             Stage stage = (Stage) bVolver.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setMaximized(true);     // ← ventana en tamaño completo
+            stage.centerOnScreen();
             stage.show();
 
         } catch (Exception e) {
