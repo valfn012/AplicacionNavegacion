@@ -39,7 +39,7 @@ import javafx.scene.Parent;
 import javafx.event.ActionEvent;
 
 
-public class FXMLPruebaRegistroController implements Initializable {
+public class VentanaRegistroController implements Initializable {
 
     // ---------- FXML ----------
     @FXML private TextField emailField;
@@ -52,8 +52,7 @@ public class FXMLPruebaRegistroController implements Initializable {
     @FXML private Button bCancel;
     @FXML private Button elegirAvatar;
 
-    @FXML private StackPane avatarContainer;
-    @FXML private ImageView avatarImage;
+    private ImageView avatarImage;
 
     // ---------- AVATAR ----------
     private Image chosenAvatar; // imagen elegida en la ventana modal

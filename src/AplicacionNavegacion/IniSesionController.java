@@ -15,37 +15,34 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import model.NavDAOException;
 import model.Navigation;
 import model.User;
 
-public class FXMLIniSesionController implements Initializable {
+public class IniSesionController implements Initializable {
 
     @FXML
-    private TextField emailField;   // EN REALIDAD ES EL NICKNAME
+    private TextField emailField;   // realmente es el nickname
 
     @FXML
-    private Label emailError;
-
-    @FXML
-    private PasswordField passwordField;
+    private TextField passwordField;
 
     @FXML
     private Button bAceptar;
 
     @FXML
-    private Button bRegister;
+    private Label bRegister;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        emailError.setVisible(false);
+        // De momento no hace falta inicializar nada
     }
 
     // ---------------------------
-    // MOSTRAR ERROR
+    // MOSTRAR ERROR EN VENTANA
     // ---------------------------
     private void showError(String msg) {
         Alert a = new Alert(Alert.AlertType.ERROR);
@@ -61,19 +58,16 @@ public class FXMLIniSesionController implements Initializable {
     @FXML
     private void onAceptar(ActionEvent event) {
 
-        String nick = emailField.getText().trim();   // realmente es nickname
+        String nick = emailField.getText().trim();   // nickname
         String pass = passwordField.getText().trim();
 
-        // --- Validar nickname ---
+        // Validar nickname
         if (nick.isEmpty()) {
-            emailError.setVisible(true);
             showError("Debes introducir tu nombre de usuario (nickname).");
             return;
-        } else {
-            emailError.setVisible(false);
         }
 
-        // --- Validar contraseña ---
+        // Validar contraseña
         if (pass.isEmpty()) {
             showError("Debes introducir una contraseña.");
             return;
@@ -82,41 +76,34 @@ public class FXMLIniSesionController implements Initializable {
         try {
             Navigation nav = Navigation.getInstance();
 
-            // --- Comprobar si el nickname existe ---
+            // Comprobar si existe el nickname
             if (!nav.exitsNickName(nick)) {
                 showError("No existe ninguna cuenta con ese nickname.");
                 return;
             }
 
-            // --- Intentar autenticación ---
+            // Autenticar
             User u = nav.authenticate(nick, pass);
-
             if (u == null) {
                 showError("La contraseña es incorrecta.");
                 return;
             }
 
-            // -------------------------
-            // LOGIN CORRECTO
-            // -------------------------
+            // LOGIN CORRECTO → cargar mapa
             System.out.println("Login correcto: " + u.getNickName());
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaMapa.fxml"));
             Parent root = loader.load();
 
-// OBTENER CONTROLADOR DEL MAPA
+            // Pasar el usuario al mapa
             VentanaMapaController controller = loader.getController();
-
-// PASAR USUARIO AUTENTICADO
             controller.setUser(u);
 
             Stage stage = (Stage) bAceptar.getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setMaximized(true);     // ← ventana en tamaño completo
+            stage.setMaximized(true);   // pantalla completa
             stage.centerOnScreen();
-
             stage.show();
-
 
         } catch (NavDAOException e) {
             e.printStackTrace();
@@ -128,25 +115,25 @@ public class FXMLIniSesionController implements Initializable {
     }
 
     // ---------------------------
-    // BOTÓN REGISTRARSE
+    // TEXTO "¿Aún no te has registrado?"
     // ---------------------------
+    
     @FXML
-    private void onRegister(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("FXMLPruebaRegistro.fxml")
-            );
-            Parent root = loader.load();
+private void onRegister(MouseEvent event) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaRegistroFXML.fxml"));
+        Parent root = loader.load();
 
-            Stage stage = (Stage) bRegister.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.centerOnScreen();
+        Stage stage = (Stage) bRegister.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.centerOnScreen();
+        stage.show();
 
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError("No se pudo abrir la ventana de registro.");
-        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        showError("No se pudo abrir la ventana de registro.");
     }
+}
+
+
 }

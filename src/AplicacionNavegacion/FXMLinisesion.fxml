@@ -1,127 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.FXMLIniSesionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="650.0" style="-fx-background-radius: 16;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.FXMLIniSesionController">
    <children>
-      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #0685BC;">
+      <StackPane layoutX="50.0" layoutY="50.0" prefHeight="400.0" prefWidth="550.0" style="-fx-background-radius: 16;">
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Iniciar sesión">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="36.0" />
-               </font>
-            </Text>
-         </children>
-         <padding>
-            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-         </padding>
-      </HBox>
-      <GridPane hgap="12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="351.0" prefWidth="673.0" vgap="12.0" VBox.vgrow="ALWAYS">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="454.6666259765625" minWidth="-Infinity" prefWidth="323.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="203.3333638509115" prefWidth="314.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="209.0" minHeight="-Infinity" prefHeight="102.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="87.0" vgrow="ALWAYS" />
-            <RowConstraints maxHeight="126.0" minHeight="0.0" prefHeight="84.0" />
-            <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="73.0" />
-         </rowConstraints>
-         <children>
-            <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.vgrow="NEVER">
+            <VBox alignment="CENTER" prefHeight="389.0" prefWidth="540.0" spacing="20.0" style="-fx-background-color: #C98EB7; -fx-background-radius: 20; -fx-padding: 30;">
                <children>
-                  <VBox alignment="CENTER" fillWidth="false" prefHeight="102.0" prefWidth="410.0">
+                  <Label text="INICIAR SESIÓN" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #ECD2E8; -fx-background-radius: 15; -fx-padding: 8 15;">
                      <children>
-                        <Label prefHeight="30.0" prefWidth="297.0" text="Usuario:" textFill="#025477">
-                           <VBox.margin>
-                              <Insets left="35.0" />
-                           </VBox.margin></Label>
-                        <TextField fx:id="emailField" minWidth="150.0" prefHeight="44.0" prefWidth="273.0" promptText="yourEmail@domain.com">
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin></TextField>
+                        <Label style="-fx-font-size: 16;" text="👤" textFill="#c98eb7" />
+                        <TextField fx:id="emailField" prefHeight="29.0" prefWidth="336.0" promptText="Nombre de usuario" style="-fx-background-color: transparent; -fx-font-size: 14;" />
                      </children>
-                     <HBox.margin>
-                        <Insets left="110.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <Label fx:id="emailError" prefHeight="30.0" prefWidth="206.0" text="Email incorrecto" textFill="#ca0505" translateY="5.0" visible="false">
-                     <HBox.margin>
-                        <Insets right="30.0" />
-                     </HBox.margin></Label>
-               </children>
-               <GridPane.margin>
-                  <Insets left="12.0" />
-               </GridPane.margin>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
-               <children>
-                  <VBox alignment="CENTER" fillWidth="false" prefHeight="87.0" prefWidth="317.0">
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #ECD2E8; -fx-background-radius: 15; -fx-padding: 8 15;">
                      <children>
-                        <Label prefHeight="31.0" prefWidth="286.0" text="Contraseña:" textFill="#025477">
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <PasswordField fx:id="passwordField" prefHeight="44.0" prefWidth="298.0" promptText="NumbersLettersSymbols">
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin>
+                        <Label style="-fx-font-size: 16;" text="🔒" textFill="#c98eb7" />
+                        <PasswordField fx:id="passwordField" prefHeight="25.0" prefWidth="336.0" promptText="Contraseña" style="-fx-background-color: transparent;">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </PasswordField>
                      </children>
-                     <HBox.margin>
-                        <Insets left="155.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="87.0" prefWidth="219.0" text="Contraseña incorrecta" textFill="#ca0505" visible="false">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin></Label>
-               </children>
-            </HBox>
-            <Button fx:id="bAceptar" mnemonicParsing="false" onAction="#onAceptar" text="Aceptar" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets bottom="25.0" left="275.0" />
-               </GridPane.margin>
-            </Button>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
-               <children>
-                  <VBox prefHeight="105.0" prefWidth="338.0">
+                  </HBox>
+                  <Button fx:id="bAceptar" mnemonicParsing="false" onAction="#onAceptar" prefHeight="36.0" prefWidth="183.0" style="-fx-background-color: #555F76; -fx-background-radius: 15; -fx-padding: 8 25; -fx-font-size: 14; -fx-font-weight: bold; -fx-cursor: hand;" text="INICIAR SESIÓN" textFill="WHITE" />
+                  <VBox alignment="CENTER" prefHeight="43.0" prefWidth="540.0">
                      <children>
-                        <Label prefHeight="43.0" prefWidth="338.0" text="¿Aún no tienes cuenta?">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="125.0" />
-                           </padding>
-                        </Label>
+                        <Label text="¿Aún no te has registrado?" textFill="WHITE" />
+                        <Label fx:id="bRegister" onMouseClicked="#onRegister" style="-fx-underline: true; -fx-cursor: hand;" text="Registrarse" textFill="#b6e2e7" />
                      </children>
-                     <opaqueInsets>
-                        <Insets left="50.0" />
-                     </opaqueInsets>
                   </VBox>
-                  <Button fx:id="bRegister" mnemonicParsing="false" onAction="#onRegister" prefHeight="44.0" prefWidth="128.0" text="Registrarse" />
                </children>
-            </HBox>
+            </VBox>
          </children>
-         <padding>
-            <Insets bottom="24.0" left="12.0" right="12.0" top="12.0" />
-         </padding>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </GridPane>
+      </StackPane>
    </children>
-</VBox>
+</AnchorPane>

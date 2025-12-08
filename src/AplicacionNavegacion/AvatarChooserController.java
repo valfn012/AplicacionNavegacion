@@ -36,7 +36,7 @@ public class AvatarChooserController implements Initializable {
     private final ArrayList<File> avatarFiles = new ArrayList<>();   // ← archivos reales
 
     private Image selectedImage;
-    private FXMLPruebaRegistroController parent;
+    private VentanaRegistroController parent;
 
     private final File customAvatarFolder = new File("user_data/custom_avatars");
     @FXML
@@ -44,7 +44,7 @@ public class AvatarChooserController implements Initializable {
     @FXML
     private Button renombrarAvatar;
 
-    public void setParentController(FXMLPruebaRegistroController c) {
+    public void setParentController(VentanaRegistroController c) {
         parent = c;
     }
 

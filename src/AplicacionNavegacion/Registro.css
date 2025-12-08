@@ -1,0 +1,127 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 8 dic 2025, 20:48:23
+    Author     : LERI
+*/
+
+/* ===========================
+   COLORES PRINCIPALES
+   =========================== */
+.root {
+    -fx-background-color: #ECD2E8; /* Fondo lavanda suave */
+}
+
+/* ===========================
+   TARJETA CENTRAL
+   =========================== */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 30 40;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0.3, 0, 4);
+}
+
+/* ===========================
+   TÍTULO PRINCIPAL
+   =========================== */
+.title-text {
+    -fx-text-fill: #C98EB7;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+/* ===========================
+   LABELS DEL FORMULARIO
+   =========================== */
+.form-label {
+    -fx-text-fill: #555F76;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* ===========================
+   CAMPOS DE TEXTO
+   TextField & PasswordField
+   =========================== */
+.input-field {
+    -fx-background-color: #F7ECF5;
+    -fx-background-radius: 12;
+    -fx-border-color: #C98EB7;
+    -fx-border-radius: 12;
+    -fx-border-width: 1.2;
+    -fx-padding: 6 10;
+    -fx-text-fill: #555F76;
+}
+
+.input-field:focused {
+    -fx-background-color: #ECD2E8;
+    -fx-border-color: #555F76;
+}
+
+/* Placeholder */
+.input-field .text-field {
+    -fx-prompt-text-fill: #888;
+}
+
+/* ===========================
+   DATE PICKER
+   =========================== */
+.date-picker {
+    -fx-background-color: #F7ECF5;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #C98EB7;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #C98EB7;
+    -fx-background-radius: 12;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+/* ===========================
+   BOTONES
+   =========================== */
+
+/* Botón principal: Registrarse */
+.button-primary {
+    -fx-background-color: #C98EB7;
+    -fx-background-radius: 15;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 25;
+}
+
+.button-primary:hover {
+    -fx-background-color: #b779a3;
+}
+
+/* Botón secundario: Cancelar */
+.button-secondary {
+    -fx-background-color: #B6E2E7;
+    -fx-background-radius: 15;
+    -fx-text-fill: #555F76;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 25;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #9bcfdd;
+}
+
+/* ===========================
+   AVATAR / IMAGEN
+   =========================== */
+.avatar-box {
+    -fx-background-color: #ECD2E8;
+    -fx-background-radius: 20;
+    -fx-padding: 10;
+}
