@@ -77,7 +77,7 @@
                <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="207.0" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <Button fx:id="bVolver" minWidth="80.0" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: #0685BC;" text="Volver" textFill="WHITE">
+                        <Button fx:id="bVolver" minWidth="80.0" mnemonicParsing="false" onAction="#onVolver" prefWidth="100.0" style="-fx-background-color: #0685BC;" text="Volver" textFill="WHITE">
                            <font>
                               <Font size="14.0" />
                            </font>

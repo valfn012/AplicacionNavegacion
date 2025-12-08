@@ -129,6 +129,7 @@ public class VentanaHistorialController implements Initializable {
     /**
      * Acción del botón Volver.
      */
+    @FXML
     private void onVolver() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaMapa.fxml"));
