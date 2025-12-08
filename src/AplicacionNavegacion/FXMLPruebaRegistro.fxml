@@ -165,26 +165,16 @@
                      <children>
                         <StackPane fx:id="avatarContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="bRight" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleAvatarRight" text="&gt;" StackPane.alignment="CENTER_RIGHT">
-                                 <StackPane.margin>
-                                    <Insets left="10.0" />
-                                 </StackPane.margin>
-                              </Button>
                               <ImageView fx:id="avatarImage" cache="true" fitHeight="200.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                  <image>
-                                    <Image url="@../resources/avatarHombre.jpg" />
+                                    <Image url="@../resources/default.png" />
                                  </image>
                               </ImageView>
-                              <Button fx:id="bLeft" mnemonicParsing="false" onAction="#handleAvatarLeft" text="&lt;" StackPane.alignment="CENTER_LEFT">
-                                 <StackPane.margin>
-                                    <Insets right="10.0" />
-                                 </StackPane.margin>
-                              </Button>
                            </children>
                         </StackPane>
                      </children>
                   </HBox>
-                  <Button fx:id="subirAvatar" mnemonicParsing="false" onAction="#handleUploadAvatar" text="Subir avatar" />
+                  <Button fx:id="elegirAvatar" mnemonicParsing="false" onAction="#handleChooseAvatar" text="Elegir otro avatar" />
                </children>
             </VBox>
          </children>
