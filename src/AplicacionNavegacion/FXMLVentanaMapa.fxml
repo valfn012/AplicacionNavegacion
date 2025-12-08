@@ -10,6 +10,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
@@ -17,9 +18,11 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -137,19 +140,44 @@
                </graphic>
             </Button>
             <Region prefHeight="30.0" prefWidth="333.0" />
-            <MenuButton mnemonicParsing="false" text="MenuButton">
+            <MenuButton maxHeight="30.0" maxWidth="131.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="131.0" text="Nickname">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Modificar perfil" />
+                  <MenuItem mnemonicParsing="false" text="Historial" />
+                  <MenuItem mnemonicParsing="false" text="Cerrar sesión" />
               </items>
                <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/avatarHombre.jpg" />
+                     </image>
+                  </ImageView>
                </graphic>
+               <font>
+                  <Font size="10.0" />
+               </font>
             </MenuButton>
         </items>
       </ToolBar>
       <SplitPane fx:id="splitPane" dividerPositions="0.19699727024567792" VBox.vgrow="ALWAYS">
          <items>
-            <ListView fx:id="map_listview" onMouseClicked="#listClicked" prefHeight="399.0" prefWidth="87.0" />
+            <StackPane alignment="TOP_CENTER">
+               <children>
+                  <ListView fx:id="map_listview" onMouseClicked="#listClicked" prefHeight="399.0" prefWidth="87.0" />
+                  <Button mnemonicParsing="false" text="Aleatorio" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="8.0" layoutY="50.0" prefHeight="179.0" prefWidth="233.0" text="Enunciado" />
+                        <RadioButton layoutX="8.0" layoutY="378.0" mnemonicParsing="false" text="RadioButton" />
+                        <RadioButton layoutX="8.0" layoutY="339.0" mnemonicParsing="false" text="RadioButton" />
+                        <RadioButton layoutX="8.0" layoutY="300.0" mnemonicParsing="false" text="RadioButton" />
+                        <RadioButton layoutX="8.0" layoutY="260.0" mnemonicParsing="false" text="RadioButton" />
+                        <Button layoutX="130.0" layoutY="453.0" mnemonicParsing="false" text="Corregir" />
+                        <Button layoutX="14.0" layoutY="453.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="79.0" text="Salir" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </StackPane>
             <ScrollPane fx:id="map_scrollpane" hbarPolicy="ALWAYS" onMouseMoved="#showPosition" onMousePressed="#addPoi" pannable="true" prefHeight="398.0" prefWidth="358.0" vbarPolicy="ALWAYS">
                <content>
                   <Pane>
