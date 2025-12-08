@@ -144,7 +144,7 @@
               <items>
                 <MenuItem fx:id="modificarPerfil" mnemonicParsing="false" text="Modificar perfil" />
                   <MenuItem fx:id="historial" mnemonicParsing="false" onAction="#abrirHistorial" text="Historial" />
-                  <MenuItem fx:id="cerrarSesion" mnemonicParsing="false" text="Cerrar sesión" />
+                  <MenuItem fx:id="cerrarSesion" mnemonicParsing="false" onAction="#handleCerrarSesion" text="Cerrar sesión" />
               </items>
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">

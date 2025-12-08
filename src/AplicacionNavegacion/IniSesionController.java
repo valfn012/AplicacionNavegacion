@@ -95,15 +95,15 @@ public class IniSesionController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaMapa.fxml"));
             Parent root = loader.load();
 
-            // Pasar el usuario al mapa
             VentanaMapaController controller = loader.getController();
-            controller.setUser(u);
 
             Stage stage = (Stage) bAceptar.getScene().getWindow();
+            controller.setStage(stage);
+
             stage.setScene(new Scene(root));
-            stage.setMaximized(true);   // pantalla completa
-            stage.centerOnScreen();
+            stage.setMaximized(true);
             stage.show();
+        
 
         } catch (NavDAOException e) {
             e.printStackTrace();
@@ -119,9 +119,13 @@ public class IniSesionController implements Initializable {
     // ---------------------------
     
     @FXML
+
 private void onRegister(MouseEvent event) {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaRegistroFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/AplicacionNavegacion/VentanaRegistroFXML.fxml")
+        );
+
         Parent root = loader.load();
 
         Stage stage = (Stage) bRegister.getScene().getWindow();
@@ -134,6 +138,7 @@ private void onRegister(MouseEvent event) {
         showError("No se pudo abrir la ventana de registro.");
     }
 }
+
 
 
 }

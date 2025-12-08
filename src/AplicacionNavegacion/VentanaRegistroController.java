@@ -52,6 +52,7 @@ public class VentanaRegistroController implements Initializable {
     @FXML private Button bCancel;
     @FXML private Button elegirAvatar;
 
+    @FXML
     private ImageView avatarImage;
 
     // ---------- AVATAR ----------

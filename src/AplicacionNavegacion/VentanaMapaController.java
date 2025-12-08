@@ -40,6 +40,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import AplicacionNavegacion.Poi;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -96,6 +97,13 @@ public class VentanaMapaController implements Initializable {
     public void setUser(User u) {
     this.activeUser = u;
 }
+    
+    private Stage stagePrincipal;
+
+    public void setStage(Stage stage) {
+        this.stagePrincipal = stage;
+    }
+
 
     @FXML
     void zoomIn(ActionEvent event) {
@@ -281,6 +289,29 @@ public class VentanaMapaController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+private void handleCerrarSesion(ActionEvent event) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLinisesion.fxml"));
+        Parent root = loader.load();
+
+        stagePrincipal.setScene(new Scene(root));
+
+        stagePrincipal.setMaximized(false);
+        stagePrincipal.setResizable(false);
+        stagePrincipal.sizeToScene();
+        stagePrincipal.centerOnScreen();
+
+        stagePrincipal.show();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        System.err.println("ERROR: No se pudo cargar la ventana de inicio de sesión.");
+    }
+}
+
+
 
 
 }
