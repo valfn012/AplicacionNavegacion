@@ -39,6 +39,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import AplicacionNavegacion.Poi;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import model.Navigation;
+import model.User;
 
 /**
  *
@@ -65,11 +71,31 @@ public class VentanaMapaController implements Initializable {
     private MenuButton map_pin;
     @FXML
     private MenuItem pin_info;
-    private Label mousePosistion;
+    
     @FXML
     private SplitPane splitPane;
     @FXML
     private Label mousePosition;
+    @FXML
+    private Button regla;
+    @FXML
+    private Button compas;
+    @FXML
+    private Button transportador;
+    @FXML
+    private MenuItem historial;
+    
+    private User activeUser;
+    @FXML
+    private VBox rootPane;
+    @FXML
+    private MenuItem modificarPerfil;
+    @FXML
+    private MenuItem cerrarSesion;
+    
+    public void setUser(User u) {
+    this.activeUser = u;
+}
 
     @FXML
     void zoomIn(ActionEvent event) {
@@ -158,7 +184,7 @@ public class VentanaMapaController implements Initializable {
 
     @FXML
     private void showPosition(MouseEvent event) {
-        mousePosistion.setText("sceneX: " + (int) event.getSceneX() + ", sceneY: " + (int) event.getSceneY() + "\n"
+        mousePosition.setText("sceneX: " + (int) event.getSceneX() + ", sceneY: " + (int) event.getSceneY() + "\n"
                 + "         X: " + (int) event.getX() + ",          Y: " + (int) event.getY());
     }
 
@@ -216,6 +242,41 @@ public class VentanaMapaController implements Initializable {
                 poi.setPosition(localPoint);
                 map_listview.getItems().add(poi);
             }
+        }
+    }
+
+    @FXML
+    private void usarRegla(ActionEvent event) {
+        System.out.println("usarRegla llamado (aún sin implementar)");
+    }
+
+    @FXML
+    private void usarCompas(ActionEvent event) {
+        System.out.println("usarRegla llamado (aún sin implementar)");
+    }
+
+    @FXML
+    private void usarTransportador(ActionEvent event) {
+        System.out.println("usarRegla llamado (aún sin implementar)");
+    }
+
+    @FXML
+    private void abrirHistorial(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaHistorial.fxml"));
+            Parent root = loader.load();
+
+            VentanaHistorialController controller = loader.getController();
+            controller.setUser(activeUser);
+
+            
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
