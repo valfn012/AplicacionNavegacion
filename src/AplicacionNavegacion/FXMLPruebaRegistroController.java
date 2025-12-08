@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.YEARS;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +24,8 @@ import javafx.scene.control.TextField;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -53,6 +56,8 @@ public class FXMLPruebaRegistroController implements Initializable {
     // ---------- AVATARES ----------
     private final ArrayList<Image> avatarList = new ArrayList<>();
     private int avatarIndex = 0;
+    @FXML
+    private StackPane avatarContainer;
 
 
     // =========================================================
@@ -127,8 +132,22 @@ public class FXMLPruebaRegistroController implements Initializable {
         avatarList.add(new Image(getClass().getResourceAsStream("/resources/avatarMujer.jpg")));
 
         avatarImage.setImage(avatarList.get(0));
-        avatarImage.setFitHeight(120);
+        avatarImage.setFitWidth(200);
+        avatarImage.setFitHeight(200);
         avatarImage.setPreserveRatio(true);
+        
+        avatarImage.setPreserveRatio(true);
+
+        avatarContainer.setPrefSize(200, 200);
+        avatarContainer.setMaxSize(200, 200);
+
+        avatarImage.setFitWidth(200);
+        avatarImage.setFitHeight(200);
+        avatarImage.setPreserveRatio(true);
+        Platform.runLater(() -> makeAvatarCircular());
+
+
+
 
         bCancel.setOnAction(this::goToLogin);
     }
@@ -189,12 +208,23 @@ public class FXMLPruebaRegistroController implements Initializable {
     private void handleAvatarLeft(ActionEvent event) {
         avatarIndex = (avatarIndex - 1 + avatarList.size()) % avatarList.size();
         avatarImage.setImage(avatarList.get(avatarIndex));
+        avatarImage.setFitWidth(200);
+        avatarImage.setFitHeight(200);
+        avatarImage.setPreserveRatio(true);
+        Platform.runLater(() -> makeAvatarCircular());
+
+
     }
 
     @FXML
     private void handleAvatarRight(ActionEvent event) {
         avatarIndex = (avatarIndex + 1) % avatarList.size();
         avatarImage.setImage(avatarList.get(avatarIndex));
+        avatarImage.setFitWidth(200);
+        avatarImage.setFitHeight(200);
+        avatarImage.setPreserveRatio(true);
+        Platform.runLater(() -> makeAvatarCircular());
+
     }
 
     @FXML
@@ -213,6 +243,12 @@ public class FXMLPruebaRegistroController implements Initializable {
             avatarList.add(newAvatar);
             avatarIndex = avatarList.size() - 1;
             avatarImage.setImage(newAvatar);
+            avatarImage.setFitWidth(200);
+            avatarImage.setFitHeight(200);
+            avatarImage.setPreserveRatio(true);
+            
+            Platform.runLater(() -> makeAvatarCircular());
+
         }
     }
 
@@ -239,4 +275,15 @@ public class FXMLPruebaRegistroController implements Initializable {
         e.printStackTrace();
     }
     }
+    
+    
+    
+    private void makeAvatarCircular() {
+    double size = Math.min(avatarContainer.getWidth(), avatarContainer.getHeight());
+
+    Circle clip = new Circle(size / 2, size / 2, size / 2);
+    avatarImage.setClip(clip);
+}
+
+
 }
