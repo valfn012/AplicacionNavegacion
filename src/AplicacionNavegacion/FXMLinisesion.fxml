@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.FXMLInisesionController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.FXMLIniSesionController">
    <children>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #0685BC;">
          <children>
@@ -40,19 +41,25 @@
          <children>
             <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.vgrow="NEVER">
                <children>
-                  <VBox alignment="CENTER" fillWidth="false" prefHeight="81.0" prefWidth="690.0">
+                  <VBox alignment="CENTER" fillWidth="false" prefHeight="102.0" prefWidth="410.0">
                      <children>
-                        <Label prefHeight="30.0" prefWidth="297.0" text="Usuario:" textFill="#025477" />
-                        <TextField fx:id="emailField" minWidth="150.0" prefHeight="44.0" prefWidth="299.0" promptText="yourEmail@domain.com">
+                        <Label prefHeight="30.0" prefWidth="297.0" text="Usuario:" textFill="#025477">
                            <VBox.margin>
-                              <Insets />
+                              <Insets left="35.0" />
+                           </VBox.margin></Label>
+                        <TextField fx:id="emailField" minWidth="150.0" prefHeight="44.0" prefWidth="273.0" promptText="yourEmail@domain.com">
+                           <VBox.margin>
+                              <Insets left="10.0" />
                            </VBox.margin></TextField>
                      </children>
                      <HBox.margin>
-                        <Insets left="5.0" />
+                        <Insets left="110.0" />
                      </HBox.margin>
                   </VBox>
-                  <Label fx:id="emailError" text="Email incorrecto" textFill="#ca0505" translateY="5.0" visible="false" />
+                  <Label fx:id="emailError" prefHeight="30.0" prefWidth="206.0" text="Email incorrecto" textFill="#ca0505" translateY="5.0" visible="false">
+                     <HBox.margin>
+                        <Insets right="30.0" />
+                     </HBox.margin></Label>
                </children>
                <GridPane.margin>
                   <Insets left="12.0" />
@@ -60,27 +67,30 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
                <children>
-                  <VBox alignment="CENTER" fillWidth="false" prefHeight="86.0" prefWidth="755.0">
+                  <VBox alignment="CENTER" fillWidth="false" prefHeight="87.0" prefWidth="317.0">
                      <children>
                         <Label prefHeight="31.0" prefWidth="286.0" text="Contraseña:" textFill="#025477">
                            <VBox.margin>
-                              <Insets />
+                              <Insets left="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField prefHeight="44.0" prefWidth="308.0" promptText="miContraseña">
+                        <PasswordField fx:id="passwordField" prefHeight="44.0" prefWidth="298.0" promptText="NumbersLettersSymbols">
                            <VBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="10.0" />
                            </VBox.margin>
-                        </TextField>
+                        </PasswordField>
                      </children>
                      <HBox.margin>
-                        <Insets />
+                        <Insets left="155.0" />
                      </HBox.margin>
                   </VBox>
-                  <Label text="Contraseña incorrecta" textFill="#ca0505" visible="false" />
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="87.0" prefWidth="219.0" text="Contraseña incorrecta" textFill="#ca0505" visible="false">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Label>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" text="Aceptar" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+            <Button fx:id="bAceptar" mnemonicParsing="false" onAction="#onAceptar" text="Aceptar" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="25.0" left="275.0" />
                </GridPane.margin>
@@ -89,7 +99,7 @@
                <children>
                   <VBox prefHeight="105.0" prefWidth="338.0">
                      <children>
-                        <Label prefHeight="43.0" prefWidth="350.0" text="¿Aún no tienes cuenta?">
+                        <Label prefHeight="43.0" prefWidth="338.0" text="¿Aún no tienes cuenta?">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -102,7 +112,7 @@
                         <Insets left="50.0" />
                      </opaqueInsets>
                   </VBox>
-                  <Button fx:id="bRegister" mnemonicParsing="false" onAction="#registrarse" prefHeight="44.0" prefWidth="128.0" text="Registrarse" />
+                  <Button fx:id="bRegister" mnemonicParsing="false" onAction="#onRegister" prefHeight="44.0" prefWidth="128.0" text="Registrarse" />
                </children>
             </HBox>
          </children>

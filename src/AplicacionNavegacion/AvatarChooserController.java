@@ -1,3 +1,4 @@
+
 package AplicacionNavegacion;
 
 import java.io.File;
@@ -43,11 +44,12 @@ public class AvatarChooserController implements Initializable {
             avatarImages.add(new Image(getClass().getResourceAsStream("/resources/default.png")));
             avatarImages.add(new Image(getClass().getResourceAsStream("/resources/avatarHombre.jpg")));
             avatarImages.add(new Image(getClass().getResourceAsStream("/resources/avatarMujer.jpg")));
+            avatarImages.add(new Image(getClass().getResourceAsStream("/resources/avatarZorro.png")));
         } catch (Exception e) {
             System.out.println("Error cargando avatares");
         }
 
-        listaAvatares.getItems().addAll("Avatar por defecto", "Hombre", "Mujer");
+        listaAvatares.getItems().addAll("Avatar por defecto", "Hombre", "Mujer", "Zorro");
 
         listaAvatares.getSelectionModel().selectedIndexProperty().addListener((obs, oldV, newV) -> {
 

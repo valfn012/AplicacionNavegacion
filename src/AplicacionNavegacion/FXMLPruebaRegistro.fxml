@@ -165,6 +165,7 @@
                      <children>
                         <StackPane fx:id="avatarContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
                            <children>
+
                               <ImageView fx:id="avatarImage" cache="true" fitHeight="200.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                  <image>
                                     <Image url="@../resources/default.png" />
@@ -175,6 +176,7 @@
                      </children>
                   </HBox>
                   <Button fx:id="elegirAvatar" mnemonicParsing="false" onAction="#handleChooseAvatar" text="Elegir otro avatar" />
+
                </children>
             </VBox>
          </children>

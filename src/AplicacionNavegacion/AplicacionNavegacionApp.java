@@ -27,7 +27,9 @@ public class AplicacionNavegacionApp extends Application {
 
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
-        stage.setTitle("Puntos de interes UPV");
+
+        stage.setTitle("Aplicación navegación");
+
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(event -> {

@@ -30,6 +30,15 @@ import model.NavDAOException;
 import model.Navigation;
 import model.User;
 
+import javafx.scene.Scene;
+
+import javafx.fxml.FXMLLoader;
+
+import javafx.scene.Parent;
+
+import javafx.event.ActionEvent;
+
+
 public class FXMLPruebaRegistroController implements Initializable {
 
     // ---------- FXML ----------
@@ -245,4 +254,5 @@ public class FXMLPruebaRegistroController implements Initializable {
         System.err.println("ERROR: No se pudo cargar FXMLinisesion.fxml");
     }
     }
+
 }
