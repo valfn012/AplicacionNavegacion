@@ -8,6 +8,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -19,7 +20,7 @@
    <children>
       <StackPane layoutX="52.0" layoutY="42.0" prefHeight="555.0" prefWidth="809.0">
          <children>
-            <VBox maxWidth="800.0" minHeight="500.0" prefHeight="538.0" prefWidth="800.0" spacing="25.0" styleClass="card" stylesheets="@Registro.css" StackPane.alignment="TOP_CENTER">
+            <VBox alignment="TOP_CENTER" maxWidth="800.0" minHeight="500.0" prefHeight="538.0" prefWidth="800.0" spacing="25.0" styleClass="card" stylesheets="@Registro.css" StackPane.alignment="TOP_CENTER">
                <children>
                   <Label minHeight="40.0" prefHeight="40.0" styleClass="title-text" stylesheets="@Registro.css" text="Regístrate">
                      <font>
@@ -33,7 +34,7 @@
                               <VBox prefHeight="200.0" prefWidth="300.0" spacing="3.0">
                                  <children>
                                     <Label styleClass="form-label" stylesheets="@Registro.css" text="Nombre de usuario" />
-                                    <TextField fx:id="userField" maxHeight="40.0" minHeight="30.0" prefHeight="32.0" prefWidth="280.0" promptText="Nickname" styleClass="input-field" stylesheets="@Registro.css" />
+                                    <TextField fx:id="userField" maxHeight="40.0" maxWidth="210.0" minHeight="30.0" prefHeight="32.0" prefWidth="280.0" promptText="Nickname" styleClass="input-field" stylesheets="@Registro.css" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="300.0" spacing="3.0">
@@ -45,13 +46,13 @@
                               <VBox prefHeight="200.0" prefWidth="300.0" spacing="3.0">
                                  <children>
                                     <Label styleClass="form-label" text="Contraseña" />
-                                    <PasswordField fx:id="passwordField" maxHeight="40.0" minHeight="30.0" prefHeight="32.0" prefWidth="280.0" promptText="LettersNumbersSymbols" styleClass="input-field" />
+                                    <PasswordField fx:id="passwordField" maxHeight="40.0" maxWidth="210.0" minHeight="30.0" minWidth="210.0" prefHeight="32.0" prefWidth="230.0" promptText="LettersNumbersSymbols" styleClass="input-field" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="300.0" spacing="3.0">
                                  <children>
                                     <Label styleClass="form-label" text="Confirmar contraseña" />
-                                    <PasswordField fx:id="passwordField2" maxHeight="40.0" minHeight="30.0" prefHeight="32.0" prefWidth="280.0" promptText="LettersNumbersSymbols" styleClass="input-field" />
+                                    <PasswordField fx:id="passwordField2" maxHeight="40.0" maxWidth="210.0" minHeight="30.0" prefHeight="32.0" prefWidth="280.0" promptText="LettersNumbersSymbols" styleClass="input-field" />
                                  </children>
                               </VBox>
                               <Separator prefWidth="200.0">
@@ -62,7 +63,7 @@
                               <VBox prefHeight="200.0" prefWidth="300.0" spacing="3.0">
                                  <children>
                                     <Label styleClass="form-label" text="Fecha de nacimiento" />
-                                    <DatePicker fx:id="dateField" maxHeight="40.0" minHeight="40.0" prefHeight="32.0" prefWidth="280.0">
+                                    <DatePicker fx:id="dateField" maxHeight="40.0" minHeight="40.0" prefHeight="32.0" prefWidth="210.0">
                                        <styleClass>
                                           <String fx:value="date-picker" />
                                           <String fx:value="input-field" />
@@ -74,9 +75,12 @@
                               </VBox>
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER" prefHeight="283.0" prefWidth="180.0" spacing="15.0" styleClass="avatar-box">
+                        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="330.0" prefHeight="283.0" prefWidth="180.0" spacing="15.0" styleClass="avatar-box">
                            <children>
-                              <ImageView fx:id="avatarImage" fitHeight="221.0" fitWidth="316.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="avatarImage" fitHeight="221.0" fitWidth="316.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/default.png" />
+                                 </image></ImageView>
                               <Button fx:id="elegirAvatar" mnemonicParsing="false" onAction="#handleChooseAvatar" prefHeight="40.0" prefWidth="156.0" styleClass="button-primary" text="Elegir avatar" />
                            </children>
                         </VBox>
