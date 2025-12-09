@@ -37,7 +37,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ToolBar prefHeight="40.0" prefWidth="200.0">
+      <ToolBar maxWidth="1.7976931348623157E308" prefHeight="40.0" VBox.vgrow="ALWAYS">
         <items>
           <Button fx:id="regla" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#usarRegla" prefHeight="30.0" prefWidth="50.0">
                <graphic>
@@ -149,7 +149,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Region prefHeight="30.0" prefWidth="252.0" />
+            <Region fx:id="espaciado" prefWidth="268.0" />
             <MenuButton maxHeight="30.0" maxWidth="131.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="131.0" text="Nickname">
               <items>
                 <MenuItem fx:id="modificarPerfil" mnemonicParsing="false" text="Modificar perfil" />
