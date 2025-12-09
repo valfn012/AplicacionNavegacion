@@ -44,6 +44,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import model.Navigation;
 import model.User;
 
@@ -113,6 +116,8 @@ public class VentanaMapaController implements Initializable {
     private Button corregir;
     @FXML
     private Button bSalir;
+    @FXML
+    private Region espaciado;
     
     public void setUser(User u) {
     this.activeUser = u;
@@ -124,6 +129,137 @@ public class VentanaMapaController implements Initializable {
         this.stagePrincipal = stage;
     }
 
+    private void handlePressed(MouseEvent event) {
+    Point2D p = zoomGroup.sceneToLocal(event.getSceneX(), event.getSceneY());
+
+    switch (activeTool) {
+
+        case POINT:
+            drawPoint(p);
+            break;
+
+        case LINE:
+        case ARC:
+        case RULER:
+        case COMPASS:
+            firstPoint = p;
+            break;
+
+        case TEXT:
+            insertTextAt(p);
+            break;
+
+        case ERASER:
+            eraseAt(p);
+            break;
+
+        case PROTRACTOR:
+        {
+            Object transportadorImage = null;
+            if (transportadorImage != null &&
+                    transportadorImage.getBoundsInParent().contains(p)) {
+                
+                draggingTransportador = true;
+                offsetX = p.getX() - transportadorImage.getLayoutX();
+                offsetY = p.getY() - transportadorImage.getLayoutY();
+            }
+        }
+            break;
+
+    }
+}
+
+    private void handleDragged(MouseEvent event) {
+    if (activeTool == Tool.PROTRACTOR && draggingTransportador) {
+        Point2D p = zoomGroup.sceneToLocal(event.getSceneX(), event.getSceneY());
+        transportadorImage.setLayoutX(p.getX() - offsetX);
+        transportadorImage.setLayoutY(p.getY() - offsetY);
+    }
+}
+
+    private void handleReleased(MouseEvent event) {
+
+    Point2D p = zoomGroup.sceneToLocal(event.getSceneX(), event.getSceneY());
+
+    switch (activeTool) {
+
+        case LINE:
+            if (firstPoint != null) {
+                drawLine(firstPoint, p);
+                firstPoint = null;
+            }
+            break;
+
+        case ARC:
+            if (firstPoint != null) {
+                drawArc(firstPoint, p);
+                firstPoint = null;
+            }
+            break;
+
+        case RULER:
+            if (firstPoint != null) {
+                drawRuler(firstPoint, p);
+                firstPoint = null;
+            }
+            break;
+
+        case COMPASS:
+            if (firstPoint != null) {
+                drawArc(firstPoint, p);
+                firstPoint = null;
+            }
+            break;
+
+        case PROTRACTOR:
+            draggingTransportador = false;
+            break;
+    }
+}
+
+    private void eraseAt(Point2D p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void insertTextAt(Point2D p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @FXML
+    private void abrirModificarPerfil(ActionEvent event) {
+        
+    }
+
+    
+
+
+
+
+    
+    // ----------------------------------------
+// HERRAMIENTAS DISPONIBLES
+// ----------------------------------------
+private enum Tool {
+    NONE, POINT, LINE, ARC, TEXT, ERASER, CLEAR, RULER, COMPASS, PROTRACTOR
+}
+
+private Tool activeTool = Tool.NONE;
+
+// Color y grosor actuales
+private javafx.scene.paint.Color currentColor = javafx.scene.paint.Color.RED;
+private double currentStrokeWidth = 2.0;
+
+// Para líneas y arcos
+private Point2D firstPoint = null;
+
+
+private boolean draggingTransportador = false;
+private double offsetX, offsetY;
+
+// Capa donde se dibujan los elementos del usuario
+private javafx.scene.layout.Pane overlayPane = new javafx.scene.layout.Pane();
+
+    
 
     @FXML
     void zoomIn(ActionEvent event) {
@@ -191,23 +327,38 @@ public class VentanaMapaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        initData();
-        //==========================================================
-        // inicializamos el slider y enlazamos con el zoom
+        
+        
+                initData();
+
         zoom_slider.setMin(0.5);
         zoom_slider.setMax(1.5);
         zoom_slider.setValue(1.0);
         zoom_slider.valueProperty().addListener((o, oldVal, newVal) -> zoom((Double) newVal));
 
-        //=========================================================================
-        //Envuelva el contenido de scrollpane en un grupo para que 
-        //ScrollPane vuelva a calcular las barras de desplazamiento tras el escalado
+        // Crear grupos para permitir zoom
         Group contentGroup = new Group();
         zoomGroup = new Group();
+
+        // El scrollpane ya contenía el mapa (ImageView)
+        Node mapContent = map_scrollpane.getContent();
+
+        zoomGroup.getChildren().add(mapContent);
+
+        // ⬇️ AÑADIMOS UNA CAPA SUPERIOR PARA DIBUJAR
+        overlayPane.setPickOnBounds(false);
+        zoomGroup.getChildren().add(overlayPane);
+
         contentGroup.getChildren().add(zoomGroup);
-        zoomGroup.getChildren().add(map_scrollpane.getContent());
         map_scrollpane.setContent(contentGroup);
 
+        // Registramos eventos de ratón para dibujar
+        zoomGroup.addEventFilter(MouseEvent.MOUSE_PRESSED, this::handlePressed);
+        zoomGroup.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::handleDragged);
+        zoomGroup.addEventFilter(MouseEvent.MOUSE_RELEASED, this::handleReleased);
+
+        
+        HBox.setHgrow(espaciado, Priority.ALWAYS);
     }
 
     @FXML
@@ -275,43 +426,48 @@ public class VentanaMapaController implements Initializable {
 
     @FXML
     private void usarRegla(ActionEvent event) {
-        System.out.println("usarRegla llamado (aún sin implementar)");
+        activeTool = Tool.RULER;
+    firstPoint = null;
     }
 
     @FXML
     private void usarCompas(ActionEvent event) {
-        System.out.println("usarRegla llamado (aún sin implementar)");
+        activeTool = Tool.COMPASS;
+    firstPoint = null;
     }
 
     @FXML
     private void usarTransportador(ActionEvent event) {
-        System.out.println("usarRegla llamado (aún sin implementar)");
+        activeTool = Tool.PROTRACTOR;
     }
 
     @FXML
-    private void abrirHistorial(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaHistorial.fxml"));
-            Parent root = loader.load();
+private void abrirHistorial(ActionEvent event) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaHistorial.fxml"));
+        Parent root = loader.load();
 
-            VentanaHistorialController controller = loader.getController();
-            controller.setUser(activeUser);
+        VentanaHistorialController controller = loader.getController();
+        controller.setUser(activeUser);
 
-            
-            Stage stage = (Stage) rootPane.getScene().getWindow();
+        Stage stage = (Stage) rootPane.getScene().getWindow();
 
-            stage.setScene(new Scene(root));
-            stage.centerOnScreen();
+        
+        stage.setMaximized(false);
+        stage.sizeToScene();
 
-            stage.show();
+        stage.setScene(new Scene(root));
+        stage.centerOnScreen();
+        stage.show();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 
     @FXML
-private void handleCerrarSesion(ActionEvent event) {
+    private void salirSesion(ActionEvent event) {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLinisesion.fxml"));
         Parent root = loader.load();
@@ -336,34 +492,45 @@ private void handleCerrarSesion(ActionEvent event) {
 
     @FXML
     private void usarGoma(ActionEvent event) {
+        activeTool = Tool.ERASER;
     }
 
     @FXML
     private void usarPapelera(ActionEvent event) {
+        activeTool = Tool.CLEAR;
+    overlayPane.getChildren().clear();
     }
 
     @FXML
     private void menosGrosor(ActionEvent event) {
+        currentStrokeWidth = Math.max(1, currentStrokeWidth - 1);
     }
 
     @FXML
     private void masGrosor(ActionEvent event) {
+        currentStrokeWidth += 1;
     }
 
     @FXML
     private void insertarTexto(ActionEvent event) {
+        activeTool = Tool.TEXT;
     }
 
     @FXML
     private void trazarLineas(ActionEvent event) {
+        activeTool = Tool.LINE;
+        firstPoint = null;
     }
 
     @FXML
     private void trazarArco(ActionEvent event) {
+        activeTool = Tool.ARC;
+    firstPoint = null;
     }
 
     @FXML
     private void usarAleatorio(ActionEvent event) {
+        
     }
 
     @FXML
@@ -374,6 +541,20 @@ private void handleCerrarSesion(ActionEvent event) {
     private void salirMapa(ActionEvent event) {
     }
 
+private void drawPoint(Point2D p) {
+    javafx.scene.shape.Circle c = new javafx.scene.shape.Circle(p.getX(), p.getY(), 4);
+    c.setFill(currentColor);
+    c.setStroke(currentColor);
+
+    c.setOnMouseClicked(e -> {
+        if (e.isShiftDown()) {
+            c.setFill(currentColor);
+            c.setStroke(currentColor);
+        }
+    });
+
+    overlayPane.getChildren().add(c);
+}
 
 
 }

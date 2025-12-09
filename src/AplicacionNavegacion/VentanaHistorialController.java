@@ -130,19 +130,33 @@ public class VentanaHistorialController implements Initializable {
      * Acción del botón Volver.
      */
     @FXML
-    private void onVolver() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaMapa.fxml"));
-            Parent root = loader.load();
+private void onVolver() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaMapa.fxml"));
+        Parent root = loader.load();
 
-            Stage stage = (Stage) bVolver.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setMaximized(true);     // ← ventana en tamaño completo
-            stage.centerOnScreen();
-            stage.show();
+        // Obtener stage actual
+        Stage stage = (Stage) bVolver.getScene().getWindow();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Crear escena nueva con la ventana del mapa
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
+
+        // ✔ Esto re-maximiza la ventana
+        stage.setMaximized(true);
+
+        // ✔ Esto obliga a redibujar la ventana antes de mostrarla
+        stage.sizeToScene();
+VentanaMapaController controller = loader.getController();
+controller.setUser(activeUser);
+controller.setStage(stage);
+
+        stage.show();
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 }

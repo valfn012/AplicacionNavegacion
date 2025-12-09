@@ -152,9 +152,9 @@
             <Region fx:id="espaciado" prefWidth="268.0" />
             <MenuButton maxHeight="30.0" maxWidth="131.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="131.0" text="Nickname">
               <items>
-                <MenuItem fx:id="modificarPerfil" mnemonicParsing="false" text="Modificar perfil" />
+                <MenuItem fx:id="modificarPerfil" mnemonicParsing="false" onAction="#abrirModificarPerfil" text="Modificar perfil" />
                   <MenuItem fx:id="historial" mnemonicParsing="false" onAction="#abrirHistorial" text="Historial" />
-                  <MenuItem fx:id="cerrarSesion" mnemonicParsing="false" onAction="#handleCerrarSesion" text="Cerrar sesión" />
+                  <MenuItem fx:id="cerrarSesion" mnemonicParsing="false" onAction="#salirSesion" text="Cerrar sesión" />
               </items>
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">

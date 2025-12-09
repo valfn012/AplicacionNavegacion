@@ -98,7 +98,7 @@ public class IniSesionController implements Initializable {
             VentanaMapaController controller = loader.getController();
 
             Stage stage = (Stage) bAceptar.getScene().getWindow();
-            controller.setStage(stage);
+            
 
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
