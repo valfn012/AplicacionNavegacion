@@ -296,21 +296,23 @@ private void handleCerrarSesion(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLinisesion.fxml"));
         Parent root = loader.load();
 
-        stagePrincipal.setScene(new Scene(root));
+        // Obtener el stage desde el menú (MenuItem NO es Node, así que se hace así)
+        Stage stage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
 
-        stagePrincipal.setMaximized(false);
-        stagePrincipal.setResizable(false);
-        stagePrincipal.sizeToScene();
-        stagePrincipal.centerOnScreen();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
 
-        stagePrincipal.show();
+        stage.setResizable(false);
+        stage.setMaximized(false);
+        stage.sizeToScene();
+        stage.centerOnScreen();
+        stage.show();
 
     } catch (Exception e) {
         e.printStackTrace();
         System.err.println("ERROR: No se pudo cargar la ventana de inicio de sesión.");
     }
 }
-
 
 
 
