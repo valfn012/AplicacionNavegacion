@@ -1,5 +1,6 @@
 package AplicacionNavegacion;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.YEARS;
@@ -57,6 +58,8 @@ public class VentanaRegistroController implements Initializable {
 
     // ---------- AVATAR ----------
     private Image chosenAvatar; // imagen elegida en la ventana modal
+
+    private File chosenAvatarFile; 
 
 
     // =========================================================
@@ -228,10 +231,12 @@ public class VentanaRegistroController implements Initializable {
 
     // =========================================================
     // MÉTODO LLAMADO DESDE LA VENTANA DE AVATAR
-    public void setChosenAvatar(Image img) {
-        chosenAvatar = img;
-        avatarImage.setImage(img);
-    }
+    public void setChosenAvatar(Image img, File file) {
+    chosenAvatar = img;
+    chosenAvatarFile = file;
+    avatarImage.setImage(img);
+}
+
 
     @FXML
     private void handleCancel(ActionEvent event) {
@@ -256,5 +261,21 @@ public class VentanaRegistroController implements Initializable {
         System.err.println("ERROR: No se pudo cargar FXMLinisesion.fxml");
     }
     }
+
+    public void clearAvatarIfDeleted(File deletedFile) {
+
+    // Si no hay avatar asignado, no hacer nada
+    if (chosenAvatarFile == null) return;
+
+    // Comprobar si el archivo eliminado es el que estaba usando el usuario
+    if (chosenAvatarFile.equals(deletedFile)) {
+
+        // Resetear avatar
+        chosenAvatarFile = null;
+        chosenAvatar = new Image(getClass().getResourceAsStream("/resources/default.png"));
+
+        avatarImage.setImage(chosenAvatar);
+    }
+}
 
 }

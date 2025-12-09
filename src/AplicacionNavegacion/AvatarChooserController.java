@@ -47,6 +47,8 @@ public class AvatarChooserController implements Initializable {
     public void setParentController(VentanaRegistroController c) {
         parent = c;
     }
+   
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -100,7 +102,8 @@ public class AvatarChooserController implements Initializable {
 
         for (File f : files) {
             try {
-                avatarImages.add(new Image(new FileInputStream(f)));
+                avatarImages.add(new Image(f.toURI().toString()));
+
                 avatarFiles.add(f);
                 listaAvatares.getItems().add(f.getName().replace(".png", ""));
             } catch (Exception e) {
@@ -152,40 +155,48 @@ public class AvatarChooserController implements Initializable {
     // RENOMBRAR AVATAR PERSONALIZADO
     // ============================================================
 
-    @FXML
-    private void handleRename() {
+   @FXML
+private void handleRename() {
 
-        int index = listaAvatares.getSelectionModel().getSelectedIndex();
-        if (index < 0) return;
+    int index = listaAvatares.getSelectionModel().getSelectedIndex();
+    if (index < 0) return;
 
-        File file = avatarFiles.get(index);
+    File oldFile = avatarFiles.get(index);
 
-        if (file == null) {
-            showAlert("No se puede renombrar este avatar (es predeterminado)");
-            return;
-        }
-
-        TextInputDialog dialog = new TextInputDialog(listaAvatares.getItems().get(index));
-        dialog.setHeaderText("Nuevo nombre del avatar:");
-        Optional<String> result = dialog.showAndWait();
-
-        if (result.isPresent()) {
-            try {
-                String newName = result.get().trim();
-                if (newName.isEmpty()) return;
-
-                File newFile = new File(customAvatarFolder, newName + ".png");
-
-                Files.move(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                avatarFiles.set(index, newFile);
-                listaAvatares.getItems().set(index, newName);
-
-            } catch (Exception e) {
-                showAlert("Error al renombrar archivo.");
-            }
-        }
+    if (oldFile == null) {
+        showAlert("No se puede renombrar un avatar predeterminado.");
+        return;
     }
+
+    TextInputDialog dialog = new TextInputDialog(listaAvatares.getItems().get(index));
+    dialog.setHeaderText("Nuevo nombre del avatar:");
+    Optional<String> result = dialog.showAndWait();
+
+    if (!result.isPresent()) return;
+
+    String newName = result.get().trim();
+    if (newName.isEmpty()) return;
+
+    File newFile = new File(customAvatarFolder, newName + ".png");
+
+    try {
+
+        Files.move(oldFile.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+        // ACTUALIZAR LISTAS
+        avatarFiles.set(index, newFile);
+        avatarImages.set(index, new Image(newFile.toURI().toString()));
+
+        listaAvatares.getItems().set(index, newName);
+
+        previewImage.setImage(avatarImages.get(index));
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        showAlert("No se pudo renombrar el avatar.");
+    }
+}
+
 
 
     // ============================================================
@@ -193,45 +204,68 @@ public class AvatarChooserController implements Initializable {
     // ============================================================
 
     @FXML
-    private void handleDelete() {
+private void handleDelete() {
 
-        int index = listaAvatares.getSelectionModel().getSelectedIndex();
-        if (index < 0) return;
+    int index = listaAvatares.getSelectionModel().getSelectedIndex();
+    if (index < 0) return;
 
-        File file = avatarFiles.get(index);
+    File file = avatarFiles.get(index);
 
-        if (file == null) {
-            showAlert("Este avatar no puede eliminarse (es predeterminado)");
-            return;
-        }
-
-        try {
-            file.delete();
-
-            avatarFiles.remove(index);
-            avatarImages.remove(index);
-            listaAvatares.getItems().remove(index);
-
-            previewImage.setImage(null);
-            selectedImage = null;
-
-        } catch (Exception e) {
-            showAlert("Error eliminando avatar");
-        }
+    if (file == null) {
+        showAlert("Este avatar no puede eliminarse (es predeterminado)");
+        return;
     }
+
+    try {
+        // ELIMINAR ARCHIVO (ya no estará bloqueado)
+        previewImage.setImage(null);
+avatarImages.set(index, null);
+System.gc(); // fuerza a liberar la referencia en Windows
+
+        Files.delete(file.toPath());
+
+        // QUITAR DE LISTAS
+        avatarFiles.remove(index);
+        avatarImages.remove(index);
+        listaAvatares.getItems().remove(index);
+
+        previewImage.setImage(null);
+        selectedImage = null;
+        // Si el registro estaba usando este avatar, notificar que fue eliminado
+if (parent != null) {
+    parent.clearAvatarIfDeleted(file);
+}
+
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        showAlert("Error eliminando avatar.");
+    }
+}
+
+
 
 
     // ============================================================
     // ACEPTAR — ENVIAR A REGISTRO
     // ============================================================
 
+    
     @FXML
-    private void handleAccept() {
-        if (selectedImage != null && parent != null)
-            parent.setChosenAvatar(selectedImage);
+private void handleAccept() {
+    int idx = listaAvatares.getSelectionModel().getSelectedIndex();
 
-        closeWindow();
+    if (selectedImage != null && parent != null && idx >= 0) {
+
+        parent.setChosenAvatar(
+            selectedImage,
+            avatarFiles.get(idx) // archivo asociado al avatar
+        );
     }
+
+    closeWindow();
+}
+
 
     @FXML
     private void handleCancel() {

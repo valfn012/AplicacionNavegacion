@@ -129,93 +129,11 @@ public class VentanaMapaController implements Initializable {
         this.stagePrincipal = stage;
     }
 
-    private void handlePressed(MouseEvent event) {
-    Point2D p = zoomGroup.sceneToLocal(event.getSceneX(), event.getSceneY());
+    
+    
 
-    switch (activeTool) {
+    
 
-        case POINT:
-            drawPoint(p);
-            break;
-
-        case LINE:
-        case ARC:
-        case RULER:
-        case COMPASS:
-            firstPoint = p;
-            break;
-
-        case TEXT:
-            insertTextAt(p);
-            break;
-
-        case ERASER:
-            eraseAt(p);
-            break;
-
-        case PROTRACTOR:
-        {
-            Object transportadorImage = null;
-            if (transportadorImage != null &&
-                    transportadorImage.getBoundsInParent().contains(p)) {
-                
-                draggingTransportador = true;
-                offsetX = p.getX() - transportadorImage.getLayoutX();
-                offsetY = p.getY() - transportadorImage.getLayoutY();
-            }
-        }
-            break;
-
-    }
-}
-
-    private void handleDragged(MouseEvent event) {
-    if (activeTool == Tool.PROTRACTOR && draggingTransportador) {
-        Point2D p = zoomGroup.sceneToLocal(event.getSceneX(), event.getSceneY());
-        transportadorImage.setLayoutX(p.getX() - offsetX);
-        transportadorImage.setLayoutY(p.getY() - offsetY);
-    }
-}
-
-    private void handleReleased(MouseEvent event) {
-
-    Point2D p = zoomGroup.sceneToLocal(event.getSceneX(), event.getSceneY());
-
-    switch (activeTool) {
-
-        case LINE:
-            if (firstPoint != null) {
-                drawLine(firstPoint, p);
-                firstPoint = null;
-            }
-            break;
-
-        case ARC:
-            if (firstPoint != null) {
-                drawArc(firstPoint, p);
-                firstPoint = null;
-            }
-            break;
-
-        case RULER:
-            if (firstPoint != null) {
-                drawRuler(firstPoint, p);
-                firstPoint = null;
-            }
-            break;
-
-        case COMPASS:
-            if (firstPoint != null) {
-                drawArc(firstPoint, p);
-                firstPoint = null;
-            }
-            break;
-
-        case PROTRACTOR:
-            draggingTransportador = false;
-            break;
-    }
-}
 
     private void eraseAt(Point2D p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -227,7 +145,7 @@ public class VentanaMapaController implements Initializable {
 
     @FXML
     private void abrirModificarPerfil(ActionEvent event) {
-        
+        System.out.println("Aun no se ha implementado");
     }
 
     
@@ -353,9 +271,7 @@ private javafx.scene.layout.Pane overlayPane = new javafx.scene.layout.Pane();
         map_scrollpane.setContent(contentGroup);
 
         // Registramos eventos de ratón para dibujar
-        zoomGroup.addEventFilter(MouseEvent.MOUSE_PRESSED, this::handlePressed);
-        zoomGroup.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::handleDragged);
-        zoomGroup.addEventFilter(MouseEvent.MOUSE_RELEASED, this::handleReleased);
+        
 
         
         HBox.setHgrow(espaciado, Priority.ALWAYS);
