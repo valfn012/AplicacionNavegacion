@@ -66,11 +66,21 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="6.0" />
+            <Button fx:id="goma" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#usarGoma" prefHeight="30.0" prefWidth="50.0">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../resources/goma-de-borrar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="papelera" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#usarPapelera" prefHeight="30.0" prefWidth="50.0">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/lecho.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -82,20 +92,20 @@
                      <image>
                         <Image url="@../resources/lapiz.png" />
                      </image></ImageView>
-                  <Button maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="-">
+                  <Button fx:id="menosG" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#menosGrosor" prefHeight="30.0" prefWidth="50.0" text="-">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </Button>
                   <Slider />
-                  <Button maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="+">
+                  <Button fx:id="masG" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#masGrosor" prefHeight="30.0" prefWidth="50.0" text="+">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </Button>
                   <MenuButton maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Color">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1">
+                      <MenuItem mnemonicParsing="false">
                            <graphic>
                               <ColorPicker />
                            </graphic>
@@ -112,7 +122,7 @@
                </children>
             </HBox>
             <Separator orientation="VERTICAL" />
-            <Button maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+            <Button fx:id="texto" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#insertarTexto" prefHeight="30.0" prefWidth="50.0">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -121,7 +131,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+            <Button fx:id="lineas" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#trazarLineas" prefHeight="30.0" prefWidth="50.0">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -130,7 +140,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+            <Button fx:id="arco" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#trazarArco" prefHeight="30.0" prefWidth="50.0">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -139,7 +149,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Region prefHeight="30.0" prefWidth="333.0" />
+            <Region prefHeight="30.0" prefWidth="252.0" />
             <MenuButton maxHeight="30.0" maxWidth="131.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="131.0" text="Nickname">
               <items>
                 <MenuItem fx:id="modificarPerfil" mnemonicParsing="false" text="Modificar perfil" />
@@ -164,7 +174,7 @@
             <StackPane alignment="TOP_CENTER">
                <children>
                   <ListView fx:id="map_listview" onMouseClicked="#listClicked" prefHeight="399.0" prefWidth="87.0" />
-                  <Button mnemonicParsing="false" text="Aleatorio" />
+                  <Button fx:id="bAleatorio" mnemonicParsing="false" onAction="#usarAleatorio" text="Aleatorio" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <Label layoutX="8.0" layoutY="50.0" prefHeight="179.0" prefWidth="233.0" text="Enunciado" />
@@ -172,8 +182,8 @@
                         <RadioButton layoutX="8.0" layoutY="339.0" mnemonicParsing="false" text="RadioButton" />
                         <RadioButton layoutX="8.0" layoutY="300.0" mnemonicParsing="false" text="RadioButton" />
                         <RadioButton layoutX="8.0" layoutY="260.0" mnemonicParsing="false" text="RadioButton" />
-                        <Button layoutX="130.0" layoutY="453.0" mnemonicParsing="false" text="Corregir" />
-                        <Button layoutX="14.0" layoutY="453.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="79.0" text="Salir" />
+                        <Button fx:id="corregir" layoutX="130.0" layoutY="453.0" mnemonicParsing="false" onAction="#corregirEj" text="Corregir" />
+                        <Button fx:id="bSalir" layoutX="14.0" layoutY="453.0" mnemonicParsing="false" onAction="#salirMapa" prefHeight="44.0" prefWidth="79.0" text="Salir" />
                      </children>
                   </AnchorPane>
                </children>

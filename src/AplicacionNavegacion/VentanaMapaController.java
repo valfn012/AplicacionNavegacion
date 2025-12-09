@@ -93,6 +93,26 @@ public class VentanaMapaController implements Initializable {
     private MenuItem modificarPerfil;
     @FXML
     private MenuItem cerrarSesion;
+    @FXML
+    private Button goma;
+    @FXML
+    private Button papelera;
+    @FXML
+    private Button menosG;
+    @FXML
+    private Button masG;
+    @FXML
+    private Button texto;
+    @FXML
+    private Button lineas;
+    @FXML
+    private Button arco;
+    @FXML
+    private Button bAleatorio;
+    @FXML
+    private Button corregir;
+    @FXML
+    private Button bSalir;
     
     public void setUser(User u) {
     this.activeUser = u;
@@ -313,6 +333,46 @@ private void handleCerrarSesion(ActionEvent event) {
         System.err.println("ERROR: No se pudo cargar la ventana de inicio de sesión.");
     }
 }
+
+    @FXML
+    private void usarGoma(ActionEvent event) {
+    }
+
+    @FXML
+    private void usarPapelera(ActionEvent event) {
+    }
+
+    @FXML
+    private void menosGrosor(ActionEvent event) {
+    }
+
+    @FXML
+    private void masGrosor(ActionEvent event) {
+    }
+
+    @FXML
+    private void insertarTexto(ActionEvent event) {
+    }
+
+    @FXML
+    private void trazarLineas(ActionEvent event) {
+    }
+
+    @FXML
+    private void trazarArco(ActionEvent event) {
+    }
+
+    @FXML
+    private void usarAleatorio(ActionEvent event) {
+    }
+
+    @FXML
+    private void corregirEj(ActionEvent event) {
+    }
+
+    @FXML
+    private void salirMapa(ActionEvent event) {
+    }
 
 
 
