@@ -49,6 +49,7 @@ public class VentanaModificarPerfil implements Initializable {
 
     // ---------- USUARIO ACTIVO ----------
     private User activeUser;
+    
 
     // =========================================================
     // ALERTAS
@@ -223,7 +224,7 @@ public class VentanaModificarPerfil implements Initializable {
             Parent root = loader.load();
 
             AvatarChooserController controller = loader.getController();
-            controller.setParentController(this); // conexión
+            controller.setParentController2(this); // conexión
 
             Stage modal = new Stage();
             modal.setTitle("Elegir avatar");

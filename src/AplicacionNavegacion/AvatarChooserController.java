@@ -47,6 +47,11 @@ public class AvatarChooserController implements Initializable {
     public void setParentController(VentanaRegistroController c) {
         parent = c;
     }
+    private VentanaModificarPerfil parent2;
+    public void setParentController2(VentanaModificarPerfil parent) {
+        parent2 = parent;
+}
+
    
 
 
@@ -261,6 +266,10 @@ private void handleAccept() {
             selectedImage,
             avatarFiles.get(idx) // archivo asociado al avatar
         );
+        
+        if (parent2 != null) {
+        parent2.setChosenAvatar(selectedImage, avatarFiles.get(idx));
+    }
     }
 
     closeWindow();

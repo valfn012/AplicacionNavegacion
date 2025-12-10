@@ -143,10 +143,45 @@ public class VentanaMapaController implements Initializable {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @FXML
-    private void abrirModificarPerfil(ActionEvent event) {
-        System.out.println("Aun no se ha implementado");
+   @FXML
+private void abrirModificarPerfil(ActionEvent event) {
+
+    try {
+        // Cargar el FXML de modificar perfil
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaModificarPerfil.fxml"));
+        Parent root = loader.load();
+
+        // Obtener el controlador
+        VentanaModificarPerfil controller = loader.getController();
+
+        // Pasar el usuario activo del mapa (asegúrate de tenerlo guardado en esta clase)
+        controller.setUser(activeUser);
+
+        // Crear la ventana modal
+        Stage modal = new Stage();
+        modal.setTitle("Modificar perfil");
+        modal.setScene(new Scene(root));
+
+        // Hacerla modal (bloquea la ventana principal)
+        modal.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+
+        // Centrarla en pantalla
+        modal.centerOnScreen();
+
+        // Evitar que se redimensione
+        modal.setResizable(false);
+        Stage parentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        modal.initOwner(parentStage);
+        modal.centerOnScreen();
+
+        // Mostrar y esperar
+        modal.showAndWait();
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 
     
 
