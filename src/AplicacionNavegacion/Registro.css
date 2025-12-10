@@ -115,17 +115,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 
 /* Botón secundario: Cancelar */
-.button-secondary {
-    -fx-background-color: #B6E2E7;
+.button-cancelar {
+    -fx-background-color: white;
     -fx-background-radius: 15;
-    -fx-text-fill: #555F76;
+    -fx-border-color: #5E6B81;
+    -fx-text-fill: #5E6B81;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 10 25;
+    -fx-cursor: hand;
 }
 
-.button-secondary:hover {
-    -fx-background-color: #9bcfdd;
+.button-cancelar:hover {
+    -fx-background-color: #464E61;
 }
 
 /* ===========================
@@ -136,3 +138,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-radius: 20;
     -fx-padding: 10;
 }
+.button-avatar {
+    -fx-background-color: #9BBFC9;
+    -fx-background-radius: 15;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 25;
+    -fx-cursor: hand;
+}
+.button-avatar:hover {
+    -fx-background-color: #85A0AE;
+}
+

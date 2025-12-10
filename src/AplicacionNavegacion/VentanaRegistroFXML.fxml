@@ -89,12 +89,12 @@
                   </HBox>
                   <HBox alignment="BOTTOM_RIGHT" prefHeight="153.0" prefWidth="720.0" spacing="20.0">
                      <children>
-                        <Button fx:id="bAccept" mnemonicParsing="false" onAction="#handleBAcceptOnAction" style="-fx-background-color: #555F76;" styleClass="button-primary" text="REGISTRARSE">
+                        <Button fx:id="bAccept" mnemonicParsing="false" onAction="#handleBAcceptOnAction" styleClass="button-aceptar" text="REGISTRARSE">
                            <graphic>
                               <ImageView fitHeight="36.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                            </graphic>
                         </Button>
-                        <Button fx:id="bCancel" mnemonicParsing="false" onAction="#handleCancel" styleClass="button-secondary" text="CANCELAR">
+                        <Button fx:id="bCancel" mnemonicParsing="false" onAction="#handleCancel" styleClass="button-cancelar" text="CANCELAR">
                            <graphic>
                               <ImageView fitHeight="35.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" />
                            </graphic>
