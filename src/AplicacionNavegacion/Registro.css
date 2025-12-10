@@ -14,6 +14,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-color: #ECD2E8; /* Fondo lavanda suave */
 }
 
+.text-field.error {
+    -fx-background-color: #ffe6e6, #e9c3df;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 15;
+}
+
+
+
+
 /* ===========================
    TARJETA CENTRAL
    =========================== */
@@ -90,17 +99,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
    =========================== */
 
 /* Botón principal: Registrarse */
-.button-primary {
-    -fx-background-color: #C98EB7;
+.button-aceptar {
+    -fx-background-color: #5E6B81;
     -fx-background-radius: 15;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 10 25;
+    -fx-cursor: hand;
 }
 
-.button-primary:hover {
-    -fx-background-color: #b779a3;
+.button-aceptar:hover {
+    -fx-background-color: #464E61;
 }
 
 /* Botón secundario: Cancelar */

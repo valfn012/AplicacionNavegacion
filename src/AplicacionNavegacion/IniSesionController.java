@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -138,6 +139,21 @@ private void onRegister(MouseEvent event) {
         showError("No se pudo abrir la ventana de registro.");
     }
 }
+
+
+private void setError(TextField field, ImageView icon, boolean error) {
+    if (error) {
+        if (!field.getStyleClass().contains("error")) {
+            field.getStyleClass().add("error");
+        }
+        icon.setVisible(true);
+    } else {
+        field.getStyleClass().remove("error");
+        icon.setVisible(false);
+    }
+}
+
+
 
 
 
