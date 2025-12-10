@@ -47,6 +47,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.stage.Modality;
 import model.Navigation;
 import model.User;
 
@@ -143,44 +144,46 @@ public class VentanaMapaController implements Initializable {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-   @FXML
+  @FXML
 private void abrirModificarPerfil(ActionEvent event) {
-
     try {
-        // Cargar el FXML de modificar perfil
+        // Cargar el FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaModificarPerfil.fxml"));
         Parent root = loader.load();
 
-        // Obtener el controlador
+        // Obtener controlador
         VentanaModificarPerfil controller = loader.getController();
-
-        // Pasar el usuario activo del mapa (asegúrate de tenerlo guardado en esta clase)
         controller.setUser(activeUser);
 
-        // Crear la ventana modal
+        // Crear modal
         Stage modal = new Stage();
         modal.setTitle("Modificar perfil");
         modal.setScene(new Scene(root));
-
-        // Hacerla modal (bloquea la ventana principal)
-        modal.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-
-        // Centrarla en pantalla
-        modal.centerOnScreen();
-
-        // Evitar que se redimensione
+        modal.initModality(Modality.APPLICATION_MODAL);
         modal.setResizable(false);
-        Stage parentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        modal.initOwner(parentStage);
+
+        // Pasar el Stage al controlador
+        controller.setStage(modal);
+
+        // Detectar la X de cierre
+        modal.setOnCloseRequest(e -> {
+            e.consume();               // evita cierre automático
+            controller.confirmarCierre();
+        });
+
+        // Hacer que la ventana principal sea la dueña
+        Stage owner = (Stage) rootPane.getScene().getWindow();
+        modal.initOwner(owner);
         modal.centerOnScreen();
 
-        // Mostrar y esperar
+        // Mostrar modal
         modal.showAndWait();
 
     } catch (Exception e) {
         e.printStackTrace();
     }
 }
+
 
 
     

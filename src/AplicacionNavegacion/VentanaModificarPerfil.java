@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.YEARS;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -17,12 +18,14 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import model.User;
@@ -37,7 +40,8 @@ public class VentanaModificarPerfil implements Initializable {
     @FXML private DatePicker dateField;
 
     @FXML private Button bAccept;
-    @FXML private Button bCancel;
+    @FXML
+    private Button bCancel;
     @FXML private Button elegirAvatar;
 
     @FXML
@@ -50,6 +54,11 @@ public class VentanaModificarPerfil implements Initializable {
     // ---------- USUARIO ACTIVO ----------
     private User activeUser;
     
+private Stage stage;
+
+public void setStage(Stage stage) {
+    this.stage = stage;
+}
 
     // =========================================================
     // ALERTAS
@@ -153,8 +162,10 @@ public class VentanaModificarPerfil implements Initializable {
         avatarImage.setFitHeight(200);
         avatarImage.setPreserveRatio(true);
 
-        // Botón cancelar vuelve al mapa
-        bCancel.setOnAction(this::goToMap);
+       
+        
+
+
     }
 
     // =========================================================
@@ -187,7 +198,7 @@ public class VentanaModificarPerfil implements Initializable {
             showAlert("Cambio completado", "Usuario modificado correctamente.",
                       Alert.AlertType.INFORMATION);
 
-            goToMap(event);
+            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,22 +208,7 @@ public class VentanaModificarPerfil implements Initializable {
 
     // =========================================================
     // IR A MAPA
-    private void goToMap(ActionEvent event) {
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaMapa.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.centerOnScreen();
-
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     // =========================================================
     // ABRIR VENTANA "ELEGIR AVATAR"
@@ -246,10 +242,8 @@ public class VentanaModificarPerfil implements Initializable {
         avatarImage.setImage(img);
     }
 
-    @FXML
-    private void handleCancel(ActionEvent event) {
-        goToMap(event);
-    }
+    
+
 
     public void clearAvatarIfDeleted(File deletedFile) {
 
@@ -261,4 +255,29 @@ public class VentanaModificarPerfil implements Initializable {
             avatarImage.setImage(chosenAvatar);
         }
     }
+
+    @FXML
+private void handleCancel() {
+    confirmarCierre();
+}
+
+public void confirmarCierre() {
+
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirmar cierre");
+    alert.setHeaderText("¿Seguro que quieres cerrar esta ventana?");
+    alert.setContentText("Se perderán los cambios no guardados.");
+
+    ButtonType aceptar = new ButtonType("Sí, salir");
+    ButtonType cancelar = new ButtonType("No", ButtonType.CANCEL.getButtonData());
+
+    alert.getButtonTypes().setAll(aceptar, cancelar);
+
+    Optional<ButtonType> result = alert.showAndWait();
+
+    if (result.isPresent() && result.get() == aceptar) {
+        stage.close();  // ⬅ AHORA SÍ funciona siempre
+    }
+}
+
 }

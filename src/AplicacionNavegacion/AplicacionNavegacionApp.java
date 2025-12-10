@@ -32,21 +32,21 @@ public class AplicacionNavegacionApp extends Application {
 
         stage.setScene(scene);
         stage.show();
-        stage.setOnCloseRequest(event -> {
-        // Crear el diálogo de confirmación
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmar salida");
-        alert.setHeaderText(null);
-        alert.setContentText("¿Seguro que quieres cerrar la aplicación?");
-
-        // Mostrarlo y esperar respuesta
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.CANCEL) {
-            event.consume(); // Cancela el cierre
-        }
-    
-        });
+//        stage.setOnCloseRequest(event -> {
+//        // Crear el diálogo de confirmación
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Confirmar salida");
+//        alert.setHeaderText(null);
+//        alert.setContentText("¿Seguro que quieres cerrar la aplicación?");
+//
+//        // Mostrarlo y esperar respuesta
+//        Optional<ButtonType> result = alert.showAndWait();
+//
+//        if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+//            event.consume(); // Cancela el cierre
+//        }
+//    
+//        });
     }
 
     /**

@@ -15,7 +15,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox alignment="CENTER" styleClass="root" stylesheets="@Registro.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.VentanaRegistroController">
    <children>
       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="809.0">
@@ -82,7 +81,7 @@
                                     <Image url="@../resources/default.png" />
                                  </image>
                               </ImageView>
-                              <Button fx:id="elegirAvatar" mnemonicParsing="false" onAction="#handleChooseAvatar" prefHeight="40.0" prefWidth="156.0" style="-fx-background-color: #555F76;" styleClass="button-primary" text="ELEGIR AVATAR" />
+                              <Button fx:id="elegirAvatar" mnemonicParsing="false" onAction="#handleChooseAvatar" prefHeight="40.0" prefWidth="156.0" styleClass="button-avatar" text="ELEGIR AVATAR" />
                            </children>
                         </VBox>
                      </children>

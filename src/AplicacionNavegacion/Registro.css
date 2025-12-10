@@ -116,18 +116,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 /* Botón secundario: Cancelar */
 .button-cancelar {
-    -fx-background-color: white;
-    -fx-background-radius: 15;
-    -fx-border-color: #5E6B81;
+    
+    
+    
+    
     -fx-text-fill: #5E6B81;
+    -fx-background-radius: 15;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 10 25;
     -fx-cursor: hand;
+    -fx-background-color: white;
+    -fx-border-color: #5E6B81;
+    
+   -fx-shape: "M0,20 Q0,0 20,0 L180,0 Q200,0 200,20 L200,40 Q200,60 180,60 L20,60 Q0,60 0,40 Z";
+
+
 }
 
 .button-cancelar:hover {
-    -fx-background-color: #464E61;
+    -fx-background-color: #DCE3EA;
 }
 
 /* ===========================
