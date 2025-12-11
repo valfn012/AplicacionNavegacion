@@ -45,6 +45,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -123,7 +124,11 @@ public class VentanaMapaController implements Initializable {
     @FXML
     private Button mostOcult;
     
+    private Point2D lastMousePosition = null;
+    
     private ToolBar BarraHerr;
+    @FXML
+    private ToolBar barraHerr;
     
     public void setUser(User u) {
     this.activeUser = u;
@@ -146,7 +151,60 @@ public class VentanaMapaController implements Initializable {
     }
 
     private void insertTextAt(Point2D p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // Diálogo para pedir el texto
+    TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle("Insertar texto");
+    dialog.setHeaderText("Escribe el texto a insertar en el mapa");
+    dialog.setContentText("Texto:");
+
+    Optional<String> result = dialog.showAndWait();
+    if (result.isEmpty()) {
+        return; // usuario canceló
+    }
+
+    String texto = result.get().trim();
+    if (texto.isEmpty()) {
+        return; // nada que dibujar
+    }
+
+    // Crear nodo de texto
+    javafx.scene.text.Text t = new javafx.scene.text.Text(texto);
+
+    // Posición inicial en el overlayPane
+    t.setLayoutX(p.getX());
+    t.setLayoutY(p.getY());
+
+    // Estilo más "normalito"
+    t.setFill(javafx.scene.paint.Color.BLACK);
+    t.setStyle("-fx-font-size: 16px;");
+
+    // Permitir mover el texto arrastrando
+    final Point2D[] dragDelta = new Point2D[1];
+
+    // Permitir mover el texto arrastrando
+t.setOnMousePressed(e -> {
+    // Guardamos la diferencia entre la posición del ratón y el origen del nodo
+    t.setUserData(new Point2D(
+        e.getSceneX() - t.getLayoutX(),
+        e.getSceneY() - t.getLayoutY()
+    ));
+    e.consume();
+});
+
+t.setOnMouseDragged(e -> {
+    // Recuperamos el offset inicial
+    Point2D offset = (Point2D) t.getUserData();
+
+    // Nueva posición = posición global del ratón - offset
+    t.setLayoutX(e.getSceneX() - offset.getX());
+    t.setLayoutY(e.getSceneY() - offset.getY());
+
+    e.consume();
+});
+
+
+    overlayPane.getChildren().add(t);
+
     }
 
   @FXML
@@ -195,7 +253,7 @@ private void abrirModificarPerfil(ActionEvent event) {
     BarraHerr.setVisible(!visible);
     BarraHerr.setManaged(!visible);
 }
-    }
+  
 
     
 
@@ -212,6 +270,7 @@ private enum Tool {
     NONE, POINT, LINE, ARC, TEXT, ERASER, CLEAR, RULER, COMPASS, PROTRACTOR
 }
 
+
 private Tool activeTool = Tool.NONE;
 
 // Color y grosor actuales
@@ -224,6 +283,7 @@ private Point2D firstPoint = null;
 
 private boolean draggingTransportador = false;
 private double offsetX, offsetY;
+
 
 // Capa donde se dibujan los elementos del usuario
 private javafx.scene.layout.Pane overlayPane = new javafx.scene.layout.Pane();
@@ -315,7 +375,7 @@ private javafx.scene.layout.Pane overlayPane = new javafx.scene.layout.Pane();
         zoomGroup.getChildren().add(mapContent);
 
         // ⬇️ AÑADIMOS UNA CAPA SUPERIOR PARA DIBUJAR
-        overlayPane.setPickOnBounds(false);
+        overlayPane.setPickOnBounds(true);
         zoomGroup.getChildren().add(overlayPane);
 
         contentGroup.getChildren().add(zoomGroup);
@@ -326,7 +386,31 @@ private javafx.scene.layout.Pane overlayPane = new javafx.scene.layout.Pane();
 
         
         HBox.setHgrow(espaciado, Priority.ALWAYS);
+        
+        
+        overlayPane.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+    lastMousePosition = new Point2D(e.getX(), e.getY());
+});
+
+// (Opcional) seguir usando clic para otras herramientas
+overlayPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+    Point2D p = new Point2D(e.getX(), e.getY());
+
+    switch (activeTool) {
+        case POINT:
+            drawPoint(p);
+            break;
+        // si algún día vuelves a usar Tools:
+        // case TEXT:
+        //     insertTextAt(p);
+        //     break;
+        default:
+            break;
     }
+});
+        
+    
+                }
 
     @FXML
     private void showPosition(MouseEvent event) {
@@ -480,7 +564,19 @@ private void abrirHistorial(ActionEvent event) {
 
     @FXML
     private void insertarTexto(ActionEvent event) {
-        activeTool = Tool.TEXT;
+         // Si conocemos la última posición del ratón, usamos esa
+    Point2D p;
+    if (lastMousePosition != null) {
+        p = lastMousePosition;
+    } else {
+        // Si aún no se ha movido el ratón por el mapa, usamos el centro
+        double x = overlayPane.getWidth() / 2;
+        double y = overlayPane.getHeight() / 2;
+        p = new Point2D(x, y);
+    }
+
+    insertTextAt(p);
+        
     }
 
     @FXML
@@ -522,6 +618,8 @@ private void drawPoint(Point2D p) {
 
     overlayPane.getChildren().add(c);
 }
-
-
 }
+
+
+
+
