@@ -33,11 +33,16 @@
           <Menu mnemonicParsing="false" text="Ayuda">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#about" text="Acerca de" />
+                  <MenuItem mnemonicParsing="false" onAction="#about" text="Barra de herramientas">
+                     <graphic>
+                        <Button fx:id="mostOcult" mnemonicParsing="false" onAction="#mostOcult" text="Mostrar/Ocultar" />
+                     </graphic>
+                  </MenuItem>
             </items>
           </Menu>
         </menus>
       </MenuBar>
-      <ToolBar maxWidth="1.7976931348623157E308" prefHeight="40.0" VBox.vgrow="ALWAYS">
+      <ToolBar fx:id="barraHerr" maxWidth="1.7976931348623157E308" prefHeight="40.0" VBox.vgrow="ALWAYS">
         <items>
           <Button fx:id="regla" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#usarRegla" prefHeight="30.0" prefWidth="50.0">
                <graphic>

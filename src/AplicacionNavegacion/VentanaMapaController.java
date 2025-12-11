@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
+import javafx.scene.control.ToolBar;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
@@ -119,6 +120,10 @@ public class VentanaMapaController implements Initializable {
     private Button bSalir;
     @FXML
     private Region espaciado;
+    @FXML
+    private Button mostOcult;
+    
+    private ToolBar BarraHerr;
     
     public void setUser(User u) {
     this.activeUser = u;
@@ -184,7 +189,15 @@ private void abrirModificarPerfil(ActionEvent event) {
     }
 }
 
+    @FXML
+    private void mostOcult(ActionEvent event) {
+        boolean visible = BarraHerr.isVisible();
+    BarraHerr.setVisible(!visible);
+    BarraHerr.setManaged(!visible);
+}
+    }
 
+    
 
     
 
