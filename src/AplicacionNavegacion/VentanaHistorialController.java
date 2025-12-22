@@ -148,9 +148,9 @@ private void onVolver() {
 
         // ✔ Esto obliga a redibujar la ventana antes de mostrarla
         stage.sizeToScene();
-VentanaMapaController controller = loader.getController();
-controller.setUser(activeUser);
-controller.setStage(stage);
+        VentanaMapaController controller = loader.getController();
+        controller.setUser(activeUser);
+        controller.setStage(stage);
 
         stage.show();
 
