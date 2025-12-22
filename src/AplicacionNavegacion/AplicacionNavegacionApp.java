@@ -23,7 +23,7 @@ public class AplicacionNavegacionApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/AplicacionNavegacion/FXMLinisesion.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/AplicacionNavegacion/IniSesion.fxml"));
 
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
