@@ -68,7 +68,6 @@ public class VentanaMapaController implements Initializable {
     // el escalado se realiza sobre este nodo, al escalar el Group no mueve sus nodos
     private Group zoomGroup;
 
-    @FXML
     private ListView<Poi> map_listview;
     @FXML
     private ScrollPane map_scrollpane;
@@ -113,12 +112,6 @@ public class VentanaMapaController implements Initializable {
     private Button lineas;
     @FXML
     private Button arco;
-    @FXML
-    private Button bAleatorio;
-    @FXML
-    private Button corregir;
-    @FXML
-    private Button bSalir;
     @FXML
     private Region espaciado;
     @FXML
@@ -321,7 +314,6 @@ private javafx.scene.layout.Pane overlayPane = new javafx.scene.layout.Pane();
         map_scrollpane.setVvalue(scrollV);
     }
 
-    @FXML
     void listClicked(MouseEvent event) {
         Poi itemSelected = map_listview.getSelectionModel().getSelectedItem();
 
@@ -550,6 +542,18 @@ private void abrirHistorial(ActionEvent event) {
     private void usarPapelera(ActionEvent event) {
         activeTool = Tool.CLEAR;
     overlayPane.getChildren().clear();
+     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Reestablecer carta");
+        alert.setHeaderText("¿Está seguro de que desea reestablecer la carta?");
+        alert.setContentText("Esta acción eliminará todos los elementos dibujados\n y no se puede deshacer.");
+            
+        Optional<ButtonType> result = alert.showAndWait();
+        if ((result.isPresent() && result.get() == ButtonType.OK)){
+            System.out.println(zoomGroup.getChildren().size());
+            int size = zoomGroup.getChildren().size();
+            for (int i = 1; i<size; i++) zoomGroup.getChildren().remove(1);
+            System.out.println(zoomGroup.getChildren());
+        }
     }
 
     @FXML
@@ -591,18 +595,6 @@ private void abrirHistorial(ActionEvent event) {
     firstPoint = null;
     }
 
-    @FXML
-    private void usarAleatorio(ActionEvent event) {
-        
-    }
-
-    @FXML
-    private void corregirEj(ActionEvent event) {
-    }
-
-    @FXML
-    private void salirMapa(ActionEvent event) {
-    }
 
 private void drawPoint(Point2D p) {
     javafx.scene.shape.Circle c = new javafx.scene.shape.Circle(p.getX(), p.getY(), 4);
