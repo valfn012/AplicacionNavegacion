@@ -20,6 +20,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -88,9 +89,12 @@
                     </graphic>
                 </Button>
 
-                <ToggleButton fx:id="punto" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#usarPunto" prefHeight="30.0" prefWidth="50.0" text="•" textAlignment="CENTER" />
+                <ToggleButton fx:id="punto" maxHeight="30.0" maxWidth="50.0" minHeight="29.0" minWidth="33.0" mnemonicParsing="false" onAction="#usarPunto" prefHeight="29.0" prefWidth="33.0" text="•" textAlignment="CENTER" />
 
-                <ToggleButton fx:id="modoColor" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#usarModoColor" prefHeight="30.0" prefWidth="50.0" text="🎨" />
+                <ToggleButton fx:id="modoColor" maxHeight="32.0" maxWidth="50.0" minHeight="30.0" minWidth="38.0" mnemonicParsing="false" onAction="#usarModoColor" prefHeight="32.0" prefWidth="38.0" text="🎨">
+               <font>
+                  <Font size="16.0" />
+               </font></ToggleButton>
 
                 <ToggleButton fx:id="goma" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#usarGoma" prefHeight="30.0" prefWidth="50.0">
                     <graphic>
@@ -128,7 +132,7 @@
                         <Button fx:id="menosG" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#menosGrosor" prefHeight="30.0" prefWidth="50.0" text="-">
                             <font><Font size="10.0" /></font>
                         </Button>
-                        <Slider fx:id="grosorSlider" max="12.0" min="1.0" prefWidth="160.0" value="2.0" />
+                        <Slider fx:id="grosorSlider" max="12.0" min="1.0" prefWidth="120.0" value="2.0" />
                         <Button fx:id="masG" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" mnemonicParsing="false" onAction="#masGrosor" prefHeight="30.0" prefWidth="50.0" text="+">
                             <font><Font size="10.0" /></font>
                         </Button>
@@ -173,67 +177,95 @@
                     </graphic>
                 </ToggleButton>
 
-                <ToggleButton fx:id="flecha" mnemonicParsing="false" onAction="#usarFlecha" text="↗" />
+                <ToggleButton fx:id="zoom" mnemonicParsing="false" onAction="#desplegarZoom" text="Zoom" />
+            <ToggleButton fx:id="flecha" layoutX="1022.0" layoutY="17.0" mnemonicParsing="false" onAction="#usarFlecha" text="↗" />
+            <Region fx:id="toolbarSpacer" prefHeight="40.0" prefWidth="40.0" />
 
-                <Region fx:id="espaciado" prefWidth="20.0" />
-
-                <MenuButton maxHeight="30.0" maxWidth="131.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="131.0" text="Nickname">
+                      <MenuButton fx:id="perfil" maxHeight="30.0" maxWidth="131.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="131.0" text="Nickname">
                     <items>
                         <MenuItem fx:id="modificarPerfil" mnemonicParsing="false" onAction="#abrirModificarPerfil" text="Modificar perfil" />
                         <MenuItem fx:id="historial" mnemonicParsing="false" onAction="#abrirHistorial" text="Historial" />
                         <MenuItem fx:id="cerrarSesion" mnemonicParsing="false" onAction="#salirSesion" text="Cerrar sesión" />
                     </items>
                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/avatarHombre.jpg" />
-                            </image>
-                        </ImageView>
+                        <ImageView fx:id="imagenAvatar" fitHeight="28.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true" />
                     </graphic>
-                    <font><Font size="10.0" /></font>
+                    <font>
+                  <Font size="10.0" />
+               </font>
                 </MenuButton>
             </items>
         </ToolBar>
-
-        <SplitPane fx:id="splitPane" VBox.vgrow="ALWAYS">
-            <items>
-                <ScrollPane fx:id="map_scrollpane" hbarPolicy="ALWAYS" onMouseMoved="#showPosition" pannable="true" prefHeight="398.0" prefWidth="358.0" vbarPolicy="ALWAYS">
-                    <content>
-                        <Pane>
-                            <children>
-                                <ImageView fitHeight="5760.0" fitWidth="8962.0" layoutX="-41.0" layoutY="-118.0" pickOnBounds="true">
-                                    <image>
-                                        <Image url="@../resources/carta_nautica.jpg" />
-                                    </image>
-                                </ImageView>
-                                <MenuButton fx:id="map_pin" mnemonicParsing="false" prefHeight="60.0" prefWidth="48.0" visible="false">
-                                    <items>
-                                        <MenuItem fx:id="pin_info" mnemonicParsing="false" text="Info" />
-                                    </items>
-                                    <styleClass>
-                                        <String fx:value="menu-button" />
-                                        <String fx:value="map-pin" />
-                                    </styleClass>
-                                </MenuButton>
-                            </children>
-                        </Pane>
-                    </content>
-                </ScrollPane>
-            </items>
-        </SplitPane>
-
-        <HBox alignment="CENTER_LEFT" spacing="10.0">
-            <children>
-                <Region HBox.hgrow="ALWAYS" />
-                <Label text="Zoom" />
-                <Button mnemonicParsing="false" onAction="#zoomOut" text="-" />
-                <Slider fx:id="zoom_slider" HBox.hgrow="SOMETIMES" />
-                <Button mnemonicParsing="false" onAction="#zoomIn" text="+" />
-            </children>
-            <VBox.margin>
-                <Insets bottom="12.0" right="12.0" top="6.0" />
-            </VBox.margin>
-        </HBox>
+      <StackPane fx:id="stackRoot" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+         <children>
+      
+              <SplitPane fx:id="splitPane">
+                  <items>
+                      <ScrollPane fx:id="map_scrollpane" hbarPolicy="ALWAYS" onMouseMoved="#showPosition" pannable="true" prefHeight="398.0" prefWidth="358.0" vbarPolicy="ALWAYS">
+                          <content>
+                              <Pane>
+                                  <children>
+                                      <ImageView fx:id="mapImage" fitHeight="5760.0" fitWidth="8962.0" layoutX="-41.0" layoutY="-118.0" pickOnBounds="true">
+                                          <image>
+                                              <Image url="@../resources/carta_nautica.jpg" />
+                                          </image>
+                                      </ImageView>
+                                      <MenuButton fx:id="map_pin" mnemonicParsing="false" prefHeight="60.0" prefWidth="48.0" visible="false">
+                                          <items>
+                                              <MenuItem fx:id="pin_info" mnemonicParsing="false" text="Info" />
+                                          </items>
+                                          <styleClass>
+                                              <String fx:value="menu-button" />
+                                              <String fx:value="map-pin" />
+                                          </styleClass>
+                                      </MenuButton>
+                                  </children>
+                              </Pane>
+                          </content>
+                      </ScrollPane>
+                  </items>
+              </SplitPane>
+      
+                                                  <HBox fx:id="zoomBar" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="280.0" spacing="10.0" style="-fx-background-color: lightgrey;">
+                  <children>
+                      <Label text="Zoom">
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Label>
+                      <Button mnemonicParsing="false" onAction="#zoomOut" text="-" />
+                      <Slider fx:id="zoom_slider" HBox.hgrow="SOMETIMES" />
+                      <Button mnemonicParsing="false" onAction="#zoomIn" text="+">
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Button>
+                  </children>
+               <StackPane.margin>
+                  <Insets top="15.0" />
+               </StackPane.margin>
+              </HBox>
+            <HBox fx:id="pencilBox" alignment="CENTER_LEFT" layoutX="510.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" spacing="10.0" style="-fx-background-color: lightgrey;">
+               <children>
+                  <Label text="Grosor">
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Button fx:id="menosG" mnemonicParsing="false" onAction="#menosGrosor" text="-" />
+                  <Slider fx:id="grosorSlider" HBox.hgrow="SOMETIMES" />
+                  <Button fx:id="masG" mnemonicParsing="false" onAction="#masGrosor" text="+">
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <StackPane.margin>
+                  <Insets top="15.0" />
+               </StackPane.margin>
+            </HBox>
+         </children>
+      </StackPane>
 
     </children>
 </VBox>

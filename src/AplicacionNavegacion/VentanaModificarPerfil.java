@@ -47,11 +47,11 @@ public class VentanaModificarPerfil implements Initializable {
     @FXML
     private ImageView avatarImage;
 
-    // ---------- AVATAR ----------
+   
     private Image chosenAvatar;
     private File chosenAvatarFile;
 
-    // ---------- USUARIO ACTIVO ----------
+   
     private User activeUser;
     
 private Stage stage;
@@ -60,8 +60,7 @@ public void setStage(Stage stage) {
     this.stage = stage;
 }
 
-    // =========================================================
-    // ALERTAS
+    
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setHeaderText(null);
@@ -74,28 +73,27 @@ public void setStage(Stage stage) {
         showAlert("Errores en el formulario", msg, Alert.AlertType.ERROR);
     }
 
-    // =========================================================
-    // MÉTODO QUE LLAMA VentanaMapaController
+    
     public void setUser(User user) {
         this.activeUser = user;
 
         if (user == null) return;
 
-        // Nick (no editable)
+        
         userField.setText(user.getNickName());
         userField.setDisable(true);
 
-        // Email
+       
         emailField.setText(user.getEmail());
 
-        // Fecha de nacimiento
+        
         dateField.setValue(user.getBirthdate());
 
-        // Contraseña
+        
         passwordField.setText(user.getPassword());
         passwordField2.setText(user.getPassword());
 
-        // Avatar
+        
         Image avatar = user.getAvatar();
         if (avatar != null) {
             chosenAvatar = avatar;
@@ -103,15 +101,14 @@ public void setStage(Stage stage) {
         }
     }
 
-    // =========================================================
-    // VALIDACIÓN
+    
     private String validateForm() {
 
         StringBuilder errors = new StringBuilder();
 
-        // (NO validamos nickname porque no se puede cambiar)
+       
 
-        // EMAIL
+       
         String email = emailField.getText();
         if (email.isEmpty()) {
             errors.append("• Debes introducir un email.\n");
@@ -119,7 +116,7 @@ public void setStage(Stage stage) {
             errors.append("• El email debe tener un formato válido (ejemplo: usuario@correo.com).\n");
         }
 
-        // CONTRASEÑA
+        
         String pass1 = passwordField.getText();
         if (pass1.isEmpty()) {
             errors.append("• Debes introducir una contraseña.\n");
@@ -127,7 +124,7 @@ public void setStage(Stage stage) {
             errors.append("• La contraseña debe tener 8-20 caracteres, incluir mayúsculas, minúsculas, números y símbolos.\n");
         }
 
-        // REPETIR CONTRASEÑA
+        
         String pass2 = passwordField2.getText();
         if (pass2.isEmpty()) {
             errors.append("• Debes repetir la contraseña.\n");
@@ -135,7 +132,7 @@ public void setStage(Stage stage) {
             errors.append("• Las contraseñas no coinciden.\n");
         }
 
-        // FECHA NAC
+       
         LocalDate birth = dateField.getValue();
         if (birth == null) {
             errors.append("• Debes seleccionar tu fecha de nacimiento.\n");
@@ -146,16 +143,15 @@ public void setStage(Stage stage) {
         return errors.toString();
     }
 
-    // =========================================================
-    // INITIALIZE
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // Nick no editable
+       
         userField.setDisable(true);
         userField.setEditable(false);
 
-        // Imagen por defecto (si el usuario no tiene avatar)
+        
         chosenAvatar = new Image(getClass().getResourceAsStream("/resources/default.png"));
         avatarImage.setImage(chosenAvatar);
         avatarImage.setFitWidth(200);
@@ -168,8 +164,7 @@ public void setStage(Stage stage) {
 
     }
 
-    // =========================================================
-    // ACEPTAR: MODIFICA EL PERFIL DEL USUARIO
+   
     @FXML
     private void handleBAcceptOnAction(ActionEvent event) {
 
@@ -186,7 +181,7 @@ public void setStage(Stage stage) {
         }
 
         try {
-            // Estos setters YA guardan en BD internamente (llaman a save())
+            
             activeUser.setEmail(emailField.getText());
             activeUser.setPassword(passwordField.getText());
             activeUser.setBirthdate(dateField.getValue());
@@ -206,12 +201,7 @@ public void setStage(Stage stage) {
         }
     }
 
-    // =========================================================
-    // IR A MAPA
     
-
-    // =========================================================
-    // ABRIR VENTANA "ELEGIR AVATAR"
     @FXML
     private void handleChooseAvatar(ActionEvent event) {
 
@@ -220,7 +210,7 @@ public void setStage(Stage stage) {
             Parent root = loader.load();
 
             AvatarChooserController controller = loader.getController();
-            controller.setParentController2(this); // conexión
+            controller.setParentController2(this); 
 
             Stage modal = new Stage();
             modal.setTitle("Elegir avatar");
@@ -234,8 +224,7 @@ public void setStage(Stage stage) {
         }
     }
 
-    // =========================================================
-    // MÉTODO LLAMADO DESDE LA VENTANA DE AVATAR
+   
     public void setChosenAvatar(Image img, File file) {
         chosenAvatar = img;
         chosenAvatarFile = file;
@@ -276,7 +265,7 @@ public void confirmarCierre() {
     Optional<ButtonType> result = alert.showAndWait();
 
     if (result.isPresent() && result.get() == aceptar) {
-        stage.close();  // ⬅ AHORA SÍ funciona siempre
+        stage.close();  
     }
 }
 

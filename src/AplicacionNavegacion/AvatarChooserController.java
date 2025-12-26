@@ -33,7 +33,7 @@ public class AvatarChooserController implements Initializable {
     @FXML private Button bLoadImage;
 
     private final ArrayList<Image> avatarImages = new ArrayList<>();
-    private final ArrayList<File> avatarFiles = new ArrayList<>();   // ← archivos reales
+    private final ArrayList<File> avatarFiles = new ArrayList<>();   
 
     private Image selectedImage;
     private VentanaRegistroController parent;
@@ -61,19 +61,15 @@ public class AvatarChooserController implements Initializable {
         if (!customAvatarFolder.exists())
             customAvatarFolder.mkdirs();
 
-        // ===============================================
-        // 1. AVATARES POR DEFECTO
-        // ===============================================
+       
         loadDefaultAvatar("/resources/default.png", "Avatar por defecto", null);
         loadDefaultAvatar("/resources/avatarHombre.jpg", "Hombre", null);
         loadDefaultAvatar("/resources/avatarMujer.jpg", "Mujer", null);
 
-        // ===============================================
-        // 2. AVATARES PERSONALIZADOS DESDE DISCO
-        // ===============================================
+       
         loadCustomAvatars();
 
-        // Listener para vista previa
+        
         listaAvatares.getSelectionModel().selectedIndexProperty().addListener((obs, oldV, newV) -> {
             if (newV != null && newV.intValue() >= 0) {
                 selectedImage = avatarImages.get(newV.intValue());
@@ -87,15 +83,11 @@ public class AvatarChooserController implements Initializable {
     }
 
 
-    // ============================================================
-    // FUNCIONES DE CARGA
-    // ============================================================
-
     private void loadDefaultAvatar(String path, String name, File file) {
         try {
             avatarImages.add(new Image(getClass().getResourceAsStream(path)));
             listaAvatares.getItems().add(name);
-            avatarFiles.add(file); // archivo NULL = avatar por defecto
+            avatarFiles.add(file); 
         } catch (Exception e) {
             System.out.println("NO se pudo cargar " + path);
         }
@@ -118,9 +110,6 @@ public class AvatarChooserController implements Initializable {
     }
 
 
-    // ============================================================
-    // SUBIR AVATAR PERSONALIZADO
-    // ============================================================
 
     @FXML
     private void handleLoadImage() {
@@ -156,9 +145,6 @@ public class AvatarChooserController implements Initializable {
     }
 
 
-    // ============================================================
-    // RENOMBRAR AVATAR PERSONALIZADO
-    // ============================================================
 
    @FXML
 private void handleRename() {
@@ -188,7 +174,6 @@ private void handleRename() {
 
         Files.move(oldFile.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-        // ACTUALIZAR LISTAS
         avatarFiles.set(index, newFile);
         avatarImages.set(index, new Image(newFile.toURI().toString()));
 
@@ -204,9 +189,7 @@ private void handleRename() {
 
 
 
-    // ============================================================
-    // ELIMINAR AVATAR PERSONALIZADO
-    // ============================================================
+   
 
     @FXML
 private void handleDelete() {
@@ -222,21 +205,21 @@ private void handleDelete() {
     }
 
     try {
-        // ELIMINAR ARCHIVO (ya no estará bloqueado)
+
         previewImage.setImage(null);
 avatarImages.set(index, null);
-System.gc(); // fuerza a liberar la referencia en Windows
+System.gc(); 
 
         Files.delete(file.toPath());
 
-        // QUITAR DE LISTAS
+        
         avatarFiles.remove(index);
         avatarImages.remove(index);
         listaAvatares.getItems().remove(index);
 
         previewImage.setImage(null);
         selectedImage = null;
-        // Si el registro estaba usando este avatar, notificar que fue eliminado
+        
 if (parent != null) {
     parent.clearAvatarIfDeleted(file);
 }
@@ -251,9 +234,7 @@ if (parent != null) {
 
 
 
-    // ============================================================
-    // ACEPTAR — ENVIAR A REGISTRO
-    // ============================================================
+   
 
     
     @FXML
@@ -264,7 +245,7 @@ private void handleAccept() {
 
         parent.setChosenAvatar(
             selectedImage,
-            avatarFiles.get(idx) // archivo asociado al avatar
+            avatarFiles.get(idx) 
         );
         
         if (parent2 != null) {
@@ -287,9 +268,7 @@ private void handleAccept() {
     }
 
 
-    // ============================================================
-    // UTILIDADES
-    // ============================================================
+    
 
     private void showAlert(String msg) {
         Alert a = new Alert(Alert.AlertType.INFORMATION);

@@ -3,24 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package AplicacionNavegacion;
 
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -41,6 +40,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -63,33 +63,22 @@ import javafx.stage.Stage;
 
 import model.User;
 
-/**
- * VentanaMapaController (versión integrada):
- * - Implementa TODO lo del “primer documento” (regla, flecha, compás/arco, transportador,
- *   dibujo libre, punto, texto editable con menú, modo color, goma, papelera)
- * - Usando los nombres del segundo (overlayPane, regla/compas/transportador/goma/lapiz/trazoLinea/trazoArco, etc.)
- */
+
 public class VentanaMapaController implements Initializable {
 
-    // ======================================
-    // Modelo / usuario (se mantiene)
-    // ======================================
+    
     private final HashMap<String, Poi> hm = new HashMap<>();
     private ObservableList<Poi> data;
     private User activeUser;
 
-    // ======================================
-    // Zoom
-    // ======================================
+   
     private Group zoomGroup;
 
     @FXML private ScrollPane map_scrollpane;
     @FXML private Slider zoom_slider;
     @FXML private SplitPane splitPane;
 
-    // ======================================
-    // Barra herramientas (FXML)
-    // ======================================
+    
     @FXML private ToolBar barraHerr;
     @FXML private ToggleButton regla;
     @FXML private ToggleButton compas;
@@ -109,9 +98,9 @@ public class VentanaMapaController implements Initializable {
 
     @FXML private Slider grosorSlider;
     @FXML private ColorPicker colorPicker;
-    @FXML private Region espaciado;
+    private Region espaciado;
 
-    // (de tu FXML original; no imprescindibles para el dibujo)
+    
     @FXML private MenuButton map_pin;
     @FXML private MenuItem pin_info;
 
@@ -122,14 +111,86 @@ public class VentanaMapaController implements Initializable {
     @FXML private MenuItem historial;
     @FXML
     private Button bProblema;
+    @FXML
+    private ImageView imagenAvatar;
+    private User currentUser;
+    @FXML
+    private MenuButton perfil;
+    @FXML
+    private ImageView mapImage;
+    @FXML
+    private StackPane stackRoot;
+    
+    @FXML
+    private HBox pencilBox;
+    @FXML
+    private ToggleButton zoom;
+    @FXML
+    private HBox zoomBar;
+    @FXML
+    private Region toolbarSpacer;
+
+public void setUser(User user) {
+    this.currentUser = user;
+    cargarAvatar();
+    cargarPerfil();
+}
+
 
     void setStage(Stage stage) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    // ======================================
-    // Estado herramientas
-    // ======================================
+    private void cargarAvatar() {
+        if (currentUser == null) return;
+
+    Image avatar = currentUser.getAvatar();
+
+    if (avatar != null) {
+        imagenAvatar.setImage(avatar);
+    }
+    }
+
+    private void cargarPerfil() {
+        if (currentUser == null) {
+            return;
+        }
+        perfil.setText(currentUser.getNickName());
+    }
+
+    @FXML
+private void desplegarZoom(ActionEvent event) {
+
+    boolean mostrar = !zoomBar.isVisible();
+
+    if (mostrar) {
+        // Mostrar y traer al frente
+        zoomBar.setVisible(true);
+        zoomBar.setManaged(true);
+        zoomBar.setDisable(false);
+
+        zoomBar.toFront();
+
+        
+
+    } else {
+        // Ocultar y devolver atrás
+        zoomBar.setVisible(false);
+        zoomBar.setManaged(false);
+        zoomBar.setDisable(true);
+
+        zoomBar.toBack();
+    }
+}
+
+
+    
+
+    
+    
+    
+
+   
     private enum Tool {
         NONE,
         FREEHAND,
@@ -150,29 +211,19 @@ public class VentanaMapaController implements Initializable {
     private Color currentColor = Color.BLACK;
     private double currentStrokeWidth = 2.0;
 
-    // ======================================
-    // Capas de dibujo (debe ir dentro de zoomGroup)
-    // ======================================
+   
     private final Pane overlayPane = new Pane();
 
-    // ======================================
-    // FREEHAND
-    // ======================================
+    
     private Polyline currentStroke = null;
 
-    // ======================================
-    // LINE
-    // ======================================
+   
     private Point2D firstPoint = null;
 
-    // ======================================
-    // POINT / TEXT: última posición ratón
-    // ======================================
+    
     private Point2D lastMousePosition = null;
 
-    // ======================================
-    // REGLA + FLECHA
-    // ======================================
+   
     private Region reglaView;
     private boolean bloqueoRotacionRegla = false;
 
@@ -180,21 +231,15 @@ public class VentanaMapaController implements Initializable {
     private Point2D puntoInicioFlecha = null;
     private Line previewLine = null;
 
-    // ======================================
-    // TRANSPORTADOR
-    // ======================================
+    
     private Region transportadorView;
 
-    // ======================================
-    // COMPÁS + ARCO
-    // ======================================
+    
     private Group compasView;
     private Circle arcPreview = null;
     private Point2D arcCenter = null;
 
-    // ======================================
-    // BORRADO
-    // ======================================
+    
     private final javafx.event.EventHandler<MouseEvent> deleteHandler = e -> {
         if (activeTool != Tool.ERASER) return;
         Node n = (Node) e.getSource();
@@ -202,16 +247,10 @@ public class VentanaMapaController implements Initializable {
         e.consume();
     };
 
-    // ======================================
-    // API
-    // ======================================
-    public void setUser(User u) {
-        this.activeUser = u;
-    }
+   
+    
 
-    // ======================================
-    // UI general
-    // ======================================
+    
     @FXML
     private void mostOcult(ActionEvent event) {
         boolean visible = barraHerr.isVisible();
@@ -240,87 +279,145 @@ public class VentanaMapaController implements Initializable {
         map_scrollpane.setVvalue(scrollV);
     }
 
-    // ======================================
-    // INIT
-    // ======================================
+    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // Slider zoom
-        zoom_slider.setMin(0.5);
-        zoom_slider.setMax(1.5);
-        zoom_slider.setValue(1.0);
-        zoom_slider.valueProperty().addListener((o, oldVal, newVal) -> zoom(newVal.doubleValue()));
+public void initialize(URL url, ResourceBundle rb) {
 
-        // Construir escena zoom: mapa + overlay encima
-        Group contentGroup = new Group();
-        zoomGroup = new Group();
+    // Slider zoom
+    zoom_slider.setMin(0.2);   // permite alejar más si hace falta para ver el mapa completo
+    zoom_slider.setMax(1.5);
+    zoom_slider.setValue(1.0);
+    zoom_slider.valueProperty().addListener((o, oldVal, newVal) -> zoom(newVal.doubleValue()));
 
-        Node mapContent = map_scrollpane.getContent();
-        StackPane stack = new StackPane();
-        stack.getChildren().addAll(mapContent, overlayPane);
+    // --- Tu estructura actual ---
+    Group contentGroup = new Group();
+    zoomGroup = new Group();
 
-        overlayPane.prefWidthProperty().bind(stack.widthProperty());
-        overlayPane.prefHeightProperty().bind(stack.heightProperty());
-        overlayPane.setPickOnBounds(true);
-        overlayPane.toFront();
+    Node mapContent = map_scrollpane.getContent(); // lo que tengas puesto en el FXML como contenido inicial
+    StackPane stack = new StackPane();
+    stack.getChildren().addAll(mapContent, overlayPane);
 
-        zoomGroup.getChildren().add(stack);
-        contentGroup.getChildren().add(zoomGroup);
-        map_scrollpane.setContent(contentGroup);
+    overlayPane.prefWidthProperty().bind(stack.widthProperty());
+    overlayPane.prefHeightProperty().bind(stack.heightProperty());
+    overlayPane.setPickOnBounds(true);
+    overlayPane.toFront();
 
-        // HBox spacer
-        if (espaciado != null) {
-            HBox.setHgrow(espaciado, Priority.ALWAYS);
-        }
+    zoomGroup.getChildren().add(stack);
+    contentGroup.getChildren().add(zoomGroup);
 
-        // Color + grosor
-        if (colorPicker != null) {
-            currentColor = colorPicker.getValue();
-            colorPicker.valueProperty().addListener((obs, o, n) -> currentColor = n);
-        }
-        if (grosorSlider != null) {
-            currentStrokeWidth = Math.max(1.0, grosorSlider.getValue());
-            grosorSlider.valueProperty().addListener((obs, o, n) -> currentStrokeWidth = Math.max(1.0, n.doubleValue()));
-        }
+    // ✅ CLAVE: el content del ScrollPane debe ser un Region (StackPane), no un Group
+    StackPane wrapper = new StackPane(contentGroup);
+    map_scrollpane.setContent(wrapper);
 
-        // ToggleGroup herramientas
-        ToggleGroup tools = new ToggleGroup();
-        regla.setToggleGroup(tools);
-        compas.setToggleGroup(tools);
-        transportador.setToggleGroup(tools);
-        goma.setToggleGroup(tools);
-        lapiz.setToggleGroup(tools);
-        trazoLinea.setToggleGroup(tools);
-        trazoArco.setToggleGroup(tools);
-        punto.setToggleGroup(tools);
-        flecha.setToggleGroup(tools);
-        modoColor.setToggleGroup(tools);
+    // Fit ahora SÍ funciona porque wrapper es Region (resizable)
+    map_scrollpane.setFitToWidth(true);
+    map_scrollpane.setFitToHeight(true);
 
-        // Vistas (regla/transportador/compás)
-        initReglaView();
-        initTransportadorView();
-        initCompasView();
-
-        // Estado inicial
-        trazoArco.setDisable(true);
-
-        // Guardar última posición ratón
-        overlayPane.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
-            lastMousePosition = new Point2D(e.getX(), e.getY());
-        });
-
-        // Handlers de ratón principales
-        registerDrawingHandlers();
+    // --- Lo demás lo dejas igual ---
+    if (espaciado != null) {
+        HBox.setHgrow(espaciado, Priority.ALWAYS);
     }
 
+    if (colorPicker != null) {
+        currentColor = colorPicker.getValue();
+        colorPicker.valueProperty().addListener((obs, o, n) -> currentColor = n);
+    }
+    if (grosorSlider != null) {
+        currentStrokeWidth = Math.max(1.0, grosorSlider.getValue());
+        grosorSlider.valueProperty().addListener((obs, o, n) -> currentStrokeWidth = Math.max(1.0, n.doubleValue()));
+    }
+
+    ToggleGroup tools = new ToggleGroup();
+    regla.setToggleGroup(tools);
+    compas.setToggleGroup(tools);
+    transportador.setToggleGroup(tools);
+    goma.setToggleGroup(tools);
+    lapiz.setToggleGroup(tools);
+    trazoLinea.setToggleGroup(tools);
+    trazoArco.setToggleGroup(tools);
+    punto.setToggleGroup(tools);
+    flecha.setToggleGroup(tools);
+    modoColor.setToggleGroup(tools);
+
+    initReglaView();
+    initTransportadorView();
+    initCompasView();
+
+    trazoArco.setDisable(true);
+
+    overlayPane.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+        lastMousePosition = new Point2D(e.getX(), e.getY());
+    });
+
+    registerDrawingHandlers();
+
+    
+    Platform.runLater(() -> {
+        Bounds viewport = map_scrollpane.getViewportBounds();
+        Bounds contentBounds = stack.getBoundsInLocal();
+
+        if (contentBounds.getWidth() <= 0 || contentBounds.getHeight() <= 0) return;
+
+        double scaleToFit = Math.min(
+                viewport.getWidth() / contentBounds.getWidth(),
+                viewport.getHeight() / contentBounds.getHeight()
+        );
+
+        // Clamp al rango del slider
+        scaleToFit = Math.max(zoom_slider.getMin(), Math.min(zoom_slider.getMax(), scaleToFit));
+
+        zoom_slider.setValue(scaleToFit); // esto llama a zoom() por el listener
+        map_scrollpane.setHvalue(0);
+        map_scrollpane.setVvalue(0);
+    });
+    Platform.runLater(() -> {
+
+    
+    mapImage.setPreserveRatio(true);
+
+    double viewportW = map_scrollpane.getViewportBounds().getWidth();
+    double viewportH = map_scrollpane.getViewportBounds().getHeight();
+
+    double imgW = mapImage.getImage().getWidth();
+    double imgH = mapImage.getImage().getHeight();
+
+    
+    double scale = Math.min(
+            viewportW / imgW,
+            viewportH / imgH
+    );
+
+    
+    zoom_slider.setValue(scale);
+
+
+    map_scrollpane.setHvalue(0);
+    map_scrollpane.setVvalue(0);
+});
+
+        zoomBar.setVisible(false);
+        zoomBar.setManaged(false);
+        zoomBar.setDisable(true);
+
+// Asegura que está detrás del mapa
+        zoomBar.toBack();
+
+    
+    
+    if (toolbarSpacer != null) {
+        HBox.setHgrow(toolbarSpacer, Priority.ALWAYS);
+    }
+}
+
+
     private void registerDrawingHandlers() {
-        // CLICK: punto / línea (2 clics) / texto (si estuviera en modo)
+        
         overlayPane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             if (e.getButton() != MouseButton.PRIMARY) return;
 
             Point2D p = new Point2D(e.getX(), e.getY());
 
-            // MODO COLOR: recolorear el nodo clicado
+            
             if (activeTool == Tool.COLOR) {
                 Node n = (Node) e.getTarget();
                 if (n != null && n != overlayPane) {
@@ -348,11 +445,11 @@ public class VentanaMapaController implements Initializable {
             e.consume();
         });
 
-        // PRESSED: flecha (si clic en borde superior regla) / arco (centro) / freehand
+       
         overlayPane.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
             if (e.getButton() != MouseButton.PRIMARY) return;
 
-            // Gesto flecha desde la regla
+            
             if (activeTool == Tool.ARROW) {
                 if (clickEnBordeSuperiorRegla(e)) {
                     drawingArrowGesture = true;
@@ -375,7 +472,7 @@ public class VentanaMapaController implements Initializable {
                 }
             }
 
-            // Arco (solo si compás activo)
+            
             if (activeTool == Tool.ARC) {
                 arcCenter = new Point2D(e.getX(), e.getY());
                 arcPreview = new Circle(arcCenter.getX(), arcCenter.getY(), 1);
@@ -389,7 +486,7 @@ public class VentanaMapaController implements Initializable {
                 return;
             }
 
-            // Freehand
+           
             if (activeTool == Tool.FREEHAND) {
                 currentStroke = new Polyline();
                 currentStroke.setStroke(currentColor);
@@ -404,7 +501,7 @@ public class VentanaMapaController implements Initializable {
             }
         });
 
-        // DRAGGED: flecha preview / arco radio / freehand puntos
+       
         overlayPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
             if (e.getButton() != MouseButton.PRIMARY) return;
 
@@ -429,7 +526,7 @@ public class VentanaMapaController implements Initializable {
             }
         });
 
-        // RELEASED: terminar flecha / terminar arco / terminar freehand
+        
         overlayPane.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
             if (e.getButton() != MouseButton.PRIMARY) return;
 
@@ -470,9 +567,7 @@ public class VentanaMapaController implements Initializable {
         });
     }
 
-    // ======================================
-    // Herramientas (handlers de botones)
-    // ======================================
+   
 
     @FXML
     private void usarRegla(ActionEvent event) {
@@ -481,7 +576,7 @@ public class VentanaMapaController implements Initializable {
         if (selected) {
             activeTool = Tool.RULER;
             reglaView.toFront();
-            // la flecha solo tiene sentido con regla visible
+            
             flecha.setDisable(false);
         } else {
             if (activeTool == Tool.RULER) activeTool = Tool.NONE;
@@ -564,7 +659,7 @@ public class VentanaMapaController implements Initializable {
     @FXML
     private void usarFlecha(ActionEvent event) {
         if (flecha.isSelected()) {
-            // requiere regla visible
+            
             if (!regla.isSelected()) {
                 flecha.setSelected(false);
                 return;
@@ -590,19 +685,19 @@ public class VentanaMapaController implements Initializable {
         boolean selected = goma.isSelected();
         if (selected) {
             activeTool = Tool.ERASER;
-            // deshabilitar el resto (como en el doc 1)
+            
             setToolsDisabled(true);
         } else {
             activeTool = Tool.NONE;
             setToolsDisabled(false);
-            // estados “dependientes”
+            
             flecha.setDisable(!regla.isSelected());
             trazoArco.setDisable(!compas.isSelected());
         }
     }
 
     private void setToolsDisabled(boolean disabled) {
-        // NOTA: no deshabilitamos la propia goma
+        
         lapiz.setDisable(disabled);
         texto.setDisable(disabled);
         punto.setDisable(disabled);
@@ -630,7 +725,7 @@ public class VentanaMapaController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             overlayPane.getChildren().clear();
-            // reinsertar herramientas visuales
+            
             initReglaView();
             initTransportadorView();
             initCompasView();
@@ -655,14 +750,11 @@ public class VentanaMapaController implements Initializable {
                 ? lastMousePosition
                 : new Point2D(overlayPane.getWidth() / 2.0, overlayPane.getHeight() / 2.0);
 
-        // En el doc 1 el texto se coloca con un TextField en el mapa y se convierte a Text al final.
+        
         crearTextFieldEditable(p);
     }
 
-    // ======================================
-    // Implementaciones “doc 1”
-    // ======================================
-
+    
     private void drawPoint(Point2D p) {
         Circle c = new Circle(p.getX(), p.getY(), 5);
         c.setFill(currentColor);
@@ -696,7 +788,7 @@ public class VentanaMapaController implements Initializable {
         tf.setLayoutY(p.getY());
         tf.setPrefColumnCount(10);
 
-        // ContextMenu (tamaño + color), como en el doc 1
+        
         javafx.scene.control.ContextMenu menu = new javafx.scene.control.ContextMenu();
 
         javafx.scene.control.Menu menuTam = new javafx.scene.control.Menu("Tamaño");
@@ -721,17 +813,17 @@ public class VentanaMapaController implements Initializable {
         tf.toFront();
         tf.requestFocus();
 
-        // ENTER: convertir
+       
         tf.setOnAction(ev -> convertirTextFieldATexto(tf));
 
-        // Foco perdido: convertir
+        
         tf.focusedProperty().addListener((obs, oldV, newV) -> {
             if (!newV && overlayPane.getChildren().contains(tf)) {
                 convertirTextFieldATexto(tf);
             }
         });
 
-        // ESC: cancelar
+        
         tf.setOnKeyPressed(k -> {
             if (k.getCode() == KeyCode.ESCAPE) {
                 overlayPane.getChildren().remove(tf);
@@ -743,7 +835,7 @@ public class VentanaMapaController implements Initializable {
     private MenuItem colorItem(String label, Color c, TextField tf) {
         MenuItem mi = new MenuItem(label);
         mi.setOnAction(ev -> {
-            // nota: esto es “solo para el TextField”; el Text final se creará con ese color
+            
             String existing = tf.getStyle() == null ? "" : tf.getStyle();
             tf.setStyle(existing + "; -fx-text-fill: " + toWeb(c) + ";");
             tf.setUserData(c);
@@ -760,15 +852,15 @@ public class VentanaMapaController implements Initializable {
 
         Text t = new Text(s);
         t.setLayoutX(tf.getLayoutX());
-        t.setLayoutY(tf.getLayoutY() + 16); // pequeño ajuste visual
+        t.setLayoutY(tf.getLayoutY() + 16); 
 
-        // tamaño: si el TextField tenía estilo font-size, lo copiamos
+       
         String style = tf.getStyle() == null ? "" : tf.getStyle();
         if (!style.isEmpty()) {
             t.setStyle(style.replace("-fx-text-fill", "-fx-fill"));
         }
 
-        // color: si el usuario eligió uno en el menú
+        
         Object ud = tf.getUserData();
         if (ud instanceof Color) {
             t.setFill((Color) ud);
@@ -784,7 +876,7 @@ public class VentanaMapaController implements Initializable {
         t.toFront();
     }
 
-    // ================= REGLA =================
+   
     private void initReglaView() {
         if (reglaView != null) {
             overlayPane.getChildren().remove(reglaView);
@@ -794,7 +886,7 @@ public class VentanaMapaController implements Initializable {
         reglaView.setPrefSize(420, 90);
         reglaView.setVisible(regla != null && regla.isSelected());
 
-        // posición inicial
+        
         reglaView.setTranslateX(50);
         reglaView.setTranslateY(50);
 
@@ -832,7 +924,7 @@ public class VentanaMapaController implements Initializable {
             }
         });
 
-        // cursor
+       
         reglaView.setOnMouseEntered(e -> reglaView.setCursor(Cursor.HAND));
         reglaView.setOnMouseExited(e -> reglaView.setCursor(Cursor.DEFAULT));
     }
@@ -840,20 +932,20 @@ public class VentanaMapaController implements Initializable {
     private boolean clickEnBordeSuperiorRegla(MouseEvent e) {
         if (reglaView == null || !reglaView.isVisible()) return false;
 
-        // Convertir el punto del overlay al sistema local de la regla
+        
         Point2D scene = overlayPane.localToScene(e.getX(), e.getY());
         Point2D local = reglaView.sceneToLocal(scene);
-        // Banda superior: y entre 0 y 20px
+        
         return local.getX() >= 0 && local.getX() <= reglaView.getWidth() && local.getY() >= 0 && local.getY() <= 20;
     }
 
     private void drawArrow(Point2D start, Point2D end) {
-        // línea principal
+        
         Line shaft = new Line(start.getX(), start.getY(), end.getX(), end.getY());
         shaft.setStroke(currentColor);
         shaft.setStrokeWidth(Math.max(2, currentStrokeWidth));
 
-        // punta
+        
         double angle = Math.atan2(end.getY() - start.getY(), end.getX() - start.getX());
         double headLen = 14 + currentStrokeWidth;
         double headAng = Math.toRadians(25);
@@ -878,7 +970,7 @@ public class VentanaMapaController implements Initializable {
         g.toFront();
     }
 
-    // ================= TRANSPORTADOR =================
+    
     private void initTransportadorView() {
         if (transportadorView != null) {
             overlayPane.getChildren().remove(transportadorView);
@@ -893,12 +985,12 @@ public class VentanaMapaController implements Initializable {
         makeDraggable(transportadorView);
     }
 
-    // ================= COMPÁS =================
+    
     private void initCompasView() {
         if (compasView != null) {
             overlayPane.getChildren().remove(compasView);
         }
-        // compás simplificado: dos patas y un eje
+        
         Line leg1 = new Line(0, 0, -25, 70);
         Line leg2 = new Line(0, 0, 25, 70);
         leg1.setStroke(Color.DARKGRAY);
@@ -918,7 +1010,7 @@ public class VentanaMapaController implements Initializable {
         makeDraggable(compasView);
     }
 
-    // ================= COLOR helper =================
+    
     private void actualizarColor(Node n, Color newColor) {
         if (n == null) return;
         if (n == reglaView || n == transportadorView || n == compasView) return;
@@ -936,12 +1028,12 @@ public class VentanaMapaController implements Initializable {
         } else if (n instanceof Text) {
             ((Text) n).setFill(newColor);
         } else if (n instanceof Group) {
-            // recolorear hijos típicos (línea + punta de flecha)
+            
             for (Node child : ((Group) n).getChildren()) {
                 actualizarColor(child, newColor);
             }
         } else if (n instanceof Region) {
-            // regla/transportador: no recoloreamos (son herramienta)
+           
         }
     }
 
@@ -951,12 +1043,10 @@ public class VentanaMapaController implements Initializable {
         int b = (int) Math.round(c.getBlue() * 255);
         return String.format("#%02x%02x%02x", r, g, b);
     }
-    // ======================================
-    // Stubs (mantén si tu app los usa)
-    // ======================================
+    
     @FXML private void about(ActionEvent event) {
         Alert mensaje = new Alert(Alert.AlertType.INFORMATION);
-        // Acceder al Stage del Dialog y cambiar el icono
+        
         Stage dialogStage = (Stage) mensaje.getDialogPane().getScene().getWindow();
         dialogStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         mensaje.setTitle("Acerca de");
@@ -965,36 +1055,36 @@ public class VentanaMapaController implements Initializable {
     }
     @FXML private void abrirModificarPerfil(ActionEvent event) {
     try {
-        // Cargar el FXML
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaModificarPerfil.fxml"));
         Parent root = loader.load();
 
-        // Obtener controlador
+        
         VentanaModificarPerfil controller = loader.getController();
         controller.setUser(activeUser);
 
-        // Crear modal
+        
         Stage modal = new Stage();
         modal.setTitle("Modificar perfil");
         modal.setScene(new Scene(root));
         modal.initModality(Modality.APPLICATION_MODAL);
         modal.setResizable(false);
 
-        // Pasar el Stage al controlador
+        
         controller.setStage(modal);
 
-        // Detectar la X de cierre
+        
         modal.setOnCloseRequest(e -> {
-            e.consume();               // evita cierre automático
+            e.consume();               
             controller.confirmarCierre();
         });
 
-        // Hacer que la ventana principal sea la dueña
+       
         Stage owner = (Stage) rootPane.getScene().getWindow();
         modal.initOwner(owner);
         modal.centerOnScreen();
 
-        // Mostrar modal
+        
         modal.showAndWait();
 
     } catch (Exception e) {
@@ -1028,7 +1118,7 @@ public class VentanaMapaController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLinisesion.fxml"));
         Parent root = loader.load();
 
-        // Obtener el stage desde el menú (MenuItem NO es Node, así que se hace así)
+        
         Stage stage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
 
         Scene scene = new Scene(root);

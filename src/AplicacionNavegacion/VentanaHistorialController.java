@@ -53,21 +53,14 @@ public class VentanaHistorialController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configColumns();
 
-        // Cuando cambie la fecha del DatePicker → filtrar
         dateFilter.valueProperty().addListener((obs, oldV, newV) -> filterByDate());
     }
 
-    /**
-     * Recibe el usuario activo desde la ventana anterior.
-     */
     public void setUser(User u) {
         this.activeUser = u;
         loadHistory();
     }
 
-    /**
-     * Configurar columnas de la tabla.
-     */
     private void configColumns() {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -94,9 +87,6 @@ public class VentanaHistorialController implements Initializable {
         });
     }
 
-    /**
-     * Cargar historial completo del usuario.
-     */
     private void loadHistory() {
         if (activeUser == null) return;
 
@@ -104,9 +94,6 @@ public class VentanaHistorialController implements Initializable {
         tableHistory.setItems(allSessions);
     }
 
-    /**
-     * Filtrar sesiones por fecha seleccionada.
-     */
     private void filterByDate() {
         LocalDate selected = dateFilter.getValue();
 
@@ -126,27 +113,21 @@ public class VentanaHistorialController implements Initializable {
         tableHistory.setItems(filtered);
     }
 
-    /**
-     * Acción del botón Volver.
-     */
+  
     @FXML
 private void onVolver() {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaMapa.fxml"));
         Parent root = loader.load();
 
-        // Obtener stage actual
         Stage stage = (Stage) bVolver.getScene().getWindow();
 
-        // Crear escena nueva con la ventana del mapa
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
 
-        // ✔ Esto re-maximiza la ventana
         stage.setMaximized(true);
 
-        // ✔ Esto obliga a redibujar la ventana antes de mostrarla
         stage.sizeToScene();
         VentanaMapaController controller = loader.getController();
         controller.setUser(activeUser);

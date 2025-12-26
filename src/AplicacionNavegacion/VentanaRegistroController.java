@@ -42,7 +42,7 @@ import javafx.event.ActionEvent;
 
 public class VentanaRegistroController implements Initializable {
 
-    // ---------- FXML ----------
+    
     @FXML private TextField emailField;
     @FXML private TextField userField;
     @FXML private PasswordField passwordField;
@@ -56,14 +56,13 @@ public class VentanaRegistroController implements Initializable {
     @FXML
     private ImageView avatarImage;
 
-    // ---------- AVATAR ----------
-    private Image chosenAvatar; // imagen elegida en la ventana modal
+    
+    private Image chosenAvatar; 
 
     private File chosenAvatarFile; 
 
 
-    // =========================================================
-    // ALERTAS
+    
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setHeaderText(null);
@@ -77,13 +76,12 @@ public class VentanaRegistroController implements Initializable {
     }
 
 
-    // =========================================================
-    // VALIDACIÓN CON MENSAJES ESPECÍFICOS
+    
     private String validateForm() {
 
         StringBuilder errors = new StringBuilder();
 
-        // NICKNAME
+        
         String nick = userField.getText();
         if (nick.isEmpty()) {
             errors.append("• Debes introducir un nickname.\n");
@@ -99,7 +97,7 @@ public class VentanaRegistroController implements Initializable {
             }
         }
 
-        // EMAIL
+        
         String email = emailField.getText();
         if (email.isEmpty()) {
             errors.append("• Debes introducir un email.\n");
@@ -107,7 +105,7 @@ public class VentanaRegistroController implements Initializable {
             errors.append("• El email debe tener un formato válido (ejemplo: usuario@correo.com).\n");
         }
 
-        // CONTRASEÑA
+        
         String pass1 = passwordField.getText();
         if (pass1.isEmpty()) {
             errors.append("• Debes introducir una contraseña.\n");
@@ -115,7 +113,7 @@ public class VentanaRegistroController implements Initializable {
             errors.append("• La contraseña debe tener 8-20 caracteres, incluir mayúsculas, minúsculas, números y símbolos.\n");
         }
 
-        // REPETIR CONTRASEÑA
+        
         String pass2 = passwordField2.getText();
         if (pass2.isEmpty()) {
             errors.append("• Debes repetir la contraseña.\n");
@@ -123,7 +121,7 @@ public class VentanaRegistroController implements Initializable {
             errors.append("• Las contraseñas no coinciden.\n");
         }
 
-        // FECHA NAC
+        
         LocalDate birth = dateField.getValue();
         if (birth == null) {
             errors.append("• Debes seleccionar tu fecha de nacimiento.\n");
@@ -135,25 +133,23 @@ public class VentanaRegistroController implements Initializable {
     }
 
 
-    // =========================================================
-    // INITIALIZE
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // Imagen por defecto
+       
         chosenAvatar = new Image(getClass().getResourceAsStream("/resources/default.png"));
         avatarImage.setImage(chosenAvatar);
         avatarImage.setFitWidth(200);
         avatarImage.setFitHeight(200);
         avatarImage.setPreserveRatio(true);
 
-        // Botón cancelar vuelve al login
+        
         bCancel.setOnAction(this::goToLogin);
     }
 
 
-    // =========================================================
-    // REGISTRAR
+    
     @FXML
     private void handleBAcceptOnAction(ActionEvent event) {
 
@@ -184,8 +180,7 @@ public class VentanaRegistroController implements Initializable {
     }
 
 
-    // =========================================================
-    // IR A LOGIN
+    
     private void goToLogin(ActionEvent event) {
 
         try {
@@ -204,8 +199,7 @@ public class VentanaRegistroController implements Initializable {
     }
 
 
-    // =========================================================
-    // ABRIR VENTANA "ELEGIR AVATAR"
+    
     @FXML
     private void handleChooseAvatar(ActionEvent event) {
 
@@ -214,7 +208,7 @@ public class VentanaRegistroController implements Initializable {
             Parent root = loader.load();
 
             AvatarChooserController controller = loader.getController();
-            controller.setParentController(this); // conexión
+            controller.setParentController(this); 
 
             Stage modal = new Stage();
             modal.setTitle("Elegir avatar");
@@ -229,8 +223,7 @@ public class VentanaRegistroController implements Initializable {
     }
 
 
-    // =========================================================
-    // MÉTODO LLAMADO DESDE LA VENTANA DE AVATAR
+    
     public void setChosenAvatar(Image img, File file) {
     chosenAvatar = img;
     chosenAvatarFile = file;
@@ -244,14 +237,14 @@ public class VentanaRegistroController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLinisesion.fxml"));
         Parent root = loader.load();
 
-        // Obtener la ventana actual
+        
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        // Cambiar escena
+        
         Scene scene = new Scene(root);
         stage.setScene(scene);
 
-        // Ajustes de ventana
+        
         stage.setResizable(false);
         stage.setMaximized(false);
         stage.show();
@@ -264,13 +257,13 @@ public class VentanaRegistroController implements Initializable {
 
     public void clearAvatarIfDeleted(File deletedFile) {
 
-    // Si no hay avatar asignado, no hacer nada
+    
     if (chosenAvatarFile == null) return;
 
-    // Comprobar si el archivo eliminado es el que estaba usando el usuario
+    
     if (chosenAvatarFile.equals(deletedFile)) {
 
-        // Resetear avatar
+        
         chosenAvatarFile = null;
         chosenAvatar = new Image(getClass().getResourceAsStream("/resources/default.png"));
 
