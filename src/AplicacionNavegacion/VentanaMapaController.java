@@ -113,7 +113,7 @@ public class VentanaMapaController implements Initializable {
     private Button bProblema;
     @FXML
     private ImageView imagenAvatar;
-    private User currentUser;
+   
     @FXML
     private MenuButton perfil;
     @FXML
@@ -131,7 +131,7 @@ public class VentanaMapaController implements Initializable {
     private Region toolbarSpacer;
 
 public void setUser(User user) {
-    this.currentUser = user;
+    this.activeUser = user;
     cargarAvatar();
     cargarPerfil();
 }
@@ -145,9 +145,9 @@ public void setStage(Stage stage) {
     
 
     private void cargarAvatar() {
-        if (currentUser == null) return;
+        if (activeUser == null) return;
 
-    Image avatar = currentUser.getAvatar();
+    Image avatar = activeUser.getAvatar();
 
     if (avatar != null) {
         imagenAvatar.setImage(avatar);
@@ -155,10 +155,10 @@ public void setStage(Stage stage) {
     }
 
     private void cargarPerfil() {
-        if (currentUser == null) {
+        if (activeUser == null) {
             return;
         }
-        perfil.setText(currentUser.getNickName());
+        perfil.setText(activeUser.getNickName());
     }
 
     @FXML
@@ -187,28 +187,13 @@ private void desplegarZoom(ActionEvent event) {
     }
 }
 
-    // ===== Drag del zoomBox (modo simple y fiable) =====
+   
 
 private double dragOffsetX;
 private double dragOffsetY;
 
-@FXML
-private void onZoomMousePressed(MouseEvent event) {
-    dragOffsetX = event.getSceneX() - zoomBar.getLayoutX();
-    dragOffsetY = event.getSceneY() - zoomBar.getLayoutY();
-    zoomBar.toFront();
-    zoomBar.setCursor(Cursor.MOVE);
-    event.consume();
-}
 
-@FXML
-private void onZoomMouseDragged(MouseEvent event) {
-    double newX = event.getSceneX() - dragOffsetX;
-    double newY = event.getSceneY() - dragOffsetY;
 
-    zoomBar.relocate(newX, newY);
-    event.consume();
-}
 
 
    
@@ -438,6 +423,21 @@ public void initialize(URL url, ResourceBundle rb) {
     if (toolbarSpacer != null) {
         HBox.setHgrow(toolbarSpacer, Priority.ALWAYS);
     }
+    
+    habilitarArrastreZoomBox();
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 
@@ -1197,5 +1197,24 @@ public void initialize(URL url, ResourceBundle rb) {
     private static class Alpha{
         double x,y;
     }
+
+    
+    
+   
+
+private void habilitarArrastreZoomBox() {
+
+    zoomBar.setOnMousePressed(e -> {
+        dragOffsetX = e.getSceneX() - zoomBar.getTranslateX();
+        dragOffsetY = e.getSceneY() - zoomBar.getTranslateY();
+        e.consume();
+    });
+
+    zoomBar.setOnMouseDragged(e -> {
+        zoomBar.setTranslateX(e.getSceneX() - dragOffsetX);
+        zoomBar.setTranslateY(e.getSceneY() - dragOffsetY);
+        e.consume();
+    });
+}
 
 }
