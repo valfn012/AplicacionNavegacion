@@ -136,6 +136,11 @@ public void setUser(User user) {
     cargarPerfil();
 }
 
+private Stage stage;
+
+public void setStage(Stage stage) {
+    this.stage = stage;
+}
 
     
 
