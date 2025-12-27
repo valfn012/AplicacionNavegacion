@@ -129,6 +129,8 @@ public class VentanaMapaController implements Initializable {
     private HBox zoomBar;
     @FXML
     private Region toolbarSpacer;
+    private Stage problemaStage;
+
 
 public void setUser(User user) {
     this.activeUser = user;
@@ -187,7 +189,9 @@ private void desplegarZoom(ActionEvent event) {
     }
 }
 
-   
+
+
+
 
 private double dragOffsetX;
 private double dragOffsetY;
@@ -653,6 +657,34 @@ public void initialize(URL url, ResourceBundle rb) {
         }
     }
 
+    
+    @FXML
+    private void masOpLapiz(ActionEvent event) {
+        
+        boolean mostrar = !pencilBox.isVisible();
+
+    if (mostrar) {
+        // Mostrar y traer al frente
+        pencilBox.setVisible(true);
+        pencilBox.setManaged(true);
+        pencilBox.setDisable(false);
+
+        pencilBox.toFront();
+
+
+        
+
+    } else {
+        // Ocultar y devolver atrás
+        pencilBox.setVisible(false);
+        pencilBox.setManaged(false);
+        pencilBox.setDisable(true);
+
+        pencilBox.toBack();
+    }
+    }
+    
+    
     @FXML
     private void trazarLinea(ActionEvent event) {
         if (trazoLinea.isSelected()) {
@@ -1166,10 +1198,62 @@ public void initialize(URL url, ResourceBundle rb) {
         System.err.println("ERROR: No se pudo cargar la ventana de inicio de sesión.");
     }
     }
-    @FXML private void abrirProblema(ActionEvent event) {
-        
     
+        @FXML
+private void abrirProblema(ActionEvent event) {
+
+    try {
+        // 🔁 Si ya existe la ventana
+        if (problemaStage != null && problemaStage.isShowing()) {
+
+            // Si estaba minimizada
+            problemaStage.setIconified(false);
+
+            // Traer al frente
+            problemaStage.toFront();
+            problemaStage.requestFocus();
+            return;
+        }
+
+        // 🆕 Crear la ventana por primera vez
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("Listapr.fxml")
+        );
+        Parent root = loader.load();
+
+        ListaprController controller = loader.getController();
+        controller.setUser(activeUser); // 🔴 PASAMOS EL USUARIO
+
+        problemaStage = new Stage();
+        problemaStage.setTitle("Seleccionar problema");
+        problemaStage.setScene(new Scene(root));
+
+        // ❌ NO MODAL
+        // problemaStage.initModality(...) → NO
+
+        // Opcional: owner solo para posicionamiento
+        Stage owner = (Stage) rootPane.getScene().getWindow();
+        problemaStage.initOwner(owner);
+
+        problemaStage.setResizable(true);
+        problemaStage.centerOnScreen();
+
+        // Cuando el usuario la cierre → liberamos referencia
+        problemaStage.setOnCloseRequest(e -> problemaStage = null);
+
+        problemaStage.show();
+        
+        
+       
+
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
+    
+    
     @FXML private void showPosition(MouseEvent event) {
     }
     private void makeDraggable(Node node) {
