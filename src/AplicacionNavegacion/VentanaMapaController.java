@@ -137,9 +137,7 @@ public void setUser(User user) {
 }
 
 
-    void setStage(Stage stage) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     private void cargarAvatar() {
         if (currentUser == null) return;
