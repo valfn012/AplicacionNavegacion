@@ -199,34 +199,7 @@
       <StackPane fx:id="stackRoot" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
          <children>
       
-              <SplitPane fx:id="splitPane">
-                  <items>
-                      <ScrollPane fx:id="map_scrollpane" hbarPolicy="ALWAYS" onMouseMoved="#showPosition" pannable="true" prefHeight="398.0" prefWidth="358.0" vbarPolicy="ALWAYS">
-                          <content>
-                              <Pane>
-                                  <children>
-                                      <ImageView fx:id="mapImage" fitHeight="5760.0" fitWidth="8962.0" layoutX="-41.0" layoutY="-118.0" pickOnBounds="true">
-                                          <image>
-                                              <Image url="@../resources/carta_nautica.jpg" />
-                                          </image>
-                                      </ImageView>
-                                      <MenuButton fx:id="map_pin" mnemonicParsing="false" prefHeight="60.0" prefWidth="48.0" visible="false">
-                                          <items>
-                                              <MenuItem fx:id="pin_info" mnemonicParsing="false" text="Info" />
-                                          </items>
-                                          <styleClass>
-                                              <String fx:value="menu-button" />
-                                              <String fx:value="map-pin" />
-                                          </styleClass>
-                                      </MenuButton>
-                                  </children>
-                              </Pane>
-                          </content>
-                      </ScrollPane>
-                  </items>
-              </SplitPane>
-      
-                                                  <HBox fx:id="zoomBar" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="280.0" spacing="10.0" style="-fx-background-color: lightgrey;">
+                                                  <HBox fx:id="zoomBar" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#onZoomMouseDragged" onMousePressed="#onZoomMousePressed" prefHeight="50.0" prefWidth="280.0" spacing="10.0" style="-fx-background-color: lightgrey;">
                   <children>
                       <Label text="Zoom">
                      <HBox.margin>
@@ -264,6 +237,33 @@
                   <Insets top="15.0" />
                </StackPane.margin>
             </HBox>
+      
+              <SplitPane fx:id="splitPane">
+                  <items>
+                      <ScrollPane fx:id="map_scrollpane" hbarPolicy="ALWAYS" onMouseMoved="#showPosition" pannable="true" prefHeight="398.0" prefWidth="358.0" vbarPolicy="ALWAYS">
+                          <content>
+                              <Pane>
+                                  <children>
+                                      <ImageView fx:id="mapImage" fitHeight="5760.0" fitWidth="8962.0" layoutX="-41.0" layoutY="-118.0" pickOnBounds="true">
+                                          <image>
+                                              <Image url="@../resources/carta_nautica.jpg" />
+                                          </image>
+                                      </ImageView>
+                                      <MenuButton fx:id="map_pin" mnemonicParsing="false" prefHeight="60.0" prefWidth="48.0" visible="false">
+                                          <items>
+                                              <MenuItem fx:id="pin_info" mnemonicParsing="false" text="Info" />
+                                          </items>
+                                          <styleClass>
+                                              <String fx:value="menu-button" />
+                                              <String fx:value="map-pin" />
+                                          </styleClass>
+                                      </MenuButton>
+                                  </children>
+                              </Pane>
+                          </content>
+                      </ScrollPane>
+                  </items>
+              </SplitPane>
          </children>
       </StackPane>
 

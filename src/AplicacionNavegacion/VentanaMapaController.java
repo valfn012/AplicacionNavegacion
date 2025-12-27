@@ -171,6 +171,7 @@ private void desplegarZoom(ActionEvent event) {
 
         zoomBar.toFront();
 
+
         
 
     } else {
@@ -182,6 +183,33 @@ private void desplegarZoom(ActionEvent event) {
         zoomBar.toBack();
     }
 }
+
+    // ===== Drag del zoomBox (modo simple y fiable) =====
+
+private double dragOffsetX;
+private double dragOffsetY;
+
+@FXML
+private void onZoomMousePressed(MouseEvent event) {
+    dragOffsetX = event.getSceneX() - zoomBar.getLayoutX();
+    dragOffsetY = event.getSceneY() - zoomBar.getLayoutY();
+    zoomBar.toFront();
+    zoomBar.setCursor(Cursor.MOVE);
+    event.consume();
+}
+
+@FXML
+private void onZoomMouseDragged(MouseEvent event) {
+    double newX = event.getSceneX() - dragOffsetX;
+    double newY = event.getSceneY() - dragOffsetY;
+
+    zoomBar.relocate(newX, newY);
+    event.consume();
+}
+
+
+   
+
 
 
     
@@ -1136,6 +1164,7 @@ public void initialize(URL url, ResourceBundle rb) {
     }
     }
     @FXML private void abrirProblema(ActionEvent event) {
+        
     
     }
     @FXML private void showPosition(MouseEvent event) {
