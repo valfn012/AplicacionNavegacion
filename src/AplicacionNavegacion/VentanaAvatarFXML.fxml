@@ -12,17 +12,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="450" prefWidth="600" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.AvatarChooserController">
-    <top>
-        <Label prefHeight="77.0" prefWidth="600.0" style="-fx-font-size: 24px; -fx-padding: 15; -fx-background-color: #2196F3; -fx-text-fill: white;" text="Seleccionar avatar" BorderPane.alignment="CENTER" />
-    </top>
+<BorderPane prefHeight="450" prefWidth="600" stylesheets="@estiloAvatarChooser.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.AvatarChooserController">
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="20">
             <padding>
                 <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
-            <Button fx:id="bAccept" onAction="#handleAccept" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Aceptar" />
-            <Button fx:id="bCancel" onAction="#handleCancel" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="Cancelar" />
+            <Button fx:id="bAccept" onAction="#handleAccept" styleClass="button-accept" text="Aceptar" />
+            <Button fx:id="bCancel" onAction="#handleCancel" styleClass="button-cancel" text="Cancelar" />
         </HBox>
     </bottom>
    <left>
@@ -59,9 +56,9 @@
                      <HBox alignment="TOP_RIGHT" prefHeight="58.0" prefWidth="340.0" spacing="15.0">
                         <children>
                
-                                        <Button fx:id="bLoadImage" onAction="#handleLoadImage" text="Cargar imagen..." />
-                           <Button fx:id="eliminarAvatar" mnemonicParsing="false" onAction="#handleDelete" text="Eliminar" />
-                           <Button fx:id="renombrarAvatar" mnemonicParsing="false" onAction="#handleRename" text="Renombrar" />
+                                        <Button fx:id="bLoadImage" onAction="#handleLoadImage" styleClass="button-secondary" text="Cargar imagen..." />
+                           <Button fx:id="eliminarAvatar" mnemonicParsing="false" onAction="#handleDelete" styleClass="button-secondary" text="Eliminar" />
+                           <Button fx:id="renombrarAvatar" mnemonicParsing="false" onAction="#handleRename" styleClass="button-secondary" text="Renombrar" />
                         </children>
                         <padding>
                            <Insets bottom="10.0" left="5.0" right="10.0" />
@@ -79,4 +76,11 @@
          </opaqueInsets>
       </HBox>
    </left>
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="header" BorderPane.alignment="CENTER">
+         <children>
+              <Label prefHeight="77.0" prefWidth="600.0" styleClass="section-title" text="Seleccionar avatar" />
+         </children>
+      </HBox>
+   </top>
 </BorderPane>

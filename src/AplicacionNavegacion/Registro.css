@@ -7,11 +7,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : LERI
 */
 
-/* ===========================
-   COLORES PRINCIPALES
-   =========================== */
+
 .root {
-    -fx-background-color: #ECD2E8; /* Fondo lavanda suave */
+    -fx-background-color: #ECD2E8; 
 }
 
 .text-field.error {
@@ -23,9 +21,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 
 
-/* ===========================
-   TARJETA CENTRAL
-   =========================== */
 .card {
     -fx-background-color: white;
     -fx-background-radius: 20;
@@ -33,28 +28,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0.3, 0, 4);
 }
 
-/* ===========================
-   TÍTULO PRINCIPAL
-   =========================== */
+
 .title-text {
     -fx-text-fill: #C98EB7;
     -fx-font-size: 30px;
     -fx-font-weight: bold;
 }
 
-/* ===========================
-   LABELS DEL FORMULARIO
-   =========================== */
+
 .form-label {
     -fx-text-fill: #555F76;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
-/* ===========================
-   CAMPOS DE TEXTO
-   TextField & PasswordField
-   =========================== */
+
 .input-field {
     -fx-background-color: #F7ECF5;
     -fx-background-radius: 12;
@@ -70,14 +58,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-border-color: #555F76;
 }
 
-/* Placeholder */
+
+
 .input-field .text-field {
     -fx-prompt-text-fill: #888;
 }
 
-/* ===========================
-   DATE PICKER
-   =========================== */
+
+
 .date-picker {
     -fx-background-color: #F7ECF5;
     -fx-background-radius: 12;
@@ -94,11 +82,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-color: white;
 }
 
-/* ===========================
-   BOTONES
-   =========================== */
 
-/* Botón principal: Registrarse */
+
 .button-aceptar {
     -fx-background-color: #5E6B81;
     -fx-background-radius: 15;
@@ -114,7 +99,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 
-/* Botón secundario: Cancelar */
+
 .button-cancelar {
     
     
@@ -138,9 +123,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-color: #DCE3EA;
 }
 
-/* ===========================
-   AVATAR / IMAGEN
-   =========================== */
+
 .avatar-box {
     -fx-background-color: #ECD2E8;
     -fx-background-radius: 20;

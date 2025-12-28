@@ -28,18 +28,15 @@ import model.User;
 public class ResolpromController implements Initializable {
 
     // ===== FXML =====
-    @FXML private Label problemaX;
-    @FXML private Label enunciadoPx;
+private Label problemaX;
+    private Label enunciadoPx;
 
-    @FXML private RadioButton r1Px;
-    @FXML private RadioButton r2Px;
-    @FXML private RadioButton r3Px;
-    @FXML private RadioButton r4Px;
+    private RadioButton r1Px;
+    private RadioButton r2Px;
+    private RadioButton r3Px;
+    private RadioButton r4Px;
 
-    @FXML private Button bAnterior;
-    @FXML private Button bSiguiente;
     @FXML private Button corregir;
-    @FXML private Button bSalir;
 
     // ===== STATE =====
     private ToggleGroup grupo;
@@ -47,6 +44,8 @@ public class ResolpromController implements Initializable {
 
     private List<Problem> allProblems;
     private int indexActual;
+    @FXML
+    private Button bAleatorio;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -126,7 +125,6 @@ public class ResolpromController implements Initializable {
     // =========================
     // ANTERIOR / SIGUIENTE
     // =========================
-    @FXML
     private void irAnt(ActionEvent event) {
         indexActual--;
         if (indexActual < 0) {
@@ -135,7 +133,6 @@ public class ResolpromController implements Initializable {
         cargarProblema();
     }
 
-    @FXML
     private void irSig(ActionEvent event) {
         indexActual = (indexActual + 1) % allProblems.size();
         cargarProblema();
@@ -144,7 +141,6 @@ public class ResolpromController implements Initializable {
     // =========================
     // SALIR
     // =========================
-    @FXML
     private void salirMapa(ActionEvent event) throws IOException {
 
         FXMLLoader loader =
@@ -158,5 +154,10 @@ public class ResolpromController implements Initializable {
             (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    @FXML
+    private void usarAleatorio(ActionEvent event) {
+        
     }
 }

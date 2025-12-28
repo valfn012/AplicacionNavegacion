@@ -3,6 +3,7 @@ package AplicacionNavegacion;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import static java.time.temporal.ChronoUnit.YEARS;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -184,7 +185,14 @@ public void setStage(Stage stage) {
             
             activeUser.setEmail(emailField.getText());
             activeUser.setPassword(passwordField.getText());
-            activeUser.setBirthdate(dateField.getValue());
+            DateTimeFormatter formatter
+                    = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            String fechaFormateada
+                    = dateField.getValue().format(formatter);
+
+            activeUser.setBirthdate(LocalDate.parse(fechaFormateada, formatter));
+
 
             if (chosenAvatar != null) {
                 activeUser.setAvatar(chosenAvatar);
