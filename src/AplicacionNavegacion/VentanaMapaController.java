@@ -1502,6 +1502,7 @@ private void configurarDragCompas() {
         dialogStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         mensaje.setTitle("Acerca de");
         mensaje.setHeaderText("IPC - 2025");
+        mensaje.setContentText("Aplicación para la resolución de ejercicios de navegación por el estrecho de Gibraltar");
         mensaje.showAndWait();
     }
     @FXML private void abrirModificarPerfil(ActionEvent event) {
