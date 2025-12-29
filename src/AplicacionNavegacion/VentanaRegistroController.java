@@ -39,30 +39,33 @@ import javafx.scene.Parent;
 
 import javafx.event.ActionEvent;
 
-
 public class VentanaRegistroController implements Initializable {
 
-    
-    @FXML private TextField emailField;
-    @FXML private TextField userField;
-    @FXML private PasswordField passwordField;
-    @FXML private PasswordField passwordField2;
-    @FXML private DatePicker dateField;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private TextField userField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private PasswordField passwordField2;
+    @FXML
+    private DatePicker dateField;
 
-    @FXML private Button bAccept;
-    @FXML private Button bCancel;
-    @FXML private Button elegirAvatar;
+    @FXML
+    private Button bAccept;
+    @FXML
+    private Button bCancel;
+    @FXML
+    private Button elegirAvatar;
 
     @FXML
     private ImageView avatarImage;
 
-    
-    private Image chosenAvatar; 
+    private Image chosenAvatar;
 
-    private File chosenAvatarFile; 
+    private File chosenAvatarFile;
 
-
-    
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setHeaderText(null);
@@ -75,13 +78,10 @@ public class VentanaRegistroController implements Initializable {
         showAlert("Errores en el formulario", msg, Alert.AlertType.ERROR);
     }
 
-
-    
     private String validateForm() {
 
         StringBuilder errors = new StringBuilder();
 
-        
         String nick = userField.getText();
         if (nick.isEmpty()) {
             errors.append("• Debes introducir un nickname.\n");
@@ -97,15 +97,14 @@ public class VentanaRegistroController implements Initializable {
             }
         }
 
-        
         String email = emailField.getText();
-        if (email.isEmpty()) {
-            errors.append("• Debes introducir un email.\n");
-        } else if (!User.checkEmail(email)) {
-            errors.append("• El email debe tener un formato válido (ejemplo: usuario@correo.com).\n");
+        if (email.isEmpty() || !User.checkEmail(email)) {
+            errors.append("• Email inválido.\n");
+            markAsInvalid(emailField);
+        } else {
+            clearInvalid(emailField);
         }
 
-        
         String pass1 = passwordField.getText();
         if (pass1.isEmpty()) {
             errors.append("• Debes introducir una contraseña.\n");
@@ -113,7 +112,6 @@ public class VentanaRegistroController implements Initializable {
             errors.append("• La contraseña debe tener 8-20 caracteres, incluir mayúsculas, minúsculas, números y símbolos.\n");
         }
 
-        
         String pass2 = passwordField2.getText();
         if (pass2.isEmpty()) {
             errors.append("• Debes repetir la contraseña.\n");
@@ -121,35 +119,42 @@ public class VentanaRegistroController implements Initializable {
             errors.append("• Las contraseñas no coinciden.\n");
         }
 
-        
         LocalDate birth = dateField.getValue();
         if (birth == null) {
             errors.append("• Debes seleccionar tu fecha de nacimiento.\n");
         } else if (!birth.isBefore(LocalDate.now().minus(16, YEARS))) {
             errors.append("• Debes tener al menos 16 años.\n");
         }
-
+        
         return errors.toString();
     }
 
-
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-       
         chosenAvatar = new Image(getClass().getResourceAsStream("/resources/default.png"));
         avatarImage.setImage(chosenAvatar);
         avatarImage.setFitWidth(200);
         avatarImage.setFitHeight(200);
         avatarImage.setPreserveRatio(true);
+        userField.textProperty().addListener((o, ov, nv) -> clearInvalid(userField));
+        emailField.textProperty().addListener((o, ov, nv) -> clearInvalid(emailField));
+        passwordField.textProperty().addListener((o, ov, nv) -> clearInvalid(passwordField));
+        passwordField2.textProperty().addListener((o, ov, nv) -> clearInvalid(passwordField2));
 
         
+
         bCancel.setOnAction(this::goToLogin);
     }
 
+    private void markAsInvalid(TextField tf) {
+        tf.setStyle("-fx-control-inner-background: red; ");
+    }
 
-    
+    private void clearInvalid(TextField tf) {
+        tf.setStyle(""); // vuelve al fondo por defecto
+    }
+
     @FXML
     private void handleBAcceptOnAction(ActionEvent event) {
 
@@ -163,11 +168,11 @@ public class VentanaRegistroController implements Initializable {
         try {
             Navigation nav = Navigation.getInstance();
             nav.registerUser(
-                userField.getText(),
-                emailField.getText(),
-                passwordField.getText(),
-                chosenAvatar,
-                dateField.getValue()
+                    userField.getText(),
+                    emailField.getText(),
+                    passwordField.getText(),
+                    chosenAvatar,
+                    dateField.getValue()
             );
 
             showAlert("¡Registro completado!", "Usuario registrado correctamente.", Alert.AlertType.INFORMATION);
@@ -179,15 +184,13 @@ public class VentanaRegistroController implements Initializable {
         }
     }
 
-
-    
     private void goToLogin(ActionEvent event) {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLinisesion.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.centerOnScreen();
 
@@ -198,8 +201,6 @@ public class VentanaRegistroController implements Initializable {
         }
     }
 
-
-    
     @FXML
     private void handleChooseAvatar(ActionEvent event) {
 
@@ -208,7 +209,7 @@ public class VentanaRegistroController implements Initializable {
             Parent root = loader.load();
 
             AvatarChooserController controller = loader.getController();
-            controller.setParentController(this); 
+            controller.setParentController(this);
 
             Stage modal = new Stage();
             modal.setTitle("Elegir avatar");
@@ -222,53 +223,47 @@ public class VentanaRegistroController implements Initializable {
         }
     }
 
-
-    
     public void setChosenAvatar(Image img, File file) {
-    chosenAvatar = img;
-    chosenAvatarFile = file;
-    avatarImage.setImage(img);
-}
-
+        chosenAvatar = img;
+        chosenAvatarFile = file;
+        avatarImage.setImage(img);
+    }
 
     @FXML
     private void handleCancel(ActionEvent event) {
         try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLinisesion.fxml"));
-        Parent root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLinisesion.fxml"));
+            Parent root = loader.load();
 
-        
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
 
-        
-        stage.setResizable(false);
-        stage.setMaximized(false);
-        stage.show();
+            stage.setResizable(false);
+            stage.setMaximized(false);
+            stage.show();
 
-    } catch (Exception e) {
-        e.printStackTrace();
-        System.err.println("ERROR: No se pudo cargar FXMLinisesion.fxml");
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("ERROR: No se pudo cargar FXMLinisesion.fxml");
+        }
     }
 
     public void clearAvatarIfDeleted(File deletedFile) {
 
-    
-    if (chosenAvatarFile == null) return;
+        if (chosenAvatarFile == null) {
+            return;
+        }
 
-    
-    if (chosenAvatarFile.equals(deletedFile)) {
+        if (chosenAvatarFile.equals(deletedFile)) {
 
-        
-        chosenAvatarFile = null;
-        chosenAvatar = new Image(getClass().getResourceAsStream("/resources/default.png"));
+            chosenAvatarFile = null;
+            chosenAvatar = new Image(getClass().getResourceAsStream("/resources/default.png"));
 
-        avatarImage.setImage(chosenAvatar);
+            avatarImage.setImage(chosenAvatar);
+        }
     }
-}
 
+    
 }

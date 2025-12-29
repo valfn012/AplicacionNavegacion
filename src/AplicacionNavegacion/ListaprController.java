@@ -4,11 +4,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -28,6 +30,8 @@ public class ListaprController implements Initializable {
 
     @FXML
     private VBox vboxPreguntas;
+    @FXML
+    private Button bSalir;
 
     /* =========================
        INITIALIZE
@@ -73,7 +77,8 @@ public class ListaprController implements Initializable {
             fila.setSpacing(10);
 
             Button btn = new Button("Pregunta " + numero);
-            btn.setPrefWidth(160);
+            btn.setPrefWidth(600);
+            btn.getStyleClass().add("boton-problema");
 
             btn.setOnAction(e -> abrirResolucion(problem, numero));
 
@@ -144,4 +149,10 @@ public class ListaprController implements Initializable {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    @FXML
+private void salirMapa(ActionEvent event) {
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    stage.close();
+}
 }

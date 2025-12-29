@@ -26,7 +26,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="639.0" styleClass="boton-problema" text="Pregunta 2" />
+                              <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="639.0" styleClass="boton-problema" stylesheets="@estiloListaPR.css" text="Pregunta 2" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
@@ -115,8 +115,8 @@
             </ScrollPane>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#selectRandomProblem" styleClass="boton-primario" text="Aleatorio" />
-                  <Button mnemonicParsing="false" styleClass="boton-secundario" text="Salir" />
+                  <Button fx:id="bAleatorio" mnemonicParsing="false" onAction="#selectRandomProblem" styleClass="boton-primario" text="Aleatorio" />
+                  <Button fx:id="bSalir" mnemonicParsing="false" onAction="#salirMapa" styleClass="boton-secundario" text="Salir" />
                </children>
             </HBox>
          </children>
