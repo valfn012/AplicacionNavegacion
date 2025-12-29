@@ -47,8 +47,8 @@ public class AvatarChooserController implements Initializable {
     public void setParentController(VentanaRegistroController c) {
         parent = c;
     }
-    private VentanaModificarPerfil parent2;
-    public void setParentController2(VentanaModificarPerfil parent) {
+    private VentanaVerPerfilController parent2;
+    public void setParentController2(VentanaVerPerfilController parent) {
         parent2 = parent;
 }
 

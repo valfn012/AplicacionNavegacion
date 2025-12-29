@@ -1,0 +1,129 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 29 dic 2025, 14:49:11
+    Author     : LERI
+*/
+
+.root-problema {
+    -fx-background-color: #ECD2E8; /* Lavender Veil */
+}
+
+.cabecera-problema {
+    -fx-background-color: #C98EB7; 
+    -fx-padding: 22 20;
+}
+
+.cabecera-problema Label {
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.enunciado-box {
+    -fx-background-color: white;
+    -fx-border-color: #C98EB7;
+    -fx-border-width: 3;
+    -fx-border-radius: 18;
+    -fx-background-radius: 18;
+    -fx-padding: 30;
+}
+
+.enunciado-text {
+    -fx-text-fill: #464E61; 
+    -fx-font-size: 17px;
+    -fx-wrap-text: true;
+}
+
+
+.radio-respuesta {
+    -fx-text-fill: #464E61;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 0;
+}
+
+
+.radio-respuesta .radio {
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-border-color: #C98EB7;
+    -fx-border-width: 2;
+}
+
+
+.radio-respuesta:selected .dot {
+    -fx-background-color: #C98EB7;
+}
+
+
+.respuesta-correcta {
+    -fx-text-fill: #2E7D32; /* Un verde más oscuro, por ejemplo */
+    -fx-font-weight: bold;
+}
+
+.respuesta-incorrecta {
+    -fx-text-fill: #B71C1C; /* Un rojo oscuro */
+    -fx-font-weight: bold;
+}
+
+
+
+.boton-primario {
+    -fx-background-color: #464E61; /* Azul marino */
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 22;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+}
+
+.boton-primario:hover {
+    -fx-background-color: #5E6B81;
+}
+
+
+
+.boton-secundario {
+    -fx-background-color: transparent;
+    -fx-border-color: #464E61;
+    -fx-border-width: 2;
+    -fx-text-fill: #464E61;
+    -fx-font-size: 14px;
+    -fx-padding: 7 20;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #DCE3EA; /* Alice Blue */
+}
+
+
+
+.boton-nav {
+    -fx-background-color: #5E6B81; /* Azul medio */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 7 18;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+}
+
+.boton-nav:hover {
+    -fx-background-color: #85A0AE; /* Azul claro */
+}
+
+
+
+.ventana-box {
+    -fx-background-color: #F3DFF0; /* Lavender muy suave */
+    -fx-border-color: #C98EB7;     /* Lilac */
+    -fx-border-width: 4;
+    -fx-border-radius: 26;
+    -fx-background-radius: 26;
+    -fx-padding: 28;
+}

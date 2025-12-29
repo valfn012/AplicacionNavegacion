@@ -1,0 +1,185 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 28 dic 2025, 20:45:46
+    Author     : ESTHER
+*/
+
+
+
+.root {
+    -fx-background-color: #ECD2E8; /* Lavender Veil */
+}
+
+.cabecera {
+    -fx-background-color: #C98EB7; 
+    -fx-padding: 22 20;
+}
+
+.cabecera Label {
+    -fx-text-fill: white;
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+}
+
+.enunciado-box {
+    -fx-background-color: white;
+    -fx-border-color: #C98EB7;
+    -fx-border-width: 3;
+    -fx-border-radius: 18;
+    -fx-background-radius: 18;
+    -fx-padding: 30;
+}
+
+.text {
+    -fx-text-fill: #464E61; 
+    -fx-font-size: 17px;
+    -fx-wrap-text: true;
+}
+
+/* ===== Botón cancelar ===== */
+.button-cancel {
+    -fx-background-color: transparent;
+    -fx-text-fill: #555F76;
+    -fx-border-color: #555F76;
+    -fx-border-radius: 6;
+    -fx-font-size: 14px;
+}
+
+.button-cancel:hover {
+    -fx-background-color: #DDD3E3;
+}
+
+.date-picker {
+    -fx-background-color: #F7ECF5;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #C98EB7;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #C98EB7;
+    -fx-background-radius: 12;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+.button-cancelar {
+    -fx-text-fill: #5E6B81;
+    -fx-background-radius: 15;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 25;
+    -fx-cursor: hand;
+    -fx-background-color: white;
+    -fx-border-color: #5E6B81;
+    
+   -fx-shape: "M0,20 Q0,0 20,0 L180,0 Q200,0 200,20 L200,40 Q200,60 180,60 L20,60 Q0,60 0,40 Z";
+
+
+}
+
+.button-cancelar:hover {
+    -fx-background-color: #DCE3EA;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #DCE3EA;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #DCE3EA;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-size: 40px;
+}
+
+.table-view .table-cell {
+    -fx-padding: 8 5;
+    -fx-font-size: 13px;
+}
+
+.title {
+    -fx-text-fill: #464E61;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-padding: 20 0 10 0;
+}
+
+.form-label {
+    -fx-text-fill: #5E6B81;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/***** ===== TABLEVIEW ESTILO PASTEL ===== *****/
+
+/* Fondo general de la tabla */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #DCE3EA;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 0;
+}
+
+/* Cabecera */
+.table-view .column-header-background {
+    -fx-background-color: #DCE3EA;
+    -fx-border-color: transparent;
+}
+
+/* Texto y estilo de cabecera */
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #464E61;
+    -fx-alignment: CENTER;
+}
+
+/* Celdas */
+.table-view .table-cell {
+    -fx-padding: 10 6;
+    -fx-font-size: 14px;
+    -fx-text-fill: #464E61;
+}
+
+/* Líneas entre filas */
+.table-row-cell {
+    -fx-border-color: #F2E9F4;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Fila seleccionada */
+.table-row-cell:selected {
+    -fx-background-color: #9BBFC9;
+    -fx-text-fill: white;
+}
+
+/* Hover de fila */
+.table-row-cell:hover {
+    -fx-background-color: #C4E6D3;
+}
+
+/* Elimina bordes feos al seleccionar texto dentro */
+.table-cell:filled:selected {
+    -fx-background-color: transparent;
+    -fx-text-fill: inherit;
+}
+
+/* Scrollbars suaves */
+.table-view .scroll-bar:vertical .thumb,
+.table-view .scroll-bar:horizontal .thumb {
+    -fx-background-color: #C98EB7;
+    -fx-background-radius: 6;
+}

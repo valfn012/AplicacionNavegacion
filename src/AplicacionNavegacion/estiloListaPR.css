@@ -1,0 +1,114 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 29 dic 2025, 7:21:10 p.m.
+    Author     : esther
+*/
+
+/***** ===== LISTA DE PROBLEMAS ===== *****/
+
+/* Fondo general de la ventana */
+.root-lista {
+    -fx-background-color: #ECD2E8; /* Lavender Veil */
+}
+
+/* Contenedor estilizado tipo tarjeta */
+.lista-box {
+    -fx-background-color: #F3DFF0; /* Rosa muy suave */
+    -fx-border-color: #C98EB7;     /* Lilac */
+    -fx-border-width: 4;
+    -fx-border-radius: 26;
+    -fx-background-radius: 26;
+    -fx-padding: 30;
+}
+
+/* ===== Título principal ===== */
+.titulo-lista {
+    -fx-text-fill: #464E61;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15 0;
+}
+
+/* ===== ScrollPane ===== */
+.scroll-problemas {
+    -fx-background-color: transparent;
+    -fx-padding: 10 0;
+}
+
+.scroll-problemas .viewport {
+    -fx-background-color: transparent;
+}
+
+/* ===== Botón de cada problema ===== */
+/* estilo tipo pastilla que combina con tu "boton-nav" */
+
+.boton-problema {
+    -fx-background-color: #5E6B81; /* Azul medio */
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 20;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-pref-width: 600; /* opcional: ancho uniforme */
+}
+
+/* Hover más claro */
+.boton-problema:hover {
+    -fx-background-color: #85A0AE; /* Azul clarito */
+}
+
+/* Botón cuando está seleccionado (si lo manejas por CSS) */
+.boton-problema:selected {
+    -fx-background-color: #C98EB7; /* Lilac */
+}
+
+/* ===== Boton primario (Aleatorio) ===== */
+.boton-primario {
+    -fx-background-color: #464E61; /* Azul marino */
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 26;
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+    -fx-cursor: hand;
+}
+
+.boton-primario:hover {
+    -fx-background-color: #5E6B81;
+}
+
+/* ===== Botón secundario (Salir) ===== */
+.boton-secundario {
+    -fx-background-color: transparent;
+    -fx-border-color: #464E61;
+    -fx-border-width: 2;
+    -fx-text-fill: #464E61;
+    -fx-font-size: 15px;
+    -fx-padding: 9 22;
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+    -fx-cursor: hand;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #DCE3EA; /* Alice Blue */
+}
+
+.root-problema {
+    -fx-background-color: #ECD2E8; /* Lavender Veil */
+}
+
+.ventana-box {
+    -fx-background-color: #F3DFF0; /* Lavender muy suave */
+    -fx-border-color: #C98EB7;     /* Lilac */
+    -fx-border-width: 4;
+    -fx-border-radius: 26;
+    -fx-background-radius: 26;
+    -fx-padding: 28;
+}
