@@ -6,89 +6,89 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Created on : 28 dic 2025, 18:44:52
     Author     : LERI
 */
-/***** ===== VENTANA MAPA ===== *****/
 
-/* Fondo principal */
-.root-mapa {
-    -fx-background-color: #ECD2E8; /* Lavender Veil */
-    -fx-font-family: "Segoe UI", "Arial";
+
+/* ===============================
+   PALETA GENERAL
+   =============================== */
+.root {
+    -fx-background-color: #f6e6ef;
+    -fx-font-family: "Segoe UI";
 }
 
-/* ====== MenuBar ====== */
-
-.menu-bar {
-    -fx-background-color: #C98EB7;
-    -fx-padding: 6 10;
-}
-
-.menu-bar .label {
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
-.menu:hover {
-    -fx-background-color: #B87AA5;
-}
-
-/* ====== ToolBar ====== */
-
+/* ===============================
+   TOOLBAR
+   =============================== */
 .tool-bar {
-    -fx-background-color: #F3DFF0; /* pastel suave */
-    -fx-padding: 6 10;
-    -fx-spacing: 8;
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.13) ,6 ,0 ,0 ,1 );
+    -fx-background-color: linear-gradient(to bottom, #d29ab8, #c48ab0);
+    -fx-padding: 8 10 8 10;
 }
 
-.tool-bar .button {
-    -fx-background-color: #5E6B81; /* gris azul */
+/* Separadores */
+.separator {
+    -fx-background-color: #b07097;
+}
+
+/* ===============================
+   BOTONES GENERALES
+   =============================== */
+.button, .toggle-button, .menu-button {
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2f2f2f;
+}
+
+/* Hover */
+.button:hover, .toggle-button:hover, .menu-button:hover {
+    -fx-opacity: 0.85;
+}
+
+/* ===============================
+   GRUPO 1 – MAPA / MEDICIÓN
+   (Hacer problema, regla, compás, transportador)
+   =============================== */
+.boton-mapa {
+    -fx-background-color: #5f6e82;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 7 14;
-    -fx-background-radius: 16;
-    -fx-border-radius: 16;
-    -fx-cursor: hand;
 }
 
-.tool-bar .button:hover {
-    -fx-background-color: #85A0AE; /* más clarito */
+/* ===============================
+   GRUPO 2 – TRAZADO
+   (línea, arco, lápiz, grosor, color)
+   =============================== */
+.boton-trazo {
+    -fx-background-color: #a6b3c6;
 }
 
-/* ====== Zona del Mapa ====== */
-
-.map-container {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #C98EB7;
-    -fx-border-width: 4;
-    -fx-border-radius: 24;
-    -fx-background-radius: 24;
-    -fx-padding: 12;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0.1, 0, 4);
+/* ===============================
+   GRUPO 3 – PUNTO / COLOR
+   =============================== */
+.boton-punto {
+    -fx-background-color: #b9c3d3;
 }
 
-/* Para Scroll dentro del mapa, si lo usas */
-.scroll-pane {
-    -fx-background-color: transparent;
+/* ===============================
+   GRUPO 4 – BORRADO (PELIGRO)
+   =============================== */
+.boton-peligro {
+    -fx-background-color: #d93c7c;
+    -fx-text-fill: white;
 }
 
-.scroll-pane .viewport {
-    -fx-background-color: transparent;
+/* ===============================
+   ZOOM
+   =============================== */
+.boton-zoom {
+    -fx-background-color: #7a8aa0;
+    -fx-text-fill: white;
 }
 
-.boton-herramienta {
-    -fx-background-color: #A9D1D8;
-    -fx-border-color: #C98EB7;
-    -fx-border-width: 2;
-    -fx-padding: 6;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
+/* ===============================
+   PERFIL
+   =============================== */
+.menu-button {
+    -fx-background-color: #5f6e82;
+    -fx-text-fill: white;
 }
-
-.boton-herramienta .label, .boton-herramienta .graphic {
-    -fx-text-fill: #464E61;
-}
-
-.boton-herramienta:hover {
-    -fx-background-color: #E5C8E1;
-}
-

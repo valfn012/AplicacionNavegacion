@@ -36,7 +36,7 @@
                         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="400.0" style="-fx-background-color: #ECD2E8; -fx-background-radius: 15; -fx-padding: 8 15;" styleClass="input-field">
                            <children>
                               <Label style="-fx-font-size: 16;" text="👤" textFill="#c98eb7" />
-                              <TextField fx:id="emailField" prefHeight="29.0" prefWidth="313.0" promptText="Usuario" style="-fx-background-color: transparent; -fx-font-size: 14;" text="holaaa" />
+                              <TextField fx:id="emailField" prefHeight="29.0" prefWidth="313.0" promptText="Usuario" style="-fx-background-color: transparent; -fx-font-size: 14;" />
                               <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="38.0">
                                  <children>
                                     <ImageView fx:id="iconoError" fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" visible="false">
@@ -70,7 +70,7 @@
                         <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="400.0" style="-fx-background-color: #ECD2E8; -fx-background-radius: 15; -fx-padding: 8 15;" styleClass="input-field">
                            <children>
                               <Label style="-fx-font-size: 16;" text="🔒" textFill="#c98eb7" />
-                              <PasswordField fx:id="passwordField" prefHeight="29.0" prefWidth="314.0" promptText="Contraseña" style="-fx-background-color: transparent;" text="Hola123@">
+                              <PasswordField fx:id="passwordField" prefHeight="29.0" prefWidth="314.0" promptText="Contraseña" style="-fx-background-color: transparent;">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

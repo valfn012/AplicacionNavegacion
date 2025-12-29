@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author jose
+ * @author LERI
  */
 public class AplicacionNavegacionApp extends Application {
     
