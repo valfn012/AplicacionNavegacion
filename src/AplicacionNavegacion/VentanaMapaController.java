@@ -382,7 +382,7 @@ public void initialize(URL url, ResourceBundle rb) {
     goma.setToggleGroup(tools);
     lapiz.setToggleGroup(tools);
     trazoLinea.setToggleGroup(tools);
-    trazoArco.setToggleGroup(tools);
+    
     punto.setToggleGroup(tools);
     flecha.setToggleGroup(tools);
     modoColor.setToggleGroup(tools);

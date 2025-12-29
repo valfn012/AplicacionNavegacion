@@ -21,160 +21,123 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     /*-fx-scale-y: -1;  */                      /* invierte verticalmente */
     -fx-background-color: black;
     }
-/* ============================= */
-/* CONTENEDOR DEL COMPÁS */
-/* ============================= */
+
 .compass {
     -fx-pref-width: 200;
     -fx-pref-height: 200;
     -fx-background-color: transparent;
 }
 
-/* ============================= */
-/* PIVOTE / TORNILLO CENTRAL */
-/* ============================= */
-.pivot {
-    -fx-pref-width: 14;
-    -fx-pref-height: 14;
-    -fx-background-radius: 7;
 
-    /* Efecto tornillo metálico */
+.pivot {
+    -fx-pref-width: 16;
+    -fx-pref-height: 16;
+    -fx-background-radius: 8;
+
+    
     -fx-background-color: radial-gradient(
         center 50% 50%, radius 70%,
-        #f5f5f5,
-        #b0b0b0 60%,
-        #6f6f6f 100%
+        #fff2fb,
+        #ff69b4 60%,
+        #c2185b 100%
     );
 
-    -fx-border-color: #444;
+    -fx-border-color: rgba(255,255,255,0.75);
     -fx-border-width: 1;
+    -fx-border-radius: 8;
+    
 
-    /* Posición */
-    -fx-translate-x: 93;
-    -fx-translate-y: 8;
-
-    /* Sombra sutil */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 4, 0.2, 0, 1);
+    
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.28), 5, 0.25, 0, 1);
 }
 
-/* ============================= */
-/* PIERNA FIJA (AGUJA) */
-/* ============================= */
+
 .leg-left {
     -fx-pref-width: 5;
     -fx-pref-height: 155;
-    -fx-background-radius: 2.5;
+    -fx-background-radius: 3;
 
-    /* Acero oscuro */
+    
     -fx-background-color: linear-gradient(
         to right,
-        #1f1f1f,
-        #555 40%,
-        #1f1f1f
+        #ff9ad1 0%,
+        #ffd1ea 20%,
+        #ff4fa7 55%,
+        #b3125b 100%
     );
 
-    -fx-translate-x: 97.5;
-    -fx-translate-y: 16;
-
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0.1, 0, 1);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 3, 0.1, 0, 1);
 }
 
-/* Punta metálica de la aguja */
+
 .leg-left {
-    -fx-pref-width: 4;
-    -fx-pref-height: 150;
-    -fx-background-color: linear-gradient(
-        to bottom,
-        /* 0–40%: metal oscuro */
-        #222222 0%,
-        #3a3a3a 15%,
-        #555555 30%,
-        #777777 40%,
-
-        /* 40–80%: metal más claro */
-        #aaaaaa 60%,
-        #cccccc 80%,
-
-        /* 80–100%: transición a punta/madera */
-        #c69c6d 90%,
-        #2d2d2d 100%
-    );
-    -fx-translate-x: 98;
-    -fx-translate-y: 16;
-    /* La capa 0 ocupa todo el palo, la 1 solo la zona final (punta) */
-    -fx-background-insets: 0, 90;  /* desplaza la punta hacia abajo */
+    -fx-background-insets: 0, 92;
     -fx-background-radius: 5, 5;
-    
 }
+
 
 .leg-right {
-    -fx-pref-width: 4;
-    -fx-pref-height: 150;
-    -fx-background-color: linear-gradient(to bottom, #777, #444);
-    -fx-background-radius: 2;
-    -fx-translate-x: 98;
-    -fx-translate-y: 16;
-}
-/* ============================= */
-/* PUNTA DE LÁPIZ */
-/* ============================= */
-.pencil-tip {
-    -fx-pref-width: 14;
-    -fx-pref-height: 14;
-    -fx-background-radius: 7;
+    -fx-pref-width: 5;
+    -fx-pref-height: 155;
+    -fx-background-radius: 3;
 
-    /* Madera + mina */
-    -fx-background-color: radial-gradient(
-        center 40% 40%, radius 70%,
-        #444,
-        #caa472 60%,
-        #8b5a2b 100%
+    
+    -fx-background-color: linear-gradient(
+        to right,
+        #ff71b8 0%,
+        #ffe0f1 18%,
+        #ff2f92 55%,
+        #9c104e 100%
     );
 
-    -fx-border-color: #222;
-    -fx-border-width: 1;
-
-    -fx-translate-x: 148;
-    -fx-translate-y: 150;
-
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 3, 0.2, 0, 1);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 3, 0.1, 0, 1);
 }
-/* Botón circular para abrir/cerrar el compás */
+
+
 .compass-handle {
     -fx-radius: 6;
--fx-background-radius: 6;
--fx-pref-width: 12;
--fx-pref-height: 12;
+    -fx-background-radius: 6;
+    -fx-pref-width: 12;
+    -fx-pref-height: 12;
 
-/* Apariencia metálica con toque naranja */
--fx-background-color: orange;
+    
+    -fx-background-color: radial-gradient(
+        center 35% 35%, radius 70%,
+        #ffffff 0%,
+        #ffd1ea 25%,
+        #ff69b4 70%,
+        #ad1457 100%
+    );
 
-/* Borde para dar definición */
--fx-border-color: #333333;
--fx-border-width: 1;
--fx-border-radius: 6;
+    -fx-border-color: rgba(255,255,255,0.85);
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
 
-/* Sombra para efecto 3D */
--fx-effect: dropshadow(
-    gaussian,
-    rgba(0, 0, 0, 0.45),
-    3, 0.4,
-    1, 1
-);
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0, 0, 0, 0.35),
+        4, 0.35,
+        1, 1
+    );
 
-/* Cursor de interacción */
--fx-cursor: hand;
-
+    -fx-cursor: hand;
 }
 
-/* puntos de control (esquinas) */
+
+.compass-handle:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255,105,180,0.55), 10, 0.3, 0, 0);
+}
+
+
 .transportador-handle {
-    -fx-fill: orange;
-    -fx-stroke: white;
+    -fx-fill: #ff69b4;
+    -fx-stroke: rgba(255,255,255,0.9);
     -fx-stroke-width: 2;
-    -fx-cursor: HAND;
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 4, 0.25, 0, 1);
 }
 
 .transportador-handle:hover {
-    -fx-fill: #42a5f5;
+    -fx-fill: #ff9ad1;
 }
