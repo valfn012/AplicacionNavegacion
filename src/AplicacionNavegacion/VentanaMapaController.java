@@ -6,6 +6,7 @@
 package AplicacionNavegacion;
 
 import java.net.URL;
+import javafx.scene.shape.Path;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -59,6 +60,7 @@ import javafx.scene.shape.Polyline;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -170,7 +172,6 @@ private void desplegarZoom(ActionEvent event) {
     boolean mostrar = !zoomBar.isVisible();
 
     if (mostrar) {
-        // Mostrar y traer al frente
         zoomBar.setVisible(true);
         zoomBar.setManaged(true);
         zoomBar.setDisable(false);
@@ -181,7 +182,6 @@ private void desplegarZoom(ActionEvent event) {
         
 
     } else {
-        // Ocultar y devolver atrás
         zoomBar.setVisible(false);
         zoomBar.setManaged(false);
         zoomBar.setDisable(true);
@@ -245,20 +245,41 @@ private double dragOffsetY;
     private Point2D lastMousePosition = null;
 
    
-    private Region reglaView;
+    private Pane reglaView;
     private boolean bloqueoRotacionRegla = false;
+    private Circle asaIzq, asaDer, pivote;
+    private javafx.scene.transform.Rotate reglaRotate;
+    private double mouseStartAngle, startDragAngle;
+
 
     private boolean drawingArrowGesture = false;
     private Point2D puntoInicioFlecha = null;
     private Line previewLine = null;
+    
+    private Pane transportadorView;
+    private Rotate transportadorRotate;
+    private Circle handleRotacion;
+    private double mouseStartAngleTransportador;
+    private double transportadorStartAngle;
+
 
     
-    private Region transportadorView;
-
-    
-    private Group compasView;
+    private Pane compasView;
     private Circle arcPreview = null;
     private Point2D arcCenter = null;
+    
+private Pane legRight, legLeftWrapper, legLeft;
+private Circle rightTip, openHandle;
+private Rotate compasRotate;
+private Rotate rotateLeft;
+
+private double compasMouseStartAngle, compasStartAngle;
+private double startAngleOpen, startRotateOpen;
+private double startAngleRotate, startRotateCompas;
+
+private boolean faseApertura = true;
+private Path arcoActual = null;
+
 
     
     private final EventHandler<MouseEvent> deleteHandler = e -> {
@@ -266,7 +287,7 @@ private double dragOffsetY;
 
     Node n = (Node) e.getSource();
 
-    // NO borrar herramientas
+    
     if (n == reglaView || n == transportadorView || n == compasView) return;
 
     overlayPane.getChildren().remove(n);
@@ -311,16 +332,16 @@ private double dragOffsetY;
 public void initialize(URL url, ResourceBundle rb) {
 
     // Slider zoom
-    zoom_slider.setMin(0.2);   // permite alejar más si hace falta para ver el mapa completo
+    zoom_slider.setMin(0.2);   
     zoom_slider.setMax(1.5);
     zoom_slider.setValue(1.0);
     zoom_slider.valueProperty().addListener((o, oldVal, newVal) -> zoom(newVal.doubleValue()));
 
-    // --- Tu estructura actual ---
+    
     Group contentGroup = new Group();
     zoomGroup = new Group();
 
-    Node mapContent = map_scrollpane.getContent(); // lo que tengas puesto en el FXML como contenido inicial
+    Node mapContent = map_scrollpane.getContent(); 
     StackPane stack = new StackPane();
     stack.getChildren().addAll(mapContent, overlayPane);
 
@@ -332,15 +353,15 @@ public void initialize(URL url, ResourceBundle rb) {
     zoomGroup.getChildren().add(stack);
     contentGroup.getChildren().add(zoomGroup);
 
-    // ✅ CLAVE: el content del ScrollPane debe ser un Region (StackPane), no un Group
+   
     StackPane wrapper = new StackPane(contentGroup);
     map_scrollpane.setContent(wrapper);
 
-    // Fit ahora SÍ funciona porque wrapper es Region (resizable)
+    
     map_scrollpane.setFitToWidth(true);
     map_scrollpane.setFitToHeight(true);
 
-    // --- Lo demás lo dejas igual ---
+   
     if (espaciado != null) {
         HBox.setHgrow(espaciado, Priority.ALWAYS);
     }
@@ -390,7 +411,7 @@ public void initialize(URL url, ResourceBundle rb) {
                 viewport.getHeight() / contentBounds.getHeight()
         );
 
-        // Clamp al rango del slider
+       
         scaleToFit = Math.max(zoom_slider.getMin(), Math.min(zoom_slider.getMax(), scaleToFit));
 
         zoom_slider.setValue(scaleToFit); // esto llama a zoom() por el listener
@@ -426,7 +447,7 @@ public void initialize(URL url, ResourceBundle rb) {
         zoomBar.setManaged(false);
         zoomBar.setDisable(true);
 
-// Asegura que está detrás del mapa
+
         zoomBar.toBack();
 
     
@@ -438,8 +459,7 @@ public void initialize(URL url, ResourceBundle rb) {
     habilitarArrastreZoomBox();
 
     
-    
-    
+  
     
     
     
@@ -507,7 +527,7 @@ public void initialize(URL url, ResourceBundle rb) {
                     e.consume();
                     return;
                 } else {
-                    // si clica fuera, desactiva flecha
+                    
                     flecha.setSelected(false);
                     drawingArrowGesture = false;
                     bloqueoRotacionRegla = false;
@@ -595,7 +615,7 @@ public void initialize(URL url, ResourceBundle rb) {
             if (activeTool == Tool.ARC) {
                 arcPreview = null;
                 arcCenter = null;
-                // un solo uso, como en el doc 1
+               
                 trazoArco.setSelected(false);
                 activeTool = Tool.NONE;
                 e.consume();
@@ -626,6 +646,12 @@ public void initialize(URL url, ResourceBundle rb) {
             flecha.setSelected(false);
         }
     }
+    
+    
+    
+    
+    
+    
 
     @FXML
     private void usarTransportador(ActionEvent event) {
@@ -670,7 +696,7 @@ public void initialize(URL url, ResourceBundle rb) {
         boolean mostrar = !pencilBox.isVisible();
 
     if (mostrar) {
-        // Mostrar y traer al frente
+      
         pencilBox.setVisible(true);
         pencilBox.setManaged(true);
         pencilBox.setDisable(false);
@@ -681,7 +707,7 @@ public void initialize(URL url, ResourceBundle rb) {
         
 
     } else {
-        // Ocultar y devolver atrás
+       
         pencilBox.setVisible(false);
         pencilBox.setManaged(false);
         pencilBox.setDisable(true);
@@ -845,6 +871,7 @@ public void initialize(URL url, ResourceBundle rb) {
         line.setStrokeWidth(currentStrokeWidth);
         line.addEventHandler(MouseEvent.MOUSE_CLICKED, deleteHandler);
         overlayPane.getChildren().add(line);
+        line.toFront();
         makeDraggable(line);
 
         firstPoint = null;
@@ -950,7 +977,7 @@ public void initialize(URL url, ResourceBundle rb) {
         if (reglaView != null) {
             overlayPane.getChildren().remove(reglaView);
         }
-        reglaView = new Region();
+        reglaView = new Pane();
         reglaView.getStyleClass().add("regla");
         reglaView.setPrefSize(420, 90);
         reglaView.setVisible(regla != null && regla.isSelected());
@@ -965,38 +992,116 @@ public void initialize(URL url, ResourceBundle rb) {
     }
 
     private void initReglaInteractiva() {
-        final Point2D[] anchorScene = new Point2D[1];
-        final double[] anchorRotate = new double[1];
+    double ancho = 600;
+    double alto = 20;
 
-        reglaView.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            if (bloqueoRotacionRegla) return;
-            if (e.isSecondaryButtonDown()) {
-                anchorScene[0] = new Point2D(e.getSceneX(), e.getSceneY());
-                anchorRotate[0] = reglaView.getRotate();
-                e.consume();
-            }
-        });
+    reglaView.setPrefSize(ancho, alto + 20);
 
-        reglaView.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-            if (bloqueoRotacionRegla) return;
-            if (e.isSecondaryButtonDown() && anchorScene[0] != null) {
-                // rotación simple con deltaX
-                double dx = e.getSceneX() - anchorScene[0].getX();
-                reglaView.setRotate(anchorRotate[0] + dx * 0.2);
-                e.consume();
-            }
-        });
+    asaIzq = new Circle(6);
+    asaDer = new Circle(6);
+    pivote = new Circle(5);
 
-        reglaView.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-            if (e.getButton() == MouseButton.SECONDARY) {
-                anchorScene[0] = null;
-            }
-        });
+    asaIzq.getStyleClass().add("regla-handle");
+    asaDer.getStyleClass().add("regla-handle");
+    pivote.getStyleClass().add("regla-pivote");
 
-       
-        reglaView.setOnMouseEntered(e -> reglaView.setCursor(Cursor.HAND));
-        reglaView.setOnMouseExited(e -> reglaView.setCursor(Cursor.DEFAULT));
-    }
+    double yCentro = (alto + 20) / 2.0;
+
+    asaIzq.setLayoutX(0);
+    asaIzq.setLayoutY(yCentro);
+
+    
+    asaDer.setLayoutX(ancho);
+    asaDer.setLayoutY(yCentro);
+
+    reglaView.getChildren().setAll(asaIzq, asaDer, pivote);
+
+    
+    reglaRotate = new javafx.scene.transform.Rotate(0);
+    reglaView.getTransforms().add(reglaRotate);
+
+    Platform.runLater(() -> {
+        double px = reglaView.getPrefWidth() / 2;
+        double py = reglaView.getPrefHeight() / 2;
+
+        pivote.setLayoutX(px);
+        pivote.setLayoutY(py);
+
+        reglaRotate.setPivotX(px);
+        reglaRotate.setPivotY(py);
+    });
+
+    configurarRotacion(asaIzq);
+    configurarRotacion(asaDer);
+    configurarMovimientoPivote();
+}
+private void configurarRotacion(Circle asa) {
+    asa.setOnMousePressed(e -> {
+        if (bloqueoRotacionRegla) return;
+
+        Point2D pivotScene = pivote.localToScene(
+                pivote.getBoundsInLocal().getWidth() / 2,
+                pivote.getBoundsInLocal().getHeight() / 2
+        );
+        Point2D mouseScene = new Point2D(e.getSceneX(), e.getSceneY());
+
+        mouseStartAngle = Math.toDegrees(Math.atan2(
+                mouseScene.getY() - pivotScene.getY(),
+                mouseScene.getX() - pivotScene.getX()
+        ));
+
+        startDragAngle = reglaRotate.getAngle();
+        e.consume();
+    });
+
+    asa.setOnMouseDragged(e -> {
+        if (bloqueoRotacionRegla) return;
+
+        Point2D pivotScene = pivote.localToScene(
+                pivote.getBoundsInLocal().getWidth() / 2,
+                pivote.getBoundsInLocal().getHeight() / 2
+        );
+        Point2D mouseScene = new Point2D(e.getSceneX(), e.getSceneY());
+
+        double currentAngle = Math.toDegrees(Math.atan2(
+                mouseScene.getY() - pivotScene.getY(),
+                mouseScene.getX() - pivotScene.getX()
+        ));
+
+        double delta = currentAngle - mouseStartAngle;
+        reglaRotate.setAngle(startDragAngle + delta);
+        e.consume();
+    });
+
+    asa.setOnMouseReleased(e -> e.consume());
+}
+
+private void configurarMovimientoPivote() {
+    pivote.setOnMousePressed(e -> e.consume());
+
+    pivote.setOnMouseDragged(e -> {
+        double currentAngle = reglaRotate.getAngle();
+        reglaRotate.setAngle(0);
+
+        Point2D mouse = reglaView.sceneToLocal(e.getSceneX(), e.getSceneY());
+
+        double x = mouse.getX();
+        double min = 0;
+        double max = reglaView.getPrefWidth();
+        x = Math.max(min, Math.min(x, max));
+
+        pivote.setLayoutX(x);
+
+        reglaRotate.setPivotX(x);
+        reglaRotate.setPivotY(pivote.getLayoutY());
+
+        reglaRotate.setAngle(currentAngle);
+        e.consume();
+    });
+
+    pivote.setOnMouseReleased(e -> e.consume());
+}
+
 
     private boolean clickEnBordeSuperiorRegla(MouseEvent e) {
         if (reglaView == null || !reglaView.isVisible()) return false;
@@ -1041,43 +1146,320 @@ public void initialize(URL url, ResourceBundle rb) {
 
     
     private void initTransportadorView() {
-        if (transportadorView != null) {
-            overlayPane.getChildren().remove(transportadorView);
-        }
-        transportadorView = new Region();
-        transportadorView.getStyleClass().add("transportador");
-        transportadorView.setPrefSize(260, 260);
-        transportadorView.setVisible(transportador != null && transportador.isSelected());
-        transportadorView.setTranslateX(120);
-        transportadorView.setTranslateY(140);
-        overlayPane.getChildren().add(transportadorView);
-        makeDraggable(transportadorView);
-    }
+    transportadorView = new Pane();
+    transportadorView.getStyleClass().add("transportador");
+    transportadorView.setPrefSize(260, 260); // el tamaño lo decides tú
+
+    transportadorView.setVisible(false);
+    overlayPane.getChildren().add(transportadorView);
+
+    makeDraggable(transportadorView);
+    initTransportador(); 
+}
+private void initTransportador() {
+
+   
+    transportadorView.getChildren().clear();
 
     
-    private void initCompasView() {
-        if (compasView != null) {
-            overlayPane.getChildren().remove(compasView);
-        }
+    transportadorRotate = new Rotate(0);
+    transportadorView.getTransforms().clear();
+    transportadorView.getTransforms().add(transportadorRotate);
+
+    
+    handleRotacion = new Circle(6);
+    handleRotacion.getStyleClass().add("transportador-handle");
+    transportadorView.getChildren().add(handleRotacion);
+
+    
+    Platform.runLater(() -> {
+
+        Bounds b = transportadorView.getLayoutBounds();
+
+       
+        double cx = b.getMinX() + b.getWidth() / 2;
+        double cy = b.getMinY() + b.getHeight() / 2;
+
+        transportadorRotate.setPivotX(cx);
+        transportadorRotate.setPivotY(cy);
+
         
-        Line leg1 = new Line(0, 0, -25, 70);
-        Line leg2 = new Line(0, 0, 25, 70);
-        leg1.setStroke(Color.DARKGRAY);
-        leg2.setStroke(Color.DARKGRAY);
-        leg1.setStrokeWidth(3);
-        leg2.setStrokeWidth(3);
+        double r = handleRotacion.getRadius();
+        handleRotacion.setLayoutX(b.getMaxX() - r);
+        handleRotacion.setLayoutY(b.getMinY() + r);
+    });
 
-        Circle joint = new Circle(0, 0, 6);
-        joint.setFill(Color.DARKGRAY);
+    
+    configurarRotacionTransportador(handleRotacion);
 
-        compasView = new Group(leg1, leg2, joint);
-        compasView.setVisible(compas != null && compas.isSelected());
-        compasView.setTranslateX(250);
-        compasView.setTranslateY(180);
+    
+}
+private void configurarRotacionTransportador(Circle handle) {
 
-        overlayPane.getChildren().add(compasView);
-        makeDraggable(compasView);
+    handle.setOnMousePressed(e -> {
+        Point2D centerScene = transportadorView.localToScene(
+                transportadorRotate.getPivotX(),
+                transportadorRotate.getPivotY()
+        );
+
+        Point2D mouse = new Point2D(e.getSceneX(), e.getSceneY());
+
+        mouseStartAngleTransportador = Math.toDegrees(Math.atan2(
+                mouse.getY() - centerScene.getY(),
+                mouse.getX() - centerScene.getX()
+        ));
+
+        transportadorStartAngle = transportadorRotate.getAngle();
+        e.consume();
+    });
+
+    handle.setOnMouseDragged(e -> {
+        Point2D centerScene = transportadorView.localToScene(
+                transportadorRotate.getPivotX(),
+                transportadorRotate.getPivotY()
+        );
+
+        Point2D mouse = new Point2D(e.getSceneX(), e.getSceneY());
+
+        double angle = Math.toDegrees(Math.atan2(
+                mouse.getY() - centerScene.getY(),
+                mouse.getX() - centerScene.getX()
+        ));
+
+        double delta = angle - mouseStartAngleTransportador;
+        transportadorRotate.setAngle(transportadorStartAngle + delta);
+
+        e.consume();
+    });
+
+    handle.setOnMouseReleased(e -> e.consume());
+}
+
+
+    
+   private void initCompasView() {
+
+    if (compasView != null) {
+        overlayPane.getChildren().remove(compasView);
     }
+
+    trazoArco.setDisable(false);
+
+    compasView = new Pane();
+    compasView.getStyleClass().add("compass");
+
+    
+    Region pivot = new Region();
+    pivot.getStyleClass().add("pivot");
+
+    
+    legRight = new Pane();
+    legRight.getStyleClass().add("leg-right");
+
+    rightTip = new Circle(4);
+    rightTip.getStyleClass().add("compass-tip");
+    rightTip.setLayoutX(0);
+    rightTip.setLayoutY(140);
+    legRight.getChildren().add(rightTip);
+
+    
+    legLeftWrapper = new Pane();
+    legLeft = new Pane();
+    legLeft.getStyleClass().add("leg-left");
+
+    openHandle = new Circle(6);
+    openHandle.getStyleClass().add("compass-handle");
+    openHandle.setLayoutX(0);
+    openHandle.setLayoutY(140);
+    legLeft.getChildren().add(openHandle);
+
+    legLeftWrapper.getChildren().add(legLeft);
+
+    
+    compasView.getChildren().addAll(legRight, legLeftWrapper, pivot);
+    overlayPane.getChildren().add(compasView);
+
+    compasView.setTranslateX(250);
+    compasView.setTranslateY(180);
+    compasView.setVisible(compas != null && compas.isSelected());
+
+    
+    compasRotate = new Rotate(0);
+    compasView.getTransforms().add(compasRotate);
+
+    Platform.runLater(() -> {
+
+        double px = 100;
+        double py = 20;
+
+        pivot.setLayoutX(px);
+        pivot.setLayoutY(py);
+
+        legRight.setLayoutX(px);
+        legRight.setLayoutY(py);
+
+        legLeftWrapper.setLayoutX(px);
+        legLeftWrapper.setLayoutY(py);
+
+        legLeft.setLayoutX(0);
+        legLeft.setLayoutY(0);
+
+        Point2D centerScene = rightTip.localToScene(0, 0);
+        Point2D centerInCompas = compasView.sceneToLocal(centerScene);
+        compasRotate.setPivotX(centerInCompas.getX());
+        compasRotate.setPivotY(centerInCompas.getY());
+    });
+
+    rotateLeft = new Rotate(30, 0, 0);
+    legLeft.getTransforms().add(rotateLeft);
+
+    configurarAperturaYArco();
+    configurarDragCompas();
+    configurarRotacionCompas();
+}
+
+   
+private void configurarRotacionCompas() {
+
+    legRight.setOnMousePressed(e -> {
+        if (activeTool == Tool.ARC) return;
+
+        Point2D centerScene = rightTip.localToScene(0, 0);
+        Point2D mouseScene = new Point2D(e.getSceneX(), e.getSceneY());
+
+        compasMouseStartAngle = Math.toDegrees(Math.atan2(
+                mouseScene.getY() - centerScene.getY(),
+                mouseScene.getX() - centerScene.getX()
+        ));
+        compasStartAngle = compasRotate.getAngle();
+        e.consume();
+    });
+
+    legRight.setOnMouseDragged(e -> {
+        if (activeTool == Tool.ARC) return;
+
+        Point2D centerScene = rightTip.localToScene(0, 0);
+        Point2D mouseScene = new Point2D(e.getSceneX(), e.getSceneY());
+
+        double currentAngle = Math.toDegrees(Math.atan2(
+                mouseScene.getY() - centerScene.getY(),
+                mouseScene.getX() - centerScene.getX()
+        ));
+
+        compasRotate.setAngle(compasStartAngle + (currentAngle - compasMouseStartAngle));
+        e.consume();
+    });
+}
+
+private void configurarAperturaYArco() {
+
+    openHandle.setOnMousePressed(e -> {
+
+        Point2D mouse = new Point2D(e.getSceneX(), e.getSceneY());
+        boolean modoArco = activeTool == Tool.ARC;
+
+        if (!modoArco && faseApertura) {
+
+            Point2D pivotScene = legLeft.localToScene(0, 0);
+            startAngleOpen = Math.toDegrees(Math.atan2(
+                    mouse.getY() - pivotScene.getY(),
+                    mouse.getX() - pivotScene.getX()
+            ));
+            startRotateOpen = rotateLeft.getAngle();
+
+        } else {
+
+            Point2D centerScene = rightTip.localToScene(0, 0);
+            startAngleRotate = Math.toDegrees(Math.atan2(
+                    mouse.getY() - centerScene.getY(),
+                    mouse.getX() - centerScene.getX()
+            ));
+            startRotateCompas = compasRotate.getAngle();
+
+            if (modoArco) {
+                arcoActual = new Path();
+                arcoActual.setStroke(currentColor);
+                arcoActual.setStrokeWidth(currentStrokeWidth);
+                arcoActual.setFill(null);
+
+                Point2D start = openHandle.localToScene(0, 0);
+                Point2D local = overlayPane.sceneToLocal(start);
+                arcoActual.getElements().add(new javafx.scene.shape.MoveTo(local.getX(), local.getY()));
+
+                overlayPane.getChildren().add(arcoActual);
+                arcoActual.addEventHandler(MouseEvent.MOUSE_CLICKED, deleteHandler);
+                makeDraggable(arcoActual);
+            }
+        }
+        e.consume();
+    });
+
+    openHandle.setOnMouseDragged(e -> {
+
+        Point2D mouse = new Point2D(e.getSceneX(), e.getSceneY());
+        boolean modoArco = activeTool == Tool.ARC;
+
+        if (!modoArco && faseApertura) {
+
+            Point2D pivotScene = legLeft.localToScene(0, 0);
+            double angle = Math.toDegrees(Math.atan2(
+                    mouse.getY() - pivotScene.getY(),
+                    mouse.getX() - pivotScene.getX()
+            ));
+            rotateLeft.setAngle(startRotateOpen + (angle - startAngleOpen));
+
+        } else {
+
+            Point2D centerScene = rightTip.localToScene(0, 0);
+            double angle = Math.toDegrees(Math.atan2(
+                    mouse.getY() - centerScene.getY(),
+                    mouse.getX() - centerScene.getX()
+            ));
+            compasRotate.setAngle(startRotateCompas + (angle - startAngleRotate));
+
+            if (modoArco && arcoActual != null) {
+                Point2D tip = openHandle.localToScene(0, 0);
+                Point2D local = overlayPane.sceneToLocal(tip);
+                arcoActual.getElements().add(new javafx.scene.shape.LineTo(local.getX(), local.getY()));
+            }
+        }
+        e.consume();
+    });
+
+    openHandle.setOnMouseReleased(e -> {
+        if (activeTool == Tool.ARC) arcoActual = null;
+        else faseApertura = !faseApertura;
+
+        trazoArco.setSelected(false);
+        e.consume();
+    });
+}
+private void configurarDragCompas() {
+
+    final Point2D[] last = new Point2D[1];
+
+    compasView.setOnMousePressed(e -> {
+        if (activeTool == Tool.ARC || e.getTarget() == openHandle) return;
+        last[0] = new Point2D(e.getSceneX(), e.getSceneY());
+        e.consume();
+    });
+
+    compasView.setOnMouseDragged(e -> {
+        if (last[0] == null || activeTool == Tool.ARC || e.getTarget() == openHandle) return;
+
+        double dx = e.getSceneX() - last[0].getX();
+        double dy = e.getSceneY() - last[0].getY();
+
+        compasView.setTranslateX(compasView.getTranslateX() + dx);
+        compasView.setTranslateY(compasView.getTranslateY() + dy);
+
+        last[0] = new Point2D(e.getSceneX(), e.getSceneY());
+        e.consume();
+    });
+
+    compasView.setOnMouseReleased(e -> last[0] = null);
+}
+
 
     
     private void actualizarColor(Node n, Color newColor) {
@@ -1209,42 +1591,41 @@ public void initialize(URL url, ResourceBundle rb) {
 private void abrirProblema(ActionEvent event) {
 
     try {
-        // 🔁 Si ya existe la ventana
+        
         if (problemaStage != null && problemaStage.isShowing()) {
 
-            // Si estaba minimizada
+           
             problemaStage.setIconified(false);
 
-            // Traer al frente
+            
             problemaStage.toFront();
             problemaStage.requestFocus();
             return;
         }
 
-        // 🆕 Crear la ventana por primera vez
+       
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("Listapr.fxml")
         );
         Parent root = loader.load();
 
         ListaprController controller = loader.getController();
-        controller.setUser(activeUser); // 🔴 PASAMOS EL USUARIO
+        controller.setUser(activeUser); 
 
         problemaStage = new Stage();
         problemaStage.setTitle("Seleccionar problema");
         problemaStage.setScene(new Scene(root));
 
-        // ❌ NO MODAL
-        // problemaStage.initModality(...) → NO
+       
 
-        // Opcional: owner solo para posicionamiento
+       
         Stage owner = (Stage) rootPane.getScene().getWindow();
         problemaStage.initOwner(owner);
 
         problemaStage.setResizable(true);
         problemaStage.centerOnScreen();
 
-        // Cuando el usuario la cierre → liberamos referencia
+        
         problemaStage.setOnCloseRequest(e -> problemaStage = null);
 
         problemaStage.show();
