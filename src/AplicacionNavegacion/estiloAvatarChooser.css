@@ -1,0 +1,79 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 28 dic 2025, 20:45:46
+    Author     : LERI
+*/
+
+/* ===== Fondo general ===== */
+.root {
+    -fx-background-color: #ECD2E8;
+    -fx-font-family: "Segoe UI", "Arial";
+}
+
+/* ===== Cabecera ===== */
+.header {
+    -fx-background-color: #C98EB7;
+    -fx-padding: 18;
+}
+
+.header Label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+/* ===== Títulos de sección ===== */
+.section-title {
+    -fx-text-fill: #555F76;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+/* ===== Panel de avatares ===== */
+.avatar-panel {
+    -fx-background-color: white;
+    -fx-border-color: #555F76;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+/* ===== Botones secundarios ===== */
+.button-secondary {
+    -fx-background-color: #B6E2E7;
+    -fx-text-fill: #555F76;
+    -fx-font-size: 12px;
+    -fx-background-radius: 6;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #A6D6DC;
+}
+
+/* ===== Botón aceptar ===== */
+.button-accept {
+    -fx-background-color: #C98EB7;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+}
+
+.button-accept:hover {
+    -fx-background-color: #B87AA5;
+}
+
+/* ===== Botón cancelar ===== */
+.button-cancel {
+    -fx-background-color: transparent;
+    -fx-text-fill: #555F76;
+    -fx-border-color: #555F76;
+    -fx-border-radius: 6;
+    -fx-font-size: 14px;
+}
+
+.button-cancel:hover {
+    -fx-background-color: #DDD3E3;
+}
