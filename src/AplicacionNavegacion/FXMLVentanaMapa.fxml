@@ -199,8 +199,8 @@
         </ToolBar>
       <StackPane fx:id="stackRoot" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
          <children>
-            <Button mnemonicParsing="false" styleClass="regla" text="Regla" />
-            <Button mnemonicParsing="false" styleClass="transportador" text="Transportador" />
+            <Button mnemonicParsing="false" styleClass="regla" text="Button" />
+            <Button mnemonicParsing="false" styleClass="transportador" text="Button" />
       
                                                   <HBox fx:id="zoomBar" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="280.0" spacing="10.0" style="-fx-background-color: lightgrey;">
                   <children>
@@ -228,9 +228,9 @@
                         <Insets left="15.0" />
                      </HBox.margin>
                   </Label>
-                  <Button fx:id="menosG1" mnemonicParsing="false" onAction="#menosGrosor" text="-" />
-                  <Slider fx:id="grosorSlider1" HBox.hgrow="SOMETIMES" />
-                  <Button fx:id="masG1" mnemonicParsing="false" onAction="#masGrosor" text="+">
+                  <Button fx:id="menosG" mnemonicParsing="false" onAction="#menosGrosor" text="-" />
+                  <Slider fx:id="grosorSlider" HBox.hgrow="SOMETIMES" />
+                  <Button fx:id="masG" mnemonicParsing="false" onAction="#masGrosor" text="+">
                      <HBox.margin>
                         <Insets right="15.0" />
                      </HBox.margin>

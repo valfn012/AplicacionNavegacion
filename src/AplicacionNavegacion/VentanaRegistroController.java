@@ -39,6 +39,7 @@ import javafx.scene.Parent;
 
 import javafx.event.ActionEvent;
 
+
 public class VentanaRegistroController implements Initializable {
 
     @FXML
@@ -266,4 +267,5 @@ public class VentanaRegistroController implements Initializable {
     }
 
     
+
 }
