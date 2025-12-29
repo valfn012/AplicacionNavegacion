@@ -228,9 +228,9 @@
                         <Insets left="15.0" />
                      </HBox.margin>
                   </Label>
-                  <Button fx:id="menosG" mnemonicParsing="false" onAction="#menosGrosor" text="-" />
-                  <Slider fx:id="grosorSlider" HBox.hgrow="SOMETIMES" />
-                  <Button fx:id="masG" mnemonicParsing="false" onAction="#masGrosor" text="+">
+                  <Button fx:id="menosG1" mnemonicParsing="false" onAction="#menosGrosor" text="-" />
+                  <Slider fx:id="grosorSlider1" HBox.hgrow="SOMETIMES" />
+                  <Button fx:id="masG1" mnemonicParsing="false" onAction="#masGrosor" text="+">
                      <HBox.margin>
                         <Insets right="15.0" />
                      </HBox.margin>
