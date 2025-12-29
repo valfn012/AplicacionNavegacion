@@ -1,4 +1,3 @@
-
 package AplicacionNavegacion;
 
 import java.io.IOException;
@@ -30,27 +29,34 @@ import model.User;
 public class ResolpromController implements Initializable {
 
     // ===== FXML =====
-    @FXML private Label problemaX;
-    @FXML private Label enunciadoPx;
+    @FXML
+    private Label problemaX;
+    @FXML
+    private Label enunciadoPx;
 
-    @FXML private RadioButton r1Px;
-    @FXML private RadioButton r2Px;
-    @FXML private RadioButton r3Px;
-    @FXML private RadioButton r4Px;
+    @FXML
+    private RadioButton r1Px;
+    @FXML
+    private RadioButton r2Px;
+    @FXML
+    private RadioButton r3Px;
+    @FXML
+    private RadioButton r4Px;
 
-    @FXML private Button bAnt;
-    @FXML private Button bSig;
-    @FXML private Button bCorregir;
-    @FXML private Button bSalir;
+    @FXML
+    private Button bAnt;
+    @FXML
+    private Button bSig;
+    @FXML
+    private Button bCorregir;
+    @FXML
+    private Button bSalir;
 
     // ===== STATE =====
     private ToggleGroup grupo;
     private User currentUser;
     private List<Problem> allProblems;
     private int indexActual;
-
-    // ===== RESPUESTAS DEL USUARIO =====
-    private static Map<Integer, Answer> respuestasUsuario = new HashMap<>();
 
     // ===== SESIÓN EN MEMORIA (UNA POR DÍA) =====
     public static Session sesionActual = null;
@@ -80,6 +86,7 @@ public class ResolpromController implements Initializable {
 
         limpiarEstilos();
         habilitarInteraccion(true);
+        grupo.selectToggle(null);
 
         Problem p = allProblems.get(indexActual);
 
@@ -94,15 +101,6 @@ public class ResolpromController implements Initializable {
         configurarRadio(r2Px, answers.get(1));
         configurarRadio(r3Px, answers.get(2));
         configurarRadio(r4Px, answers.get(3));
-
-        grupo.selectToggle(null);
-
-        if (respuestasUsuario.containsKey(indexActual)) {
-            Answer guardada = respuestasUsuario.get(indexActual);
-            seleccionarRespuestaGuardada(guardada);
-            aplicarCorreccionVisual(guardada);
-            habilitarInteraccion(false);
-        }
     }
 
     private void configurarRadio(RadioButton rb, Answer ans) {
@@ -119,24 +117,25 @@ public class ResolpromController implements Initializable {
     private void corregirEj(ActionEvent event) {
 
         Toggle selected = grupo.getSelectedToggle();
-        if (selected == null) return;
-
-        Answer seleccionada = (Answer) selected.getUserData();
-        respuestasUsuario.put(indexActual, seleccionada);
-
-        Session s = getOrCreateSessionHoy();
-
-        int hits = s.getHits();
-        int faults = s.getFaults();
-
-        if (seleccionada.getValidity()) {
-            hits++;
-        } else {
-            faults++;
+        if (selected == null) {
+            return;
         }
 
-        sesionActual = new Session(s.getTimeStamp(), hits, faults);
+        Answer seleccionada = (Answer) selected.getUserData();
 
+        int hits = 0;
+        int faults = 0;
+
+        if (seleccionada.getValidity()) {
+            hits = 1;
+        } else {
+            faults = 1;
+        }
+
+        // ✅ SE GUARDA DIRECTAMENTE EN EL USUARIO (BD INCLUIDA)
+        currentUser.addSession(hits, faults);
+
+        // Mostrar corrección visual
         for (Toggle t : grupo.getToggles()) {
             RadioButton rb = (RadioButton) t;
             rb.getStyleClass().removeAll("respuesta-correcta", "respuesta-incorrecta");
@@ -158,8 +157,8 @@ public class ResolpromController implements Initializable {
 
         LocalDate hoy = LocalDate.now();
 
-        if (sesionActual != null &&
-            sesionActual.getTimeStamp().toLocalDate().equals(hoy)) {
+        if (sesionActual != null
+                && sesionActual.getTimeStamp().toLocalDate().equals(hoy)) {
             return sesionActual;
         }
 
@@ -227,15 +226,15 @@ public class ResolpromController implements Initializable {
     @FXML
     private void salirMapa(ActionEvent event) throws IOException {
 
-        FXMLLoader loader =
-                new FXMLLoader(getClass().getResource("listapr.fxml"));
+        FXMLLoader loader
+                = new FXMLLoader(getClass().getResource("listapr.fxml"));
         Parent root = loader.load();
 
         ListaprController controller = loader.getController();
         controller.setUser(currentUser);
 
-        Stage stage =
-                (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage
+                = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }

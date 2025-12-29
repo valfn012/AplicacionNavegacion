@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="600.0" styleClass="root-problema" stylesheets="@estilosPreguntas.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.ResolpromController">
+<VBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="700.0" styleClass="root-problema" stylesheets="@estilosPreguntas.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.ResolpromController">
    <children>
-      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="5.0" styleClass="ventana-box">
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="700.0" spacing="5.0" styleClass="ventana-box">
          <children>
             <HBox alignment="CENTER" prefHeight="25.0" prefWidth="400.0" styleClass="cabecera-problema">
                <children>
@@ -22,9 +22,9 @@
                   <Button fx:id="bSig" mnemonicParsing="false" onAction="#irSig" styleClass="boton-nav" text="Siguiente" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="550.0" styleClass="enunciado-box">
+            <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="630.0" styleClass="enunciado-box">
                <children>
-                  <Label fx:id="enunciadoPx" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="523.0" styleClass="enunciado-text" text="Enunciado" wrapText="true" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="enunciadoPx" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="605.0" styleClass="enunciado-text" text="Enunciado" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />

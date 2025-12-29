@@ -99,39 +99,46 @@ public class VentanaHistorialController implements Initializable {
        CARGA Y AGRUPACIÓN
        ========================= */
     private void loadHistory() {
-        if (activeUser == null) {
-            return;
-        }
 
-        Map<LocalDate, Session> resumenPorDia = new HashMap<>();
-
-        for (Session s : activeUser.getSessions()) {
-
-            LocalDate fecha = s.getTimeStamp().toLocalDate();
-
-            if (!resumenPorDia.containsKey(fecha)) {
-                resumenPorDia.put(
-                        fecha,
-                        new Session(
-                                s.getTimeStamp(),
-                                s.getHits(),
-                                s.getFaults()
-                        )
-                );
-            } else {
-                Session acumulada = resumenPorDia.get(fecha);
-                Session nueva = new Session(
-                        acumulada.getTimeStamp(),
-                        acumulada.getHits() + s.getHits(),
-                        acumulada.getFaults() + s.getFaults()
-                );
-
-            }
-        }
-
-        allDailySessions.setAll(resumenPorDia.values());
-        tableHistory.setItems(allDailySessions);
+    if (activeUser == null || activeUser.getSessions() == null) {
+        return;
     }
+
+    Map<LocalDate, Session> resumenPorDia = new HashMap<>();
+
+    for (Session s : activeUser.getSessions()) {
+
+        LocalDate fecha = s.getTimeStamp().toLocalDate();
+
+        if (!resumenPorDia.containsKey(fecha)) {
+
+            resumenPorDia.put(
+                fecha,
+                new Session(
+                    s.getTimeStamp(),
+                    s.getHits(),
+                    s.getFaults()
+                )
+            );
+
+        } else {
+
+            Session acumulada = resumenPorDia.get(fecha);
+
+            Session nueva = new Session(
+                acumulada.getTimeStamp(),
+                acumulada.getHits() + s.getHits(),
+                acumulada.getFaults() + s.getFaults()
+            );
+
+            // 🔴 ESTO ES LO QUE FALTABA
+            resumenPorDia.put(fecha, nueva);
+        }
+    }
+
+    allDailySessions.setAll(resumenPorDia.values());
+    tableHistory.setItems(allDailySessions);
+}
 
     /* =========================
        FILTRO POR FECHA

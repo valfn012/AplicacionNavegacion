@@ -39,7 +39,6 @@ import javafx.scene.Parent;
 
 import javafx.event.ActionEvent;
 
-
 public class VentanaRegistroController implements Initializable {
 
     @FXML
@@ -80,80 +79,72 @@ public class VentanaRegistroController implements Initializable {
     }
 
     private String validateForm() {
-
         StringBuilder errors = new StringBuilder();
 
+        // limpiar estilos previos
+        clearInvalid(userField);
+        clearInvalid(emailField);
+        clearInvalid(passwordField);
+        clearInvalid(passwordField2);
+        clearInvalid(dateField);
+
+        // nickname
         String nick = userField.getText();
-        if (nick.isEmpty()) {
-            errors.append("• Debes introducir un nickname.\n");
-        } else if (!User.checkNickName(nick)) {
-            errors.append("• El nickname debe tener entre 6 y 15 caracteres y usar letras, números, '_' o '-'.\n");
+        if (nick.isEmpty() || !User.checkNickName(nick)) {
+            errors.append("• Nickname inválido.\n");
+            markAsInvalid(userField);
         } else {
             try {
                 if (Navigation.getInstance().exitsNickName(nick)) {
-                    errors.append("• Este nickname ya existe. Elige otro.\n");
+                    errors.append("• El nickname ya existe.\n");
+                    markAsInvalid(userField);
                 }
             } catch (NavDAOException e) {
-                errors.append("• Error al comprobar el nickname en la base de datos.\n");
+                errors.append("• Error al comprobar nickname.\n");
+                markAsInvalid(userField);
             }
         }
 
+        // email
         String email = emailField.getText();
         if (email.isEmpty() || !User.checkEmail(email)) {
             errors.append("• Email inválido.\n");
             markAsInvalid(emailField);
-        } else {
-            clearInvalid(emailField);
         }
 
+        // contraseña 1
         String pass1 = passwordField.getText();
-        if (pass1.isEmpty()) {
-            errors.append("• Debes introducir una contraseña.\n");
-        } else if (!User.checkPassword(pass1)) {
-            errors.append("• La contraseña debe tener 8-20 caracteres, incluir mayúsculas, minúsculas, números y símbolos.\n");
+        if (pass1.isEmpty() || !User.checkPassword(pass1)) {
+            errors.append("• Contraseña inválida.\n");
+            markAsInvalid(passwordField);
         }
 
+        // contraseña 2
         String pass2 = passwordField2.getText();
-        if (pass2.isEmpty()) {
-            errors.append("• Debes repetir la contraseña.\n");
-        } else if (!pass1.equals(pass2)) {
+        if (pass2.isEmpty() || !pass1.equals(pass2)) {
             errors.append("• Las contraseñas no coinciden.\n");
+            markAsInvalid(passwordField2);
         }
 
+        // fecha nacimiento
         LocalDate birth = dateField.getValue();
-        if (birth == null) {
-            errors.append("• Debes seleccionar tu fecha de nacimiento.\n");
-        } else if (!birth.isBefore(LocalDate.now().minus(16, YEARS))) {
+        if (birth == null || !birth.isBefore(LocalDate.now().minusYears(16))) {
             errors.append("• Debes tener al menos 16 años.\n");
+            markAsInvalid(dateField);
         }
-        
+
         return errors.toString();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        chosenAvatar = new Image(getClass().getResourceAsStream("/resources/default.png"));
-        avatarImage.setImage(chosenAvatar);
-        avatarImage.setFitWidth(200);
-        avatarImage.setFitHeight(200);
-        avatarImage.setPreserveRatio(true);
+        // otros ajustes que ya tengas...
         userField.textProperty().addListener((o, ov, nv) -> clearInvalid(userField));
         emailField.textProperty().addListener((o, ov, nv) -> clearInvalid(emailField));
         passwordField.textProperty().addListener((o, ov, nv) -> clearInvalid(passwordField));
         passwordField2.textProperty().addListener((o, ov, nv) -> clearInvalid(passwordField2));
-
-        
-
-        bCancel.setOnAction(this::goToLogin);
-    }
-
-    private void markAsInvalid(TextField tf) {
-        tf.setStyle("-fx-control-inner-background: red; ");
-    }
-
-    private void clearInvalid(TextField tf) {
-        tf.setStyle(""); // vuelve al fondo por defecto
+        dateField.valueProperty().addListener((o, ov, nv) -> clearInvalid(dateField));
     }
 
     @FXML
@@ -266,6 +257,27 @@ public class VentanaRegistroController implements Initializable {
         }
     }
 
-    
+    private void markAsInvalid(PasswordField pf) {
+        pf.setStyle("-fx-control-inner-background: red; -fx-background-insets: 0;");
+    }
 
+    private void clearInvalid(PasswordField pf) {
+        pf.setStyle("");
+    }
+
+    private void markAsInvalid(DatePicker dp) {
+        dp.getEditor().setStyle("-fx-control-inner-background: red; -fx-background-insets: 0;");
+    }
+
+    private void clearInvalid(DatePicker dp) {
+        dp.getEditor().setStyle("");
+    }
+
+    private void markAsInvalid(TextField tf) {
+        tf.setStyle("-fx-background-color: #ffb3b3; -fx-background-insets: 0;");
+    }
+
+    private void clearInvalid(TextField tf) {
+        tf.setStyle("");
+    }
 }
