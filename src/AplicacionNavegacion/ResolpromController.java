@@ -2,12 +2,11 @@ package AplicacionNavegacion;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,44 +23,36 @@ import javafx.stage.Stage;
 
 import model.Answer;
 import model.Problem;
+import model.Session;
 import model.User;
 
 public class ResolpromController implements Initializable {
 
     // ===== FXML =====
-    @FXML
-    private Label problemaX;
-    @FXML
-    private Label enunciadoPx;
+    @FXML private Label problemaX;
+    @FXML private Label enunciadoPx;
 
-    @FXML
-    private RadioButton r1Px;
-    @FXML
-    private RadioButton r2Px;
-    @FXML
-    private RadioButton r3Px;
-    @FXML
-    private RadioButton r4Px;
+    @FXML private RadioButton r1Px;
+    @FXML private RadioButton r2Px;
+    @FXML private RadioButton r3Px;
+    @FXML private RadioButton r4Px;
 
-    @FXML
-    private Button bAnt;
-    @FXML
-    private Button bSig;
-    @FXML
-    private Button bCorregir;
+    @FXML private Button bAnt;
+    @FXML private Button bSig;
+    @FXML private Button bCorregir;
+    @FXML private Button bSalir;
 
     // ===== STATE =====
     private ToggleGroup grupo;
     private User currentUser;
-
     private List<Problem> allProblems;
     private int indexActual;
 
-    // ===== HISTORIAL EN SESIÓN =====
-    // clave = índice del problema, valor = Answer elegida
+    // ===== RESPUESTAS DEL USUARIO =====
     private static Map<Integer, Answer> respuestasUsuario = new HashMap<>();
-    @FXML
-    private Button bSalir;
+
+    // ===== SESIÓN EN MEMORIA (UNA POR DÍA) =====
+    public static Session sesionActual = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,6 +78,7 @@ public class ResolpromController implements Initializable {
     private void cargarProblema() {
 
         limpiarEstilos();
+        habilitarInteraccion(true);
 
         Problem p = allProblems.get(indexActual);
 
@@ -94,28 +86,21 @@ public class ResolpromController implements Initializable {
         enunciadoPx.setText(p.getText());
         enunciadoPx.setWrapText(true);
 
-        
         List<Answer> answers = new ArrayList<>(p.getAnswers());
-
-
         Collections.shuffle(answers);
-
 
         configurarRadio(r1Px, answers.get(0));
         configurarRadio(r2Px, answers.get(1));
         configurarRadio(r3Px, answers.get(2));
         configurarRadio(r4Px, answers.get(3));
 
-
         grupo.selectToggle(null);
-        habilitarRadios(true);
 
-        // 🔁 Si ya fue respondido → restaurar
         if (respuestasUsuario.containsKey(indexActual)) {
             Answer guardada = respuestasUsuario.get(indexActual);
             seleccionarRespuestaGuardada(guardada);
             aplicarCorreccionVisual(guardada);
-            habilitarRadios(false);
+            habilitarInteraccion(false);
         }
     }
 
@@ -123,45 +108,63 @@ public class ResolpromController implements Initializable {
         rb.setText(ans.getText());
         rb.setUserData(ans);
         rb.setDisable(false);
+        rb.setMouseTransparent(false);
     }
 
     // =========================
-    // CORRECCIÓN CON BOTÓN
+    // CORREGIR
     // =========================
     @FXML
-private void corregirEj(ActionEvent event) {
+    private void corregirEj(ActionEvent event) {
 
-    Toggle selected = grupo.getSelectedToggle();
-    if (selected == null) return;
+        Toggle selected = grupo.getSelectedToggle();
+        if (selected == null) return;
 
-    Answer seleccionada = (Answer) selected.getUserData();
+        Answer seleccionada = (Answer) selected.getUserData();
+        respuestasUsuario.put(indexActual, seleccionada);
 
-    // Guardar respuesta en sesión
-    respuestasUsuario.put(indexActual, seleccionada);
+        Session s = getOrCreateSessionHoy();
 
-    // Limpiar estilos previos
-    for (Toggle t : grupo.getToggles()) {
-        RadioButton rb = (RadioButton) t;
-        rb.getStyleClass().removeAll("respuesta-correcta", "respuesta-incorrecta");
+        int hits = s.getHits();
+        int faults = s.getFaults();
 
-        Answer a = (Answer) rb.getUserData();
-
-        // Mostrar la correcta SIEMPRE
-        if (a.getValidity()) {
-            rb.getStyleClass().add("respuesta-correcta");
+        if (seleccionada.getValidity()) {
+            hits++;
+        } else {
+            faults++;
         }
+
+        sesionActual = new Session(s.getTimeStamp(), hits, faults);
+
+        for (Toggle t : grupo.getToggles()) {
+            RadioButton rb = (RadioButton) t;
+            rb.getStyleClass().removeAll("respuesta-correcta", "respuesta-incorrecta");
+
+            Answer a = (Answer) rb.getUserData();
+            if (a.getValidity()) {
+                rb.getStyleClass().add("respuesta-correcta");
+            }
+        }
+
+        if (!seleccionada.getValidity()) {
+            ((RadioButton) selected).getStyleClass().add("respuesta-incorrecta");
+        }
+
+        habilitarInteraccion(false);
     }
 
-    // Si falló, marcar la elegida como incorrecta
-    if (!seleccionada.getValidity()) {
-        ((RadioButton) selected).getStyleClass().add("respuesta-incorrecta");
-    }
+    private Session getOrCreateSessionHoy() {
 
-    // Bloquear cambios
-    for (Toggle t : grupo.getToggles()) {
-        ((RadioButton) t).setDisable(true);
+        LocalDate hoy = LocalDate.now();
+
+        if (sesionActual != null &&
+            sesionActual.getTimeStamp().toLocalDate().equals(hoy)) {
+            return sesionActual;
+        }
+
+        sesionActual = new Session(LocalDateTime.now(), 0, 0);
+        return sesionActual;
     }
-}
 
     private void aplicarCorreccionVisual(Answer seleccionada) {
 
@@ -198,22 +201,19 @@ private void corregirEj(ActionEvent event) {
         r4Px.getStyleClass().removeAll("respuesta-correcta", "respuesta-incorrecta");
     }
 
-    private void habilitarRadios(boolean enabled) {
-        r1Px.setDisable(!enabled);
-        r2Px.setDisable(!enabled);
-        r3Px.setDisable(!enabled);
-        r4Px.setDisable(!enabled);
+    private void habilitarInteraccion(boolean enabled) {
+        r1Px.setMouseTransparent(!enabled);
+        r2Px.setMouseTransparent(!enabled);
+        r3Px.setMouseTransparent(!enabled);
+        r4Px.setMouseTransparent(!enabled);
     }
 
     // =========================
-    // ANTERIOR / SIGUIENTE
+    // NAVEGACIÓN
     // =========================
     @FXML
     private void irAnt() {
-        indexActual--;
-        if (indexActual < 0) {
-            indexActual = allProblems.size() - 1;
-        }
+        indexActual = (indexActual - 1 + allProblems.size()) % allProblems.size();
         cargarProblema();
     }
 
@@ -223,19 +223,18 @@ private void corregirEj(ActionEvent event) {
         cargarProblema();
     }
 
-    
     @FXML
     private void salirMapa(ActionEvent event) throws IOException {
 
-        FXMLLoader loader
-                = new FXMLLoader(getClass().getResource("listapr.fxml"));
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("listapr.fxml"));
         Parent root = loader.load();
 
         ListaprController controller = loader.getController();
         controller.setUser(currentUser);
 
-        Stage stage
-                = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage =
+                (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }

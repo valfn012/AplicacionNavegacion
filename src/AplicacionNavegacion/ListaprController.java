@@ -1,6 +1,5 @@
 package AplicacionNavegacion;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Random;
@@ -116,20 +115,13 @@ public class ListaprController implements Initializable {
             Parent root = loader.load();
 
             ResolpromController controller = loader.getController();
-
-            if (controller == null) {
-                throw new IllegalStateException(
-                    "ResolpromController no está definido en el FXML"
-                );
-            }
-
             controller.setUser(currentUser);
             controller.setProblem(problem, numero, problems);
 
-            Stage stage = new Stage();
+            // 👉 USAMOS EL STAGE ACTUAL (cerramos Listapr)
+            Stage stage = (Stage) vboxPreguntas.getScene().getWindow();
             stage.setTitle("Resolución del problema " + numero);
             stage.setScene(new Scene(root));
-            stage.setResizable(true);
             stage.show();
 
         } catch (Exception e) {

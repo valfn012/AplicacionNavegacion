@@ -59,12 +59,12 @@
             </VBox>
             <HBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="400.0" spacing="10.0">
                <children>
-                  <Button fx:id="bSalir" mnemonicParsing="false" onAction="#salirMapa" styleClass="boton-secundario" text="Salir">
+                  <Button fx:id="bCorregir" mnemonicParsing="false" onAction="#corregirEj" styleClass="boton-primario" text="Corregir">
                      <HBox.margin>
                         <Insets bottom="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="bCorregir" mnemonicParsing="false" onAction="#corregirEj" styleClass="boton-primario" text="Corregir">
+                  <Button fx:id="bSalir" mnemonicParsing="false" onAction="#salirMapa" styleClass="boton-secundario" text="Salir">
                      <HBox.margin>
                         <Insets bottom="20.0" />
                      </HBox.margin>

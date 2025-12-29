@@ -3,6 +3,8 @@ package AplicacionNavegacion;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -21,7 +23,6 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 
 import model.Session;
 import model.User;
@@ -31,7 +32,8 @@ public class VentanaHistorialController implements Initializable {
     @FXML
     private TableView<Session> tableHistory;
 
-    @FXML private TableColumn<Session, String> colDate;
+    @FXML
+    private TableColumn<Session, String> colDate;
     @FXML
     private TableColumn<Session, Integer> colHits;
     @FXML
@@ -46,8 +48,8 @@ public class VentanaHistorialController implements Initializable {
 
     private User activeUser;
 
-    private final ObservableList<Session> allSessions = FXCollections.observableArrayList();
-    
+    private final ObservableList<Session> allDailySessions
+            = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -61,13 +63,19 @@ public class VentanaHistorialController implements Initializable {
         loadHistory();
     }
 
+    /* =========================
+       CONFIGURACIÓN DE COLUMNAS
+       ========================= */
     private void configColumns() {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        colDate.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        cellData.getValue().getTimeStamp().format(formatter)
+        colDate.setCellValueFactory(cellData
+                -> new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue()
+                                .getTimeStamp()
+                                .toLocalDate()
+                                .format(formatter)
                 )
         );
 
@@ -87,25 +95,60 @@ public class VentanaHistorialController implements Initializable {
         });
     }
 
+    /* =========================
+       CARGA Y AGRUPACIÓN
+       ========================= */
     private void loadHistory() {
-        if (activeUser == null) return;
+        if (activeUser == null) {
+            return;
+        }
 
-        allSessions.setAll(activeUser.getSessions());
-        tableHistory.setItems(allSessions);
+        Map<LocalDate, Session> resumenPorDia = new HashMap<>();
+
+        for (Session s : activeUser.getSessions()) {
+
+            LocalDate fecha = s.getTimeStamp().toLocalDate();
+
+            if (!resumenPorDia.containsKey(fecha)) {
+                resumenPorDia.put(
+                        fecha,
+                        new Session(
+                                s.getTimeStamp(),
+                                s.getHits(),
+                                s.getFaults()
+                        )
+                );
+            } else {
+                Session acumulada = resumenPorDia.get(fecha);
+                Session nueva = new Session(
+                        acumulada.getTimeStamp(),
+                        acumulada.getHits() + s.getHits(),
+                        acumulada.getFaults() + s.getFaults()
+                );
+
+            }
+        }
+
+        allDailySessions.setAll(resumenPorDia.values());
+        tableHistory.setItems(allDailySessions);
     }
 
+    /* =========================
+       FILTRO POR FECHA
+       ========================= */
     private void filterByDate() {
+
         LocalDate selected = dateFilter.getValue();
 
         if (selected == null) {
-            tableHistory.setItems(allSessions);
+            tableHistory.setItems(allDailySessions);
             return;
         }
 
         ObservableList<Session> filtered = FXCollections.observableArrayList();
 
-        for (Session s : allSessions) {
-            if (s.getTimeStamp().toLocalDate().isEqual(selected)) {
+        for (Session s : allDailySessions) {
+            if (!s.getTimeStamp().toLocalDate().isBefore(selected)) {
                 filtered.add(s);
             }
         }
@@ -113,31 +156,28 @@ public class VentanaHistorialController implements Initializable {
         tableHistory.setItems(filtered);
     }
 
-  
+    /* =========================
+       VOLVER
+       ========================= */
     @FXML
-private void onVolver() {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLVentanaMapa.fxml"));
-        Parent root = loader.load();
+    private void onVolver() {
+        try {
+            FXMLLoader loader
+                    = new FXMLLoader(getClass().getResource("FXMLVentanaMapa.fxml"));
+            Parent root = loader.load();
 
-        Stage stage = (Stage) bVolver.getScene().getWindow();
+            Stage stage = (Stage) bVolver.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
 
-        Scene scene = new Scene(root);
+            VentanaMapaController controller = loader.getController();
+            controller.setUser(activeUser);
+            controller.setStage(stage);
 
-        stage.setScene(scene);
+            stage.show();
 
-        stage.setMaximized(true);
-
-        stage.sizeToScene();
-        VentanaMapaController controller = loader.getController();
-        controller.setUser(activeUser);
-        controller.setStage(stage);
-
-        stage.show();
-
-    } catch (Exception e) {
-        e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
-
 }

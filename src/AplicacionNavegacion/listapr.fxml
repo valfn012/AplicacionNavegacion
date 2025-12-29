@@ -6,16 +6,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="800.0" styleClass="root-problema" stylesheets="@estiloListaPR.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.ListaprController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="804.0" prefWidth="800.0" styleClass="root-problema" stylesheets="@estiloListaPR.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AplicacionNavegacion.ListaprController">
    <children>
-      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="750.0" styleClass="ventana-box">
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="750.0" styleClass="ventana-box" stylesheets="@estiloListaPR.css">
          <children>
-            <HBox alignment="CENTER" prefHeight="55.0" prefWidth="686.0">
+            <HBox alignment="CENTER" prefHeight="55.0" prefWidth="686.0" stylesheets="@estiloListaPR.css">
                <children>
-                  <Label styleClass="titulo-lista" text="LISTA DE PROBLEMAS" />
+                  <Label styleClass="titulo-lista" stylesheets="@estiloListaPR.css" text="LISTA DE PROBLEMAS" />
                </children>
             </HBox>
-            <ScrollPane prefHeight="704.0" prefWidth="686.0" styleClass="scroll-problemas">
+            <ScrollPane prefHeight="704.0" prefWidth="686.0" styleClass="scroll-problemas" stylesheets="@estiloListaPR.css">
                <content>
                   <VBox fx:id="vboxPreguntas" prefHeight="830.0" prefWidth="673.0" spacing="5.0" styleClass="lista-box">
                      <children>
